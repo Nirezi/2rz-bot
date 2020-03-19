@@ -23,6 +23,10 @@ cogs/events/__pycache__/member_join.cpython-37.pyc
 cogs/events/__pycache__/member_rem.cpython-37.pyc
 cogs/commands/__pycache__/help.cpython-37.pyc
 cogs/guilds/__pycache__/shiba.cpython-37.pyc
+cogs/guilds/__pycache__/maguro.cpython-37.pyc
+cogs/guilds/__pycache__/nirezi.cpython-37.pyc
+cogs/guilds/__pycache__/ohatsu.cpython-37.pyc
+cogs/guilds/__pycache__/white.cpython-37.pyc
 obj/bot-cog.csproj.nuget.cache
 obj/bot-cog.csproj.nuget.g.props
 obj/bot-cog.csproj.nuget.g.targets
@@ -41,3 +45,4 @@ Program.cs
 .vscode/launch.json
 .vscode/settings.json
 sukure.py
+tokens.py
