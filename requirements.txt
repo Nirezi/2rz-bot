@@ -1,1 +1,4 @@
-discord.py==1.2.5
+discord.py
+bs4
+requests
+jishaku
