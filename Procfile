@@ -1,0 +1,1 @@
+discordbot: python main.py
