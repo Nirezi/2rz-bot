@@ -7,14 +7,14 @@ class avatar(commands.Cog):
 
     @commands.command(name="avatar")
     async def _avatar(self, ctx, id: int = None):
-        client = self.bot
+        bot = self.bot
 
         if id is None:
             await ctx.send("idを指定してね！")
             return
 
-        user = client.get_user(id)
-        guild = client.get_guild(id)
+        user = bot.get_user(id)
+        guild = bot.get_guild(id)
 
         if user is not None:
             await ctx.send(f"{user}さんのアイコン\n{user.avatar_url}")

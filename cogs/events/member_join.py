@@ -37,10 +37,6 @@ class member_join(commands.Cog):
             msg = f"ホワイト鯖へようこそ！{member.mention}さん:tada:\n<#561329340311404554>を読んで楽しく過ごしましょう！"
             await channel.send(msg)
 
-        if server == 684397318602096662:  # 民主主義
-            channel = client.get_channel(686862095760883723)
-            await channel.send(f"ようこそ{member}さん！")
-
 
 def setup(bot):
     bot.add_cog(member_join(bot))

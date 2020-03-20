@@ -13,10 +13,6 @@ class member_rem(commands.Cog):
             msg = f"{member}さん、さようなら、、、:sob:"
             await channel.send(msg)
 
-        if member.guild.id == 684397318602096662:  # 民主主義
-            channel = client.get_channel(686862095760883723)
-            await channel.send(f"{member}さんが退出しました")
-
 
 def setup(bot):
     bot.add_cog(member_rem(bot))
