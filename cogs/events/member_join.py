@@ -32,11 +32,6 @@ class member_join(commands.Cog):
             welcome = f"{member.guild.name}へようこそ！{member}さん:tada:"
             await channel.send(welcome)
 
-        if server == 551006363698855946:  # ホワイト
-            channel = client.get_channel(551006739991101441)
-            msg = f"ホワイト鯖へようこそ！{member.mention}さん:tada:\n<#561329340311404554>を読んで楽しく過ごしましょう！"
-            await channel.send(msg)
-
 
 def setup(bot):
     bot.add_cog(member_join(bot))
