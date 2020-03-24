@@ -49,25 +49,15 @@ class mybot(commands.Bot):
         print(bot.user.id)
         print(discord.__version__)
         print("--------")
-        await asyncio.sleep(5)
-        channel_list = [627686645969322004, 635345750640951335, 635088307834847263, 635837721952387073]
-        # --max-complexity=20
-        for channel in channel_list:
-            client = self
-            channel = client.get_channel(channel)
-            if local:
-                await channel.send(f"{bot.user}がテスト起動しました")
-            else:
-                await channel.send(f"**{bot.user} has started**")
 
-        while not client.is_closed():
-            kazu = len(list(client.get_all_members()))
-            await client.change_presence(activity=discord.Game(f"{kazu}人を監視中"))
+        while not self.is_closed():
+            kazu = len(list(self.get_all_members()))
+            await self.change_presence(activity=discord.Game(f"{kazu}人を監視中"))
             await asyncio.sleep(10)
-            guild_kazu = str(len(client.guilds))
-            await client.change_presence(activity=discord.Game(f"{guild_kazu}サーバー"))
+            guild_kazu = str(len(self.guilds))
+            await self.change_presence(activity=discord.Game(f"{guild_kazu}サーバー"))
             await asyncio.sleep(10)
-            await client.change_presence(activity=discord.Game("/help"))
+            await self.change_presence(activity=discord.Game("/help"))
             await asyncio.sleep(10)
 
 
