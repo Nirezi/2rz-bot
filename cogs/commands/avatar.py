@@ -1,4 +1,5 @@
 from discord.ext import commands
+import discord
 
 
 class avatar(commands.Cog):
@@ -17,11 +18,18 @@ class avatar(commands.Cog):
         guild = bot.get_guild(id)
 
         if user is not None:
-            await ctx.send(f"{user}さんのアイコン\n{user.avatar_url}")
+            embed = discord.Embed(title=f"{user}", description="")
+            embed.set_image(url=user.avatar_url)
+            await ctx.send(embed=embed)
         elif guild is not None:
-            await ctx.send(f"{guild}のアイコン\n{guild.icon_url}")
+            if len(guild.icon_url) == 0:
+                await ctx.send("標準のアイコンだから表示できないや！")
+            else:
+                embed = discord.Embed(title=f"{guild}", description="")
+                embed.set_image(url=guild.icon_url)
+                await ctx.send(embed=embed)
         else:
-            await ctx.send("404 NotFound\nもしかして:idが間違っている")
+            await ctx.send("404 NotFound\nあれ？ちょっと僕には見つけられそうにないや、、")
 
     @_avatar.error
     async def avatar_error(self, ctx, error):
