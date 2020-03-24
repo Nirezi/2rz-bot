@@ -28,36 +28,11 @@ class message(commands.Cog):
 
         if message.content.startswith("!"):
             return
-        
-        shiba_server = [
-            615394790669811732,
-            628182826914676758]  # しばさんのさばリスト
+
         # now = datetime.now()
         mcs = message.channel.send
         client = self.bot
         ni_men = "<@544774774405201923>"
-        server = message.guild.id
-
-        list = ["おはよう", "HI", "へっぉ", "ハロー", "HELLO"]  # 挨拶のリスト
-        if message.content.upper() in list:
-            msg = (f"おはようございます！{message.author}さん")
-            await mcs(msg)
-
-        list = ["こんにちは", "こんちは"]
-        if message.content in list:
-            await mcs("こんちは～")
-
-        list = ["こんばんは"]
-        if message.content in list:
-            await mcs("ばんは～")
-
-        list = ["おやすみ", "寝ます", "寝る", "ねる"]
-        if message.content in list:
-            await mcs("おやすみー")
-
-        list = [":tada:", "ただ", "おめ", "おめでとう"]
-        if message.content in list:
-            await mcs(":tada:")
 
         if message.channel.id == 666202941455335424:  # デバック鯖での機能
             await mcs(f"<#{message.content}>")
@@ -116,12 +91,8 @@ class message(commands.Cog):
                     return
 
         if client.user in message.mentions:  # メンションの感知
-            if server in shiba_server:  # 柴鯖だったら
-                msg = f"{mention}呼んだ？\nヘルプは /help　です。"
-                await mcs(msg)
-            else:  # それ以外だったら
-                msg = f"{mention}呼んだ？\nヘルプは /help です。"
-                await mcs(msg)
+            msg = f"{mention}呼んだ？\nヘルプは /help　です。"
+            await mcs(msg)
 
         if "https://discordapp.com/channels/" in message.content and "@" not in message.content:
             await quote(message, client)
