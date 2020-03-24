@@ -7,7 +7,7 @@ class timer(commands.Cog):
         self.bot = bot
 
     @commands.command(aliases=["stimer", "mtimer", "htimer"])
-    async def _timer(self, ctx, time: int, content=None):
+    async def _timer(self, ctx, time: float, content=None):
         zikan = f"{ctx.author.mention}時間です"
         hu = "数字が負の値です"
 
@@ -20,10 +20,9 @@ class timer(commands.Cog):
         if ctx.invoked_with == "htimer":
             bairitu, tanni = 3600, "時間"
 
-        n = float(time)
-        if n > 0:
-            await ctx.send(f"{n}{tanni}後にメッセージを送ります。")
-            await asyncio.sleep(n * bairitu)
+        if time > 0:
+            await ctx.setimed(f"{time}{tanni}後にメッセージを送ります。")
+            await asyncio.sleep(time * bairitu)
 
             if content is not None:
                 m = f"{zikan}\n{content}"
