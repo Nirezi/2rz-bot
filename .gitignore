@@ -1,14 +1,12 @@
 cogs/commands/__pycache__/
 cogs/events/__pycache__/
-cogs/commands/rect_test.py
-cogs/events/
+cogs/events/__pycache__/
+.vscode/
 obj/
 __pycache__/
 bot-cog.csproj
 Program.cs
-.vscode/launch.json
-.vscode/settings.json
 sukure.py
 tokens.py
 test.py
-.gitignore
+cogs/commands/rect_test.py
