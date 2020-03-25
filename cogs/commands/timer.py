@@ -21,7 +21,7 @@ class timer(commands.Cog):
             bairitu, tanni = 3600, "時間"
 
         if time > 0:
-            await ctx.setimed(f"{time}{tanni}後にメッセージを送ります。")
+            await ctx.send(f"{time}{tanni}後にメッセージを送ります。")
             await asyncio.sleep(time * bairitu)
 
             if content is not None:
