@@ -47,6 +47,11 @@ class role_info(commands.Cog):
                 icon_url=ctx.guild.icon_url)  # チャンネル名,時刻,鯖のアイコンをセット
             await ctx.channel.send(embed=embed_role)
 
+    @_role_info.error
+    async def role_info_error(self, ctx, error):
+        if isinstance(error, commands.BadArgument):
+            await ctx.send("roleを認識できませんでした。\nメンション、id、名前のいずれかの方法で指定してください")
+
 
 def setup(bot):
     bot.add_cog(role_info(bot))
