@@ -8,5 +8,4 @@ bot-cog.csproj
 Program.cs
 sukure.py
 tokens.py
-test.py
 cogs/commands/rect_test.py
