@@ -8,8 +8,11 @@ class dm(commands.Cog):
     @commands.command(name="dm")
     async def _dm(self, ctx):
         list = ["な", "に", "か", "よ", "う", "か", "な", "？"]
-        for msg in list:
-            await ctx.author.send(msg)
+        try:
+            for msg in list:
+                await ctx.author.send(msg)
+        except Exception:
+            await ctx.send(f"{ctx.author.mention}あれ？dmが送れないみたい")
 
 
 def setup(bot):
