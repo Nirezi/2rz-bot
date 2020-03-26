@@ -1,4 +1,3 @@
-import re
 from datetime import datetime
 
 import discord
@@ -10,9 +9,10 @@ class role_info(commands.Cog):
         self.bot = bot
 
     @commands.command(name="role_info")
-    async def _role_info(self, ctx, id=None):
-
-        async def info(self, role, ctx):
+    async def _role_info(self, ctx, role: discord.Role = None):
+        if role is None:
+            await ctx.send("もしかして:idを指定していない")
+        else:
             time = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
             kazu = len(role.members)
             role_member = "Members:"
@@ -46,26 +46,6 @@ class role_info(commands.Cog):
                 text=f'User ID：{ctx.author.id} Time：{time}',
                 icon_url=ctx.guild.icon_url)  # チャンネル名,時刻,鯖のアイコンをセット
             await ctx.channel.send(embed=embed_role)
-
-        p = re.compile(r"[0-9]+$")
-
-        if id is None:
-            await ctx.send("もしかして:idを指定していない")
-            return
-
-        if p.fullmatch(id):
-            id = int(id)
-            role = discord.utils.get(ctx.guild.roles, id=id)
-            if role is None:
-                await ctx.send("404 NotFound\nroleが見つかりませんでして")
-                return
-            await info(self, role, ctx)
-        else:
-            role = discord.utils.get(ctx.guild.roles, name=id)
-            if role is None:
-                await ctx.send("404 NotFound\nroleが見つかりませんでして")
-                return
-            await info(self, role, ctx)
 
 
 def setup(bot):
