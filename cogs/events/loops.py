@@ -34,19 +34,6 @@ class loops(commands.Cog):
             else:
                 await channel.send(f"{role.mention}\n{kazu}人の人がまだ<#630402461395451913>を読んでないみたいですね")
 
-    @tasks.loop(minutes=1)
-    async def loop4(self):
-        client = self.bot
-        await client.wait_until_ready()
-        channel = client.get_channel(684751142403440661)
-        async for msg in channel.history():
-            if msg.author == client.user:
-                next_time = msg.content[7:12]
-                hm = datetime.now().strftime("%H:%M")
-                if next_time == hm:
-                    await channel.send("<@&686491092857782307>bumpが可能になりました")
-                break
-
 
 def setup(bot):
     bot.add_cog(loops(bot))
