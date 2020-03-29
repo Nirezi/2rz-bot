@@ -1,9 +1,10 @@
+import asyncio
 import os
 import traceback
+import sqlite3 as sql
 
 import discord
 from discord.ext import commands
-import asyncio
 
 # loop = asyncio.new_event_loop()
 
@@ -15,12 +16,29 @@ except ModuleNotFoundError:
     token1 = os.environ["token1"]
     local = False
 
+db = sql.connect("prefixes.db")
+cur = db.cursor()
+cur.execute("select * from prefixes")
+
+
+def _prefix_callable(bot, msg):
+    base = []
+    if msg.guild is None:
+        base.append('/')
+    else:
+        cur.execute("select prefix from prefixes WHERE guild_id = ?", (msg.guild.id,))
+        if len(cur.fetchall()) == 0:
+            base.append("/")
+        else:
+            cur.execute("select * from prefixes where guild_id = ?", (msg.guild.id,))
+            for row in cur.fetchall():
+                base.append(str(row[1]))
+    return base
+
 
 class mybot(commands.Bot):
-    def __init__(self, command_prefix):
-        self.command_prefix = command_prefix
-        self.local = local
-        super().__init__(command_prefix)
+    def __init__(self):
+        super().__init__(command_prefix=_prefix_callable, local=local)
 
         self.remove_command("help")
         for cog in os.listdir("./cogs/events"):
@@ -66,6 +84,6 @@ if __name__ == "__main__":
     # bot_task = loop.create_task(bot.start(token1))
     # loop.run_until_complete(bot_task)
     # loop.close()
-    bot = mybot(command_prefix="/")
+    bot = mybot()
     bot.load_extension('jishaku')
     bot.run(token1)
