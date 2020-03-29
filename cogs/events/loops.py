@@ -8,7 +8,6 @@ class loops(commands.Cog):
         self.bot = bot
         self.loop2.start()
         self.loop3.start()
-        self.loop4.start()
 
     @tasks.loop(seconds=60)
     async def loop2(self):
