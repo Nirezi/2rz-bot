@@ -12,6 +12,10 @@ class error(commands.Cog):
     async def on_command_error(self, ctx, error):
         if isinstance(error, commands.CommandNotFound):
             pass
+        elif isinstance(error, commands.MissingRequiredArgument):
+            pass
+        elif isinstance(error, commands.BadArgument):
+            pass
         else:
             now = datetime.now()
             time = now.strftime("%Y/%m/%d %H:%M:%S")
