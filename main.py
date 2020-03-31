@@ -90,7 +90,7 @@ class mybot(commands.Bot):
             guild_kazu = str(len(self.guilds))
             await self.change_presence(activity=discord.Game(f"{guild_kazu}サーバー"))
             await asyncio.sleep(10)
-            await self.change_presence(activity=discord.Game("/help"))
+            await self.change_presence(activity=discord.Game("カスタムprefixを実装"))
             await asyncio.sleep(10)
 
 
