@@ -21,8 +21,7 @@ if local:
     SQLpath = tokens.PostgreSQL
 else:
     SQLpath = os.environ["postgre"]
-db = psycopg2.connect(SQLpath)
-cur = db.cursor()
+
 
 sys.path.append('../')
 
@@ -111,10 +110,12 @@ class message(commands.Cog):
             if message.guild is None:
                 prefix = "/"
             else:
+                db = psycopg2.connect(SQLpath)
+                cur = db.cursor()
                 cur.execute("select * from prefixes where guild_id = %s", (message.guild.id,))
                 for row in cur.fetchall():
                     prefix = row[1]
-            msg = f"{mention}呼んだ？\nヘルプは {prefix}help　です。"
+            msg = f"{mention}呼んだ？\nヘルプは {prefix}helpです。"
             await mcs(msg)
 
         if "https://discordapp.com/channels/" in message.content and "@" not in message.content:
