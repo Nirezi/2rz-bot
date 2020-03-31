@@ -10,7 +10,7 @@ class role_count(commands.Cog):
     async def _role_count(self, ctx, role: discord.Role):
         ninzuu = len(role.members)  # lenでrole,,の数を取得
         if role.name != "@everyone":
-            await ctx.send(f"__{role.name}__は**{ninzuu}**人います")
+            await ctx.send(f"`{role.name}``は**{ninzuu}**人います")
         else:
             await ctx.send(f"この鯖には**{ninzuu}人**のユーザーがいます")
 
