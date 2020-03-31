@@ -1,13 +1,28 @@
 import asyncio
+import os
 import sys
 
 import discord
+import psycopg2
 from discord.ext import commands  # Bot Commands Frameworkのインポート
 
 from def_list import quote
 
 # from datetime import datetime
 
+
+try:
+    import tokens
+    local = True
+except ModuleNotFoundError:
+    local = False
+
+if local:
+    SQLpath = tokens.PostgreSQL
+else:
+    SQLpath = os.environ["postgre"]
+db = psycopg2.connect(SQLpath)
+cur = db.cursor()
 
 sys.path.append('../')
 
@@ -78,12 +93,13 @@ class message(commands.Cog):
                 await mcs("タイムアウトしました。もう一度最初からやり直してください")
                 return
             else:
-                if kakunin_kekka.content == "yes":
+                kakunin = kakunin_kekka.content.lowner()
+                if kakunin == "yes":
                     await mcs("報告ありがとうございます")
                     log_channel = client.get_channel(650654121405317120)
                     await log_channel.send(f"{ni_men}新しいレポートです", embed=report_em)
 
-                elif kakunin_kekka.content == "no":
+                elif kakunin == "no":
                     await mcs("もう一度最初からやり直してください")
                     return
                 else:
@@ -91,7 +107,14 @@ class message(commands.Cog):
                     return
 
         if client.user in message.mentions:  # メンションの感知
-            msg = f"{mention}呼んだ？\nヘルプは /help　です。"
+            prefix = ""
+            if message.guild is None:
+                prefix = "/"
+            else:
+                cur.execute("select * from prefixes where guild_id = %s", (message.guild.id,))
+                for row in cur.fetchall():
+                    prefix = row[1]
+            msg = f"{mention}呼んだ？\nヘルプは {prefix}help　です。"
             await mcs(msg)
 
         if "https://discordapp.com/channels/" in message.content and "@" not in message.content:
