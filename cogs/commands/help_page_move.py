@@ -25,8 +25,12 @@ class raw_reaction_add(commands.Cog):
         if user.bot:
             return
 
-        if not msg.embeds[0].title.startswith("標準のhelp"):
+        if not msg.embeds:
             return
+
+        if msg.embeds:
+            if not msg.embeds[0].title.startswith("標準のhelp"):
+                return
 
         if isinstance(msg.channel, discord.DMChannel):  # dmだったら
             return
