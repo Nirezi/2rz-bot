@@ -17,7 +17,7 @@ class role_count(commands.Cog):
     @_role_count.error
     async def role_count_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send("引数が不足しています\n第一引数として役職をメンション、id、名前で渡してください")
+            await ctx.send("引数が不足しています\n第一引数として役職をメンション、id、名前のいずれか渡してください")
         if isinstance(error, commands.BadArgument):
             await ctx.send("不正な引数です")
 
