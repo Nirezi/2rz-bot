@@ -1,4 +1,3 @@
-import asyncio
 import random
 import re
 import sys
@@ -13,7 +12,7 @@ from discord.ext import commands  # Bot Commands Frameworkのインポート
 sys.path.append('../')
 
 
-class nirezi(commands.Cog):
+class Nirezi(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -149,28 +148,6 @@ class nirezi(commands.Cog):
                     if kazu >= 1:
                         await message.channel.purge(limit=kazu)
 
-            if message.channel.id == 662485149245505566:
-                if "/bot_invite" in message.content:
-                    if "利用規約は守りましょう" in message.content:
-                        dm = client.get_user(message.author.id)
-                        msg = "botの招待リンクです。このリンクの改変、流出を禁じます\n\
-                        https://discordapp.com/api/oauth2/authorize?client_id=627143285906866187&permissions=8&scope=bot"
-                        await dm.send(msg)
-                        role = discord.utils.get(message.guild.roles, id=661047114163290142)
-                        await message.author.add_roles(role)
-                        await message.delete()
-                        channel = client.get_channel(662482067937820683)
-                        await channel.send(f"{message.author}さんが規約に同意しました")
-                    else:
-                        msg = await mcs("もう一度利用規約を読み直そう!\n合言葉が足りないよ！！")
-                        await asyncio.sleep(5)
-                        await message.delete()
-                        await msg.delete()
-                else:
-                    msg = await mcs("余計なメッセージを入力しないでください")
-                    await message.delete()
-                    await msg.delete()
-
             if message.content == "/test":
                 await mcs("say hello!")
 
@@ -182,4 +159,4 @@ class nirezi(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(nirezi(bot))
+    bot.add_cog(Nirezi(bot))
