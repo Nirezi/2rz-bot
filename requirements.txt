@@ -1,4 +1,4 @@
-discord.py
+discord.py==1.3.3
 bs4
 requests
 jishaku
