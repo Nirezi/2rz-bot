@@ -17,12 +17,13 @@ db = psycopg2.connect(SQLpath)
 cur = db.cursor()
 
 
-class prefix(commands.Cog):
+class Prefix(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
     @commands.group()
     @commands.guild_only()
+    @commands.has_permissions(manage_guild=True)
     async def prefix(self, ctx):
         if ctx.invoked_subcommand is None:
             await ctx.send(f"{ctx.prefix}prefix [change, default, show]")
@@ -47,20 +48,6 @@ class prefix(commands.Cog):
         db.commit()
         await ctx.send("prefixがデフォルトの`/`に変更されました")
 
-    @prefix.command()
-    async def show(self, ctx):
-        cur.execute("select * from prefixes WHERE guild_id = %s", (ctx.guild.id,))
-        kazu = len(cur.fetchall())
-        if kazu == 0:
-            await ctx.send(f"{ctx.guild.name}でのprefixは`/`です")
-        else:
-            cur.execute(
-                "select * from prefixes WHERE guild_id = %s", (ctx.guild.id,))
-            pre = ""
-            for row in cur.fetchall():
-                pre += row[1]
-            await ctx.send(f"{ctx.guild.name}でのprefixは`{pre}`です")
-
 
 def setup(bot):
-    bot.add_cog(prefix(bot))
+    bot.add_cog(Prefix(bot))
