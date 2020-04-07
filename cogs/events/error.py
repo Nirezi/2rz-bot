@@ -4,19 +4,21 @@ from datetime import datetime
 import discord
 
 
-class error(commands.Cog):
+class Error(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
-        if isinstance(error, commands.CommandNotFound):
-            pass
-        elif isinstance(error, commands.MissingRequiredArgument):
-            pass
-        elif isinstance(error, commands.BadArgument):
-            pass
-        else:
+        if isinstance(error, commands.NoPrivateMessage):
+            await ctx.author.send('このコマンドはサーバ専用です')
+        elif isinstance(error, commands.DisabledCommand):
+            await ctx.send('このコマンドは製作者により無効化されています')
+        elif isinstance(error, commands.MissingPermissions):
+            await ctx.send(f"{error.missing_perms}の権限がありません")
+        elif isinstance(error, commands.BotMissingPermissions):
+            await ctx.send(f"**botに{error.missing_perms}の権限がありません\nサーバ管理者まで問い合わせてください")
+        elif isinstance(error, commands.CommandInvokeError):
             now = datetime.now()
             time = now.strftime("%Y/%m/%d %H:%M:%S")
             client = self.bot
@@ -29,4 +31,4 @@ class error(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(error(bot))
+    bot.add_cog(Error(bot))
