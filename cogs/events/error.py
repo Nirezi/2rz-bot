@@ -17,7 +17,7 @@ class Error(commands.Cog):
         elif isinstance(error, commands.MissingPermissions):
             await ctx.send(f"{error.missing_perms}の権限がありません")
         elif isinstance(error, commands.BotMissingPermissions):
-            await ctx.send(f"**botに{error.missing_perms}の権限がありません\nサーバ管理者まで問い合わせてください")
+            await ctx.send(f"**botに{error.missing_perms}の権限がありません**\nサーバ管理者まで問い合わせてください")
         elif isinstance(error, commands.CommandInvokeError):
             now = datetime.now()
             time = now.strftime("%Y/%m/%d %H:%M:%S")
