@@ -4,4 +4,4 @@ requests
 jishaku
 psycopg2
 selenium
-chromedriver
+chromedriver-binary
