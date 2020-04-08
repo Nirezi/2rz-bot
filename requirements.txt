@@ -3,3 +3,5 @@ bs4
 requests
 jishaku
 psycopg2
+selenium
+chromedriver
