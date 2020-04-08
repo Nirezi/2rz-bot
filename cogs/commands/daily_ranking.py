@@ -1,10 +1,13 @@
 import asyncio
-import discord
+import sys
 
+import discord
 from discord.ext import commands
 from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
+
+sys.path.append('../')
 
 
 class DailyRanking(commands.Cog):
