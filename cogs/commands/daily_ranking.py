@@ -29,8 +29,7 @@ class DailyRanking(commands.Cog):
         options = webdriver.ChromeOptions()
         options.add_argument('--headless')
         options.add_argument('--log-level=3')
-        driver_path = r"...\chromedriver.exe"
-        driver = webdriver.Chrome(executable_path=driver_path, options=options)
+        driver = webdriver.Chrome(options=options)
 
         async def search(self, page):
             for i in range(3):
