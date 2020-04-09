@@ -74,13 +74,10 @@ class Loops(commands.Cog):
                 source_html = driver.find_elements_by_xpath(
                     '//*[@id="ranking-container"]/div/div/table/tbody')
 
-                print(type(source_html))
                 if len(source_html) != 0:
-                    print("breaked")
                     return source_html
                     break
                 else:
-                    print(0)
                     await asyncio.sleep(5)
 
         data = await get_data(self)
