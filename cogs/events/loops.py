@@ -81,7 +81,7 @@ class Loops(commands.Cog):
                     await asyncio.sleep(5)
 
         data = await get_data(self)
-        if len(data[0].test) == 0:
+        if len(data[0].text) == 0:
             return
         cur.execute("INSERT INTO daily_ranking values (%s, %s)",
                     (datetime.now(), data[0].text))
