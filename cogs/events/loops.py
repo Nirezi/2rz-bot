@@ -62,8 +62,6 @@ class Loops(commands.Cog):
 
     @tasks.loop(minutes=10)
     async def date_upload(self):
-        if self.bot.local:
-            return
         await self.bot.wait_until_ready()
 
         async def get_data(self):
