@@ -3,5 +3,5 @@ bs4
 requests
 jishaku
 psycopg2
-selenium
-chromedriver-binary
+selenium==3.141.0
+chromedriver-binary==81.0.4044.69.0
