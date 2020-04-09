@@ -20,13 +20,13 @@ except ModuleNotFoundError:
 if local:
     SQLpath = tokens.PostgreSQL
 else:
-    SQLpath = os.environ["postgre"]
+    SQLpath = os.environ["DATABASE_URL"]
 
 
 sys.path.append('../')
 
 
-class message(commands.Cog):
+class Message(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
