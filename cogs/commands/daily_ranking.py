@@ -17,7 +17,7 @@ except ModuleNotFoundError:
 if local:
     SQLpath = tokens.PostgreSQL
 else:
-    SQLpath = os.environ["postgre"]
+    SQLpath = os.environ["DATABASE_URL"]
 db = psycopg2.connect(SQLpath)
 cur = db.cursor()
 
