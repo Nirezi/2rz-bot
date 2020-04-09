@@ -1,13 +1,10 @@
 import asyncio
-import sys
 
 import discord
 from discord.ext import commands
 from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
-
-sys.path.append('../')
 
 
 class DailyRanking(commands.Cog):
@@ -30,8 +27,9 @@ class DailyRanking(commands.Cog):
                 # pos = ranking + 1
 
         options = webdriver.ChromeOptions()
-        options.add_argument('--headless')
-        options.add_argument('--log-level=3')
+        oprion = ["--disable-gpu", '--headless', '--log-level=3']
+        for op in oprion:
+            options.add_argument(op)
         driver = webdriver.Chrome(options=options)
 
         async def search(self, page):
