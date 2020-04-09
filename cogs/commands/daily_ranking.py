@@ -27,11 +27,10 @@ class DailyRanking(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    @commands.cooldown(rate=1, per=10)
     async def daily_ranking(self, ctx, ranking: int = None):
         if ranking is not None:
             page = int(ranking / 20) + 1
-            if ranking % 20 == 0 and not ranking == 20:
+            if ranking % 20 == 0:
                 page -= 1
         else:
             page = 1
@@ -41,10 +40,10 @@ class DailyRanking(commands.Cog):
             return
         send_msg = await ctx.send("情報を取得しています")
 
-        cur.execute("SELECT * from daily_ranking ORDER BY date ASC LIMIT 1;")
+        cur.execute("SELECT * from daily_ranking ORDER BY date DESC LIMIT 1;")
         data = cur.fetchone()
 
-        data_day = cur.execute("DAY(%s);", (data[0],))
+        data_day = data[0].day
         now_day = datetime.now().day
         if data_day != now_day:
             await ctx.send("今日のランキングはまだ更新されていません")
@@ -68,6 +67,8 @@ class DailyRanking(commands.Cog):
                         url=f"http://avatar.minecraft.jp/{mcid}/minecraft/m.png")
                     await send_msg.edit(content="情報の取得が終わりました")
                     await ctx.send(embed=embed)
+            except IndexError:
+                await ctx.send("その順位の人はまだ存在しません")
             except ValueError:
                 await ctx.send("その順位の人はまだ存在しません")
 
