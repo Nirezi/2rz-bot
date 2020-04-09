@@ -4,6 +4,7 @@ import discord
 from discord.ext import commands
 import os
 import psycopg2
+from datetime import datetime
 
 sys.path.append("../")
 
@@ -42,23 +43,33 @@ class DailyRanking(commands.Cog):
 
         cur.execute("SELECT * from daily_ranking ORDER BY date ASC LIMIT 1;")
         data = cur.fetchone()
+
+        data_day = cur.execute("DAY(%s);", (data[0],))
+        now_day = datetime.now().day
+        if data_day != now_day:
+            await ctx.send("今日のランキングはまだ更新されていません")
+            return
+
         if ranking is None:
             await send_msg.edit(content="情報の取得が終わりました")
             await ctx.send(f"```\n{data[1]}\n```")
         else:
-            list = data[1].split("\n")
-            if ranking % 20 == 0:  # 20の倍数だったときに取得できないバグが有るためゴリ押し
-                mcid, n = list[77], list[78]
-            else:
-                pos_index = list.index(f"{ranking}位")
-                mcid = list[pos_index + 1]
-                n = list[pos_index + 2]
-                embed = discord.Embed(
-                    title=f"{ranking}位\nmcid: {mcid}", description=n)
-                embed.set_thumbnail(
-                    url=f"http://avatar.minecraft.jp/{mcid}/minecraft/m.png")
-                await send_msg.edit(content="情報の取得が終わりました")
-                await ctx.send(embed=embed)
+            try:
+                list = data[1].split("\n")
+                if ranking % 20 == 0:  # 20の倍数だったときに取得できないバグが有るためゴリ押し
+                    mcid, n = list[77], list[78]
+                else:
+                    pos_index = list.index(f"{ranking}位")
+                    mcid = list[pos_index + 1]
+                    n = list[pos_index + 2]
+                    embed = discord.Embed(
+                        title=f"{ranking}位\nmcid: {mcid}", description=n)
+                    embed.set_thumbnail(
+                        url=f"http://avatar.minecraft.jp/{mcid}/minecraft/m.png")
+                    await send_msg.edit(content="情報の取得が終わりました")
+                    await ctx.send(embed=embed)
+            except ValueError:
+                await ctx.send("その順位の人はまだ存在しません")
 
 
 def setup(bot):
