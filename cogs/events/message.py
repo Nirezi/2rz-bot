@@ -123,4 +123,4 @@ class Message(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(message(bot))
+    bot.add_cog(Message(bot))

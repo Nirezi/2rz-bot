@@ -40,9 +40,10 @@ def _prefix_callable(bot, msg):
     return base
 
 
-class mybot(commands.Bot):
+class Mybot(commands.Bot):
     def __init__(self):
-        super().__init__(command_prefix=_prefix_callable, local=local)
+        super().__init__(command_prefix=_prefix_callable)
+        self.local = local
 
         self.remove_command("help")
         for cog in os.listdir("./cogs/events"):
@@ -88,6 +89,6 @@ if __name__ == "__main__":
     # bot_task = loop.create_task(bot.start(token1))
     # loop.run_until_complete(bot_task)
     # loop.close()
-    bot = mybot()
+    bot = Mybot()
     bot.load_extension('jishaku')
     bot.run(token1)
