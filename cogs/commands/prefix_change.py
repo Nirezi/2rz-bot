@@ -1,7 +1,10 @@
 import os
+import sys
 
 import psycopg2
 from discord.ext import commands
+
+sys.path.append("../")
 
 try:
     import tokens
@@ -12,7 +15,7 @@ except ModuleNotFoundError:
 if local:
     SQLpath = tokens.PostgreSQL
 else:
-    SQLpath = os.environ["postgre"]
+    SQLpath = os.environ["DATABASE_URL"]
 db = psycopg2.connect(SQLpath)
 cur = db.cursor()
 
