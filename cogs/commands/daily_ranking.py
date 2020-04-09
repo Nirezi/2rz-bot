@@ -52,7 +52,7 @@ class DailyRanking(commands.Cog):
 
         if ranking is None:
             await send_msg.edit(content="情報の取得が終わりました")
-            await ctx.send(f"```\n{data[1]}\n```")
+            await ctx.send(f"```\n{data[1]}\n```\n{data[0]}時点の情報です")
         else:
             try:
                 list = data[1].split("\n")
@@ -63,7 +63,7 @@ class DailyRanking(commands.Cog):
                     mcid = list[pos_index + 1]
                     n = list[pos_index + 2]
                     embed = discord.Embed(
-                        title=f"{ranking}位\nmcid: {mcid}", description=n)
+                        title=f"{ranking}位\nmcid: {mcid}", description=f"{n}\n{data[0]}時点の情報です")
                     embed.set_thumbnail(
                         url=f"http://avatar.minecraft.jp/{mcid}/minecraft/m.png")
                     await send_msg.edit(content="情報の取得が終わりました")
