@@ -1,13 +1,40 @@
-from discord.ext import commands, tasks
-import discord
+import asyncio
+import os
 from datetime import datetime
 
+import discord
+import psycopg2
+from discord.ext import commands, tasks
+from selenium import webdriver
+from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.support.ui import WebDriverWait
 
-class loops(commands.Cog):
+try:
+    import tokens
+    local = True
+except ModuleNotFoundError:
+    local = False
+
+if local:
+    SQLpath = tokens.PostgreSQL
+else:
+    SQLpath = os.environ["postgre"]
+db = psycopg2.connect(SQLpath)
+cur = db.cursor()
+
+options = webdriver.ChromeOptions()
+oprion = ["--disable-gpu", '--headless', '--log-level=3']
+for op in oprion:
+    options.add_argument(op)
+driver = webdriver.Chrome(options=options)
+
+
+class Loops(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.loop2.start()
         self.loop3.start()
+        self.date_upload.start()
 
     @tasks.loop(seconds=60)
     async def loop2(self):
@@ -33,6 +60,35 @@ class loops(commands.Cog):
             else:
                 await channel.send(f"{role.mention}\n{kazu}人の人がまだ<#630402461395451913>を読んでないみたいですね")
 
+    @tasks.loop(minutes=10)
+    async def date_upload(self):
+        await self.bot.wait_until_ready()
+
+        async def get_data(self):
+            for i in range(3):
+                driver.get(
+                    "https://w4.minecraftserver.jp/#page=1&type=break&duration=daily")
+                WebDriverWait(
+                    driver, 20).until(
+                    ec.presence_of_all_elements_located)
+                source_html = driver.find_elements_by_xpath(
+                    '//*[@id="ranking-container"]/div/div/table/tbody')
+
+                print(type(source_html))
+                if len(source_html) != 0:
+                    print("breaked")
+                    return source_html
+                    break
+                else:
+                    print(0)
+                    await asyncio.sleep(5)
+
+        data = await get_data(self)
+        cur.execute("INSERT INTO daily_ranking values (%s, %s)",
+                    (datetime.now(), data[0].text))
+        db.commit()
+        driver.quit()
+
 
 def setup(bot):
-    bot.add_cog(loops(bot))
+    bot.add_cog(Loops(bot))
