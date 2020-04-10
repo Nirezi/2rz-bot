@@ -2,7 +2,7 @@ from discord.ext import commands  # Bot Commands Frameworkのインポート
 import discord
 
 
-class member_join(commands.Cog):
+class MemberJoin(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -37,6 +37,10 @@ class member_join(commands.Cog):
             welcome = f"{member.guild.name}へようこそ！{member}さん:tada:"
             await channel.send(welcome)
 
+        if server == 675314750783094806:
+            channel = client.get_channel(681423204811800609)
+            await channel.send(f"{member}が参加しました")
+
 
 def setup(bot):
-    bot.add_cog(member_join(bot))
+    bot.add_cog(MemberJoin(bot))

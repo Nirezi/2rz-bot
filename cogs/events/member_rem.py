@@ -1,7 +1,7 @@
 from discord.ext import commands
 
 
-class member_rem(commands.Cog):
+class MemberRem(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -13,6 +13,10 @@ class member_rem(commands.Cog):
             msg = f"{member}さん、さようなら、、、:sob:"
             await channel.send(msg)
 
+        if member.guild.id == 675314750783094806:
+            channel = client.get_channel(681423204811800609)
+            await channel.send(f"{member}が参加しました")
+
 
 def setup(bot):
-    bot.add_cog(member_rem(bot))
+    bot.add_cog(MemberRem(bot))
