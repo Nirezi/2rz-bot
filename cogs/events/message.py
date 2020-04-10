@@ -22,6 +22,9 @@ if local:
 else:
     SQLpath = os.environ["DATABASE_URL"]
 
+db = psycopg2.connect(SQLpath)
+cur = db.cursor()
+
 
 sys.path.append('../')
 
@@ -106,15 +109,15 @@ class Message(commands.Cog):
                     return
 
         if client.user in message.mentions:  # メンションの感知
-            prefix = ""
             if message.guild is None:
                 prefix = "/"
             else:
                 db = psycopg2.connect(SQLpath)
                 cur = db.cursor()
-                cur.execute("select * from prefixes where guild_id = %s", (message.guild.id,))
-                for row in cur.fetchall():
-                    prefix = row[1]
+                cur.execute("select prefix from prefixes where guild_id = %s;", (message.guild.id,))
+                prefix = cur.fetchone()
+                if len(prefix) == 1:
+                    prefix = "/"
             msg = f"{mention}呼んだ？\nヘルプは {prefix}helpです。"
             await mcs(msg)
 
