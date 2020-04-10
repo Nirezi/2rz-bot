@@ -64,7 +64,6 @@ class Loops(commands.Cog):
     async def date_upload(self):
         await self.bot.wait_until_ready()
         ch = self.bot.get_channel(646010668134170645)
-        await ch.send("情報の取得を開始します")
         driver = webdriver.Chrome(options=options)
 
         for i in range(3):
@@ -77,22 +76,17 @@ class Loops(commands.Cog):
                 '//*[@id="ranking-container"]/div/div/table/tbody')
 
             if len(source_html) != 0:
-                await ch.send("取得完了")
                 data = source_html[0]
                 break
             else:
-                await ch.send("再試行")
                 await asyncio.sleep(5)
 
-        await ch.send("関数実行完了")
         if len(data.text) == 0:
             await ch.send("return")
             return
         cur.execute("INSERT INTO daily_ranking values (%s, %s)",
                     (datetime.now(), data.text))
-        await ch.send("dbに保存")
         db.commit()
-        await ch.send("コミット")
         driver.close()
 
 
