@@ -47,7 +47,6 @@ class Prefix(commands.Cog):
     @prefix.command()
     async def default(self, ctx):
         cur.execute("DELETE FROM prefixes WHERE guild_id = %s", (ctx.guild.id,))
-        cur.execute("INSERT INTO prefixes values (%s, '/')", (ctx.guild.id,))
         db.commit()
         await ctx.send("prefixがデフォルトの`/`に変更されました")
 
