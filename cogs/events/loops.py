@@ -1,13 +1,14 @@
-import asyncio
 import os
+import sys
 from datetime import datetime
+import asyncio
 
 import discord
 import psycopg2
 from discord.ext import commands, tasks
-from selenium import webdriver
-from selenium.webdriver.support import expected_conditions as ec
-from selenium.webdriver.support.ui import WebDriverWait
+from def_list import data_upload
+
+sys.path.append("../")
 
 try:
     import tokens
@@ -22,28 +23,25 @@ else:
 db = psycopg2.connect(SQLpath)
 cur = db.cursor()
 
-options = webdriver.ChromeOptions()
-oprion = ["--disable-gpu", '--headless', '--log-level=3']
-for op in oprion:
-    options.add_argument(op)
-driver = webdriver.Chrome(options=options)
-
 
 class Loops(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.loop2.start()
         self.loop3.start()
-        self.date_upload.start()
 
     @tasks.loop(seconds=60)
     async def loop2(self):
         client = self.bot
         await client.wait_until_ready()
         hm = datetime.now().strftime("%H:%M")
-        if hm == "00:00":
-            channel = client.get_channel(627867724541853716)
-            await channel.send("日付変更をお知らせします")
+        if hm == "23:58":
+            await data_upload(self)
+            await asyncio.sleep(5)
+            cur.execute("SELECT ranking_data FROM daily_ranking ORDER BY data DESC;")
+            ch = self.bot.get_channel(698486078503649280)
+            data = cur.fetchone()
+            await ch.send(f"```{data[0]}```")
 
     @tasks.loop(seconds=60)
     async def loop3(self):
@@ -59,35 +57,6 @@ class Loops(commands.Cog):
                 await channel.send("おっと、始めにを読んでない人はいないみたいです")
             else:
                 await channel.send(f"{role.mention}\n{kazu}人の人がまだ<#630402461395451913>を読んでないみたいですね")
-
-    @tasks.loop(minutes=10)
-    async def date_upload(self):
-        await self.bot.wait_until_ready()
-        ch = self.bot.get_channel(646010668134170645)
-        driver = webdriver.Chrome(options=options)
-
-        for i in range(3):
-            driver.get(
-                "https://w4.minecraftserver.jp/#page=1&type=break&duration=daily")
-            WebDriverWait(
-                driver, 20).until(
-                ec.presence_of_all_elements_located)
-            source_html = driver.find_elements_by_xpath(
-                '//*[@id="ranking-container"]/div/div/table/tbody')
-
-            if len(source_html) != 0:
-                data = source_html[0]
-                break
-            else:
-                await asyncio.sleep(5)
-
-        if len(data.text) == 0:
-            await ch.send("return")
-            return
-        cur.execute("INSERT INTO daily_ranking values (%s, %s)",
-                    (datetime.now(), data.text))
-        db.commit()
-        driver.close()
 
 
 def setup(bot):

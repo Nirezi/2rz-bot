@@ -1,10 +1,13 @@
+import asyncio
+import os
 import sys
+import datetime
 
 import discord
-from discord.ext import commands
-import os
 import psycopg2
-from datetime import datetime
+from discord.ext import commands
+
+from def_list import data_upload
 
 sys.path.append("../")
 
@@ -42,9 +45,15 @@ class DailyRanking(commands.Cog):
 
         cur.execute("SELECT * from daily_ranking ORDER BY date DESC LIMIT 1;")
         data = cur.fetchone()
+        if datetime.datetime.now() > data[0] + datetime.timedelta(minutes=10):
+            await send_msg.edit(content="データを更新しています,,,")
+            await data_upload(self)
+            await asyncio.sleep(3)
+            cur.execute("SELECT * from daily_ranking ORDER BY date DESC;")
+            data = cur.fetchone()
 
         data_day = data[0].day
-        now_day = datetime.now().day
+        now_day = datetime.datetime.now().day
         if data_day != now_day:
             await ctx.send("今日のランキングはまだ更新されていません")
             return
