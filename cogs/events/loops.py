@@ -38,7 +38,7 @@ class Loops(commands.Cog):
         if hm == "23:58":
             await data_upload(self)
             await asyncio.sleep(5)
-            cur.execute("SELECT ranking_data FROM daily_ranking ORDER BY data DESC;")
+            cur.execute("SELECT ranking_data FROM daily_ranking ORDER BY date DESC;")
             ch = self.bot.get_channel(698486078503649280)
             data = cur.fetchone()
             await ch.send(f"```{data[0]}```")
