@@ -37,7 +37,7 @@ class MemberJoin(commands.Cog):
             welcome = f"{member.guild.name}へようこそ！{member}さん:tada:"
             await channel.send(welcome)
 
-        if server == 675314750783094806:
+        if server == 562820886323789835:
             channel = client.get_channel(681423204811800609)
             await channel.send(f"{member}が参加しました")
 

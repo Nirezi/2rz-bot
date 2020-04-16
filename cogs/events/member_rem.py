@@ -13,7 +13,7 @@ class MemberRem(commands.Cog):
             msg = f"{member}さん、さようなら、、、:sob:"
             await channel.send(msg)
 
-        if member.guild.id == 675314750783094806:
+        if member.guild.id == 562820886323789835:
             channel = client.get_channel(681423204811800609)
             await channel.send(f"{member}が参加しました")
 
