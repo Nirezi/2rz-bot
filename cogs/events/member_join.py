@@ -37,9 +37,13 @@ class MemberJoin(commands.Cog):
             welcome = f"{member.guild.name}へようこそ！{member}さん:tada:"
             await channel.send(welcome)
 
-        if server == 562820886323789835:
-            channel = client.get_channel(681423204811800609)
-            await channel.send(f"{member}が参加しました")
+        if server == 562820886323789835:  # 運営連のオーナー
+            ch = client.get_channel(681423204811800609)
+            await ch.send(f"{member}が参加しました。よろしくお願いします！ルール読んでね！")
+
+        if server == 675314750783094806:
+            ch = client.get_channel(675346242762702848)
+            await ch.send(f"{member}が参加しました")
 
 
 def setup(bot):

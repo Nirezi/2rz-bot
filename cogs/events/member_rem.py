@@ -15,7 +15,11 @@ class MemberRem(commands.Cog):
 
         if member.guild.id == 562820886323789835:
             channel = client.get_channel(681423204811800609)
-            await channel.send(f"{member}が参加しました")
+            await channel.send(f"{member}が退出しました")
+
+        if member.guild.id == 675314750783094806:
+            ch = client.get_channel(675346242762702848)
+            await ch.send(f"{member}が退出しました")
 
 
 def setup(bot):
