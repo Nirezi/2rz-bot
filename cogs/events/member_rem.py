@@ -21,6 +21,10 @@ class MemberRem(commands.Cog):
             ch = client.get_channel(675346242762702848)
             await ch.send(f"{member}が退出しました")
 
+        if member.guild.id == 700880842309894175:  # 2レジbot公式サーバ
+            ch = client.get_channel(700880842309894178)
+            await ch.send(f"{member}さん、さようなら:sob:")
+
 
 def setup(bot):
     bot.add_cog(MemberRem(bot))

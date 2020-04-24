@@ -41,9 +41,13 @@ class MemberJoin(commands.Cog):
             ch = client.get_channel(681423204811800609)
             await ch.send(f"{member}が参加しました。よろしくお願いします！ルール読んでね！")
 
-        if server == 675314750783094806:
+        if server == 675314750783094806:  # 運営連
             ch = client.get_channel(675346242762702848)
             await ch.send(f"{member}が参加しました")
+
+        if server == 700880842309894175:  # 2レジbot公式
+            ch = client.get_channel(700880842309894178)
+            await ch.send(f"{member.mention}さん、2レジbot公式サーバへようこそ！")
 
 
 def setup(bot):
