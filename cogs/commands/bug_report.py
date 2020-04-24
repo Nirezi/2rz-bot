@@ -51,7 +51,10 @@ class Report(commands.Cog):
         else:
             kakunin = kakunin_kekka.content.lower()
             if kakunin == "yes":
-                await ctx.send("報告ありがとうございます")
+                embed = discord.Emebed(
+                    title="報告ありがとうございます",
+                    description="公式サーバの方では進捗を確認できます。\n[公式サーバ](https://discord.gg/bQWsu3Z)")
+                await ctx.send(embed=embed)
                 log_channel = self.bot.get_channel(650654121405317120)
                 await log_channel.send("<@544774774405201923>新しいレポートです", embed=report_em)
             elif kakunin == "no":
