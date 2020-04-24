@@ -17,3 +17,7 @@ class Support(commands.Cog):
         embed = discord.Embed(title="本botのサポートはこちらです",
                               description="[公式サーバ](https://discord.gg/bQWsu3Z)")
         await ctx.send(embed=embed)
+
+
+def setup(bot):
+    bot.add_cog(Support(bot))
