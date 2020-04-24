@@ -4,6 +4,7 @@ cogs/events/__pycache__/
 .vscode/
 obj/
 __pycache__/
+.idea/
 bot-cog.csproj
 Program.cs
 sukure.py
