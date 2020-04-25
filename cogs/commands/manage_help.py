@@ -10,9 +10,43 @@ from help_def import hyojun_help
 sys.path.append("../")
 
 
-class raw_reaction_add(commands.Cog):
+class ManageHelp(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
+    @commands.command(name="help")
+    async def _help(self, ctx):
+        """ヘルプを送信"""
+        if isinstance(ctx.channel, discord.DMChannel):  # dmだったらreturn
+            return
+
+        react_list = [
+            "\N{DIGIT ONE}\N{COMBINING ENCLOSING KEYCAP}",  # 1
+            "\N{DIGIT TWO}\N{COMBINING ENCLOSING KEYCAP}",  # 2
+            "\N{DIGIT THREE}\N{COMBINING ENCLOSING KEYCAP}",  # 3
+            "\N{DIGIT FOUR}\N{COMBINING ENCLOSING KEYCAP}",  # 4
+            "\N{DIGIT FIVE}\N{COMBINING ENCLOSING KEYCAP}",  # 5
+            "\N{BLACK LEFT-POINTING TRIANGLE}",  # 戻る
+            "\N{BLACK RIGHT-POINTING TRIANGLE}",  # 進む
+            "\N{BLACK SQUARE FOR STOP}\N{VARIATION SELECTOR-16}"]  # stop
+        sen = "-------"
+
+        help_count = len(hyojun_help)  # ヘルプの数を出す
+        n = math.ceil(help_count / 5)  # 5で割って何ページになるか測定.小数点は繰り上げ
+
+        embed = discord.Embed(
+            title=f"標準のhelp 1/{n}",
+            description="")
+        for i in range(5):
+            embed.add_field(
+                name=hyojun_help[i]["name"],
+                value=f'{hyojun_help[i]["value"]}\n{sen}',
+                inline=False)
+
+        msg = await ctx.send(embed=embed)
+
+        for react in react_list:
+            await msg.add_reaction(react)  # リアクション付与
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
@@ -20,7 +54,7 @@ class raw_reaction_add(commands.Cog):
         msg = await channel.fetch_message(payload.message_id)  # リアクションの付いたメッセージ取得
         user = self.bot.get_user(payload.user_id)  # リアクションをつけたメッセージ取得
 
-        if msg.author != self.bot.user:  # 2レジbotのメッセージに付いたか
+        if msg.author != self.bot.user:  # 2レジbotのメッセージにつかなかったか
             return
 
         if user.bot:
@@ -30,6 +64,9 @@ class raw_reaction_add(commands.Cog):
             return
 
         if msg.embeds:
+            if msg.embeds[0].title == "":
+                return
+
             if not msg.embeds[0].title.startswith("標準のhelp"):
                 return
 
@@ -37,40 +74,44 @@ class raw_reaction_add(commands.Cog):
             return
 
         embed = msg.embeds[0]
-        list = embed.title.split()
-        page = int(list[1].split("/")[0])
-        help_name = list[0]
+        _list = embed.title.split()
+        now_page = int(_list[1].split("/")[0])
+        help_name = _list[0]
         no_img = "https://cdn.discordapp.com/attachments/688401587823050787/688401606512869376/YhyUGSJ0vEEZnh33jDHaqhYiB6f5erABoMcJu2bdv-mwkS08Syf29Kefr50kdGcpVjADOjNLgzFiZYJ_Nn6FGmmTMSWWAG78cPWG.png"
 
-        kazu = len(hyojun_help)
-        max_page = math.ceil(kazu / 5)  # 5で割って繰り上げ
+        count = len(hyojun_help)
+        max_page = math.ceil(count / 5)  # 5で割って繰り上げ
 
-        def page_setup(self, next_page):
+        def page_setup(page):
             """ページ数に対応したhelp内容をセット"""
-            embed = discord.Embed(title=f"{help_name} {next_page}/{max_page}", description="")
+            help_embed = discord.Embed(title=f"{help_name} {page}/{max_page}", description="")
             for i in range(5):
-                n = 5 * next_page - 5 + i
+                n = 5 * page - 5 + i
                 try:
-                    embed.add_field(
+                    help_embed.add_field(
                         name=hyojun_help[n]["name"],
                         value=f'{hyojun_help[n]["value"]}\n{sen}',
                         inline=False)
                 except IndexError:
                     break
-            return embed
+            return help_embed
 
         sen = "-------"
         emoji = str(payload.emoji)  # ここから本処理
-        await msg.remove_reaction(emoji, user)  # リアクション削除
+        try:
+            await msg.remove_reaction(emoji, user)  # リアクション削除
+        except discord.Forbidden:
+            await channel.send("botにリアクション管理の権限がないためリアクションを削除できませんでした\nサーバー管理者まで問い合わせてください")
+
         react_list = ["\N{DIGIT ONE}\N{COMBINING ENCLOSING KEYCAP}",
                       "\N{DIGIT TWO}\N{COMBINING ENCLOSING KEYCAP}",
                       "\N{DIGIT THREE}\N{COMBINING ENCLOSING KEYCAP}",
                       "\N{DIGIT FOUR}\N{COMBINING ENCLOSING KEYCAP}",
                       "\N{DIGIT FIVE}\N{COMBINING ENCLOSING KEYCAP}"]
         if emoji in react_list:  # 数字のリアクションが付いたら
-            embed = page_setup(self, page)
-            num = 5 * page - 5 + react_list.index(emoji)
-            if num > kazu:
+            embed = page_setup(now_page)
+            num = 5 * now_page - 5 + react_list.index(emoji)
+            if num > count:
                 index_error_msg = await channel.send("範囲外のリアクションが押されました")
                 await asyncio.sleep(5)
                 await index_error_msg.delete()
@@ -87,18 +128,18 @@ class raw_reaction_add(commands.Cog):
 
         if emoji == u"\u25C0" or emoji == u"\u25B6":  # 進むか戻るリアクションだったら
             if emoji == u"\u25C0":  # 戻るリアクションだったら
-                if page == 1:
+                if now_page == 1:
                     next_page = max_page
                 else:
-                    next_page = page - 1
+                    next_page = now_page - 1
 
             if emoji == u"\u25B6":  # 進むリアクションだったら
-                if page == max_page:
+                if now_page == max_page:
                     next_page = 1
                 else:
-                    next_page = page + 1
+                    next_page = now_page + 1
 
-            embed = page_setup(self, next_page)
+            embed = page_setup(next_page)
             await msg.edit(embed=embed)
 
         if emoji == "\N{BLACK SQUARE FOR STOP}\N{VARIATION SELECTOR-16}":  # 削除のリアクションだったら
@@ -106,4 +147,4 @@ class raw_reaction_add(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(raw_reaction_add(bot))
+    bot.add_cog(ManageHelp(bot))
