@@ -98,7 +98,7 @@ class SimpleCommands(commands.Cog):
         """招待リンクの送信"""
         msg = "botの招待リンクを表示します。ぜひ導入してね！\n"
         msg += \
-            "https://discordapp.com/api/oauth2/authorize?client_id=627143285906866187&permissions=1074097216&scope=bot"
+            "https://discordapp.com/api/oauth2/authorize?client_id=627143285906866187&permissions=1879436352&scope=bot"
         await ctx.send(msg)
 
 
