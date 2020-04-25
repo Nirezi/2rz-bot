@@ -94,6 +94,21 @@ class SimpleCommands(commands.Cog):
 
     @commands.command()
     @commands.check(does_not_have_args)
+    async def members(self, ctx):
+        """実行したサーバーのユーザーを表示"""
+        members_name = ""
+        for member in ctx.guild.members:
+            members_name += member.name
+        mem_count = len(ctx.guild.members)
+
+        embed = discord.Embed(title="", description=f"この鯖には{mem_count}人のユーザーがいます\n詳細を表示するにはリアクションを押してください")
+        msg = await ctx.send(embed=embed)
+        embed2 = discord.Embed(title="この鯖のメンバーは以下の通りです", description=members_name)
+
+        await wait_for_react(self.bot, ctx, msg, embed2)
+
+    @commands.command()
+    @commands.check(does_not_have_args)
     async def invite(self, ctx):
         """招待リンクの送信"""
         msg = "botの招待リンクを表示します。ぜひ導入してね！\n"
