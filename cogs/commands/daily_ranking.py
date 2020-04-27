@@ -1,11 +1,13 @@
 import asyncio
+import datetime
 import os
 import sys
-import datetime
+from os.path import dirname, join
 
 import discord
 import psycopg2
 from discord.ext import commands
+from dotenv import load_dotenv
 
 from def_list import data_upload
 
@@ -23,6 +25,9 @@ else:
     SQLpath = os.environ["DATABASE_URL"]
 db = psycopg2.connect(SQLpath)
 cur = db.cursor()
+
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
 
 
 class DailyRanking(commands.Cog):

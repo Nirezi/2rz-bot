@@ -1,11 +1,14 @@
+import asyncio
 import os
 import sys
 from datetime import datetime
-import asyncio
+from os.path import dirname, join
 
 import discord
 import psycopg2
 from discord.ext import commands, tasks
+from dotenv import load_dotenv
+
 from def_list import data_upload
 
 sys.path.append("../")
@@ -22,6 +25,9 @@ else:
     SQLpath = os.environ["DATABASE_URL"]
 db = psycopg2.connect(SQLpath)
 cur = db.cursor()
+
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
 
 
 class Loops(commands.Cog):

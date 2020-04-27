@@ -5,3 +5,4 @@ jishaku
 psycopg2
 selenium==3.141.0
 chromedriver-binary==81.0.4044.69.0
+python-dotenv
