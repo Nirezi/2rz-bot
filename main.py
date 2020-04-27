@@ -10,6 +10,9 @@ from dotenv import load_dotenv
 
 loop = asyncio.new_event_loop()
 
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+
 try:
     import tokens
     token1 = tokens.token2
@@ -26,8 +29,7 @@ else:
 db = psycopg2.connect(SQLpath)
 cur = db.cursor()
 
-dotenv_path = join(dirname(__file__), '.env')
-load_dotenv(dotenv_path)
+
 
 
 def _prefix_callable(bot, msg):
