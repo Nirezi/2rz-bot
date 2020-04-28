@@ -1,3 +1,4 @@
+# coding: utf-8
 import asyncio
 import os
 import traceback
@@ -28,8 +29,6 @@ else:
 
 db = psycopg2.connect(SQLpath)
 cur = db.cursor()
-
-
 
 
 def _prefix_callable(bot, msg):
