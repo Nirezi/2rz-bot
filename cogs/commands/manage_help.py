@@ -15,7 +15,7 @@ class ManageHelp(commands.Cog):
         self.bot = bot
 
     @commands.command(name="help")
-    @commands.has_permistions(add_reactions=True)
+    @commands.has_permissions(add_reactions=True)
     async def _help(self, ctx):
         """ヘルプを送信"""
         if isinstance(ctx.channel, discord.DMChannel):  # dmだったらreturn
