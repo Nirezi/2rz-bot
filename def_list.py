@@ -162,7 +162,8 @@ async def data_upload(self):
     for op in option:
         options.add_argument(op)
     ch = self.bot.get_channel(646010668134170645)
-    driver = webdriver.Chrome(options=options)
+    if not self.bot.local:
+        driver = webdriver.Chrome(executable_path=r"/home/user/bot-cog/chromedriver.exe", options=options)
 
     for i in range(3):
         driver.get(
