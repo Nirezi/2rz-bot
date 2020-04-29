@@ -51,23 +51,28 @@ class MyBot(commands.Bot):
         super().__init__(command_prefix=_prefix_callable, **options)
         self.local = local
 
+        if not local:
+            path = "/home/user/bot-cog/"
+        else:
+            path = "."
+
         self.remove_command("help")
         self.load_extension('jishaku')
-        for cog in os.listdir("./cogs/events"):
+        for cog in os.listdir(f"{path}/cogs/events"):
             if cog.endswith('.py'):
                 try:
                     self.load_extension(f'cogs.events.{cog[:-3]}')
                 except Exception:
                     traceback.print_exc()
 
-        for cog in os.listdir("./cogs/guilds"):
+        for cog in os.listdir(f"{path}/cogs/guilds"):
             if cog.endswith(".py"):
                 try:
                     self.load_extension(f"cogs.guilds.{cog[:-3]}")
                 except Exception:
                     traceback.print_exc()
 
-        for cog in os.listdir("./cogs/commands"):
+        for cog in os.listdir(f"{path}/cogs/commands"):
             if cog.endswith(".py"):
                 try:
                     self.load_extension(f"cogs.commands.{cog[:-3]}")
