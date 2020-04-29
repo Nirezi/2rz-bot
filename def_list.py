@@ -157,10 +157,9 @@ async def wait_for_react(bot, ctx, msg, embed2):
 
 
 async def data_upload(self):
-    await self.bot.wait_until_ready()
     options = webdriver.ChromeOptions()
-    oprion = ["--disable-gpu", '--headless', '--log-level=3']
-    for op in oprion:
+    option = ["--disable-gpu", '--headless', '--log-level=3']
+    for op in option:
         options.add_argument(op)
     driver = webdriver.Chrome(options=options)
     ch = self.bot.get_channel(646010668134170645)
