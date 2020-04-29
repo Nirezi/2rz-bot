@@ -161,7 +161,6 @@ async def data_upload(self):
     option = ["--disable-gpu", '--headless', '--log-level=3']
     for op in option:
         options.add_argument(op)
-    driver = webdriver.Chrome(options=options)
     ch = self.bot.get_channel(646010668134170645)
     driver = webdriver.Chrome(options=options)
 
