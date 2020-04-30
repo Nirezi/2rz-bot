@@ -52,7 +52,7 @@ class MyBot(commands.Bot):
         self.local = local
 
         if not local:
-            path = "/home/user/bot-cog/"
+            path = "/home/user/bot-cog"
         else:
             path = "."
 
