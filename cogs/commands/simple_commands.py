@@ -9,16 +9,15 @@ from def_list import wait_for_react
 sys.path.append("../")
 
 
-def does_not_have_args(ctx):
-    return ctx.message.content == ctx.prefix + ctx.invoked_with
-
-
 class SimpleCommands(commands.Cog):
+    """引数がなく、単体で実行できるコマンド"""
     def __init__(self, bot):
         self.bot = bot
 
+    async def cog_check(self, ctx):
+        return ctx.message.content == ctx.prefix + ctx.invoked_with
+
     @commands.command()
-    @commands.check(does_not_have_args)
     async def support(self, ctx):
         """サポートサーバーへのリンクを表示"""
         embed = discord.Embed(title="本botのサポートはこちらです",
@@ -26,7 +25,6 @@ class SimpleCommands(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command()
-    @commands.check(does_not_have_args)
     async def place(self, ctx):
         """/weatherコマンドで参照できる地点を表示"""
         place_str = ""
@@ -37,7 +35,6 @@ class SimpleCommands(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command()
-    @commands.check(does_not_have_args)
     async def myrole(self, ctx):
         """コマンドの実行者が持っているroleを表示"""
         roles_name = ""
@@ -52,7 +49,6 @@ class SimpleCommands(commands.Cog):
         await wait_for_react(self.bot, ctx, msg, embed2)
 
     @commands.command()
-    @commands.check(does_not_have_args)
     async def roles(self, ctx):
         """実行したサーバーにあるroleを表示"""
         roles_name = ""
@@ -67,7 +63,6 @@ class SimpleCommands(commands.Cog):
         await wait_for_react(self.bot, ctx, msg, embed2)
 
     @commands.command()
-    @commands.check(does_not_have_args)
     async def guilds(self, ctx):
         """botが入っているサーバを表示"""
         guilds_name = ""
@@ -82,7 +77,6 @@ class SimpleCommands(commands.Cog):
         await wait_for_react(self.bot, ctx, msg, embed2)
 
     @commands.command()
-    @commands.check(does_not_have_args)
     async def dm(self, ctx):
         """dmに凸する"""
         msg_list = ["な", "に", "か", "よ", "う", "か", "な", "？"]
@@ -93,7 +87,6 @@ class SimpleCommands(commands.Cog):
             await ctx.send(f"{ctx.author.mention}さてはdmが送れない設定にしてるな？")
 
     @commands.command()
-    @commands.check(does_not_have_args)
     async def members(self, ctx):
         """実行したサーバーのユーザーを表示"""
         members_name = ""
@@ -108,13 +101,13 @@ class SimpleCommands(commands.Cog):
         await wait_for_react(self.bot, ctx, msg, embed2)
 
     @commands.command()
-    @commands.check(does_not_have_args)
     async def invite(self, ctx):
         """招待リンクの送信"""
-        msg = "botの招待リンクを表示します。ぜひ導入してね！\n"
-        msg += \
+        url = \
             "https://discordapp.com/api/oauth2/authorize?client_id=627143285906866187&permissions=1879436352&scope=bot"
-        await ctx.send(msg)
+        embed = discord.Embed(title="botの招待リンクを表示します。ぜひ導入してね！",
+                              description=f"[招待リンク]{url}")
+        await ctx.send(embed=embed)
 
 
 def setup(bot):
