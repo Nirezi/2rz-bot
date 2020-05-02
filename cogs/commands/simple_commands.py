@@ -106,7 +106,7 @@ class SimpleCommands(commands.Cog):
         url = \
             "https://discordapp.com/api/oauth2/authorize?client_id=627143285906866187&permissions=1879436352&scope=bot"
         embed = discord.Embed(title="botの招待リンクを表示します。ぜひ導入してね！",
-                              description=f"[招待リンク]{url}")
+                              description=f"[招待リンク]({url})")
         await ctx.send(embed=embed)
 
 
