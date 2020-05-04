@@ -21,6 +21,7 @@ class Error(commands.Cog):
         elif isinstance(error, discord.Forbidden):
             await ctx.send('botに権限がありません')
         elif isinstance(error, commands.CommandInvokeError):
+            await ctx.send('エラーが発生しました。\nこのエラーは公式サーバへ送信され、修正されます。修正までしばらくお待ち下さい\n公式サーバ->https://discord.gg/bQWsu3Z')
             now = datetime.now()
             time = now.strftime("%Y/%m/%d %H:%M:%S")
             client = self.bot
