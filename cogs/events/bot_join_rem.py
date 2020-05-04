@@ -1,7 +1,7 @@
 from discord.ext import commands
 
 
-class bot_join_rem(commands.Cog):
+class BotJoinLeave(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -12,10 +12,11 @@ class bot_join_rem(commands.Cog):
         msg = f"{client.user}が{guild.name}に参加しました"
         await channel.send(msg)
 
-        msg = f"{client.user}を導入していただきありがとうございます！！\n"
-        msg += "disneyresidents#8709制作のbotです!\n"
-        msg += "ヘルプは/helpで確認できます！\n"
-        msg += "本botはcustom prefixに対応しています！/prefix change new_prefixで設定できます"
+        msg = f"{client.user}を{guild.name}に導入していただきありがとうございます！！\n" \
+              f"disneyresidents#8709制作のbotです\n" \
+              f"ヘルプは/helpから確認してください\n"\
+              "本botはcustom prefixに対応しています`/prefix change new_prefix`で設定できます" \
+              "https://discord.gg/bQWsu3Z 本botのサポートサーバはこちらです、入ってくれると喜びます()"
 
         for channel in guild.text_channels:
             try:
@@ -33,4 +34,4 @@ class bot_join_rem(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(bot_join_rem(bot))
+    bot.add_cog(BotJoinLeave(bot))
