@@ -5,9 +5,10 @@ import traceback
 from os.path import dirname, join
 
 import discord
-import psycopg2
 from discord.ext import commands
 from dotenv import load_dotenv
+
+from cogs.utils.config import Config
 
 loop = asyncio.new_event_loop()
 
@@ -22,27 +23,13 @@ except ModuleNotFoundError:
     token1 = os.environ["token1"]
     local = False
 
-if not local:
-    SQLpath = os.environ["DATABASE_URL"]
-else:
-    SQLpath = tokens.PostgreSQL
-
-db = psycopg2.connect(SQLpath)
-cur = db.cursor()
-
 
 def _prefix_callable(bot, msg):
     base = []
     if msg.guild is None:
         base.append('/')
     else:
-        cur.execute("select prefix from prefixes WHERE guild_id = %s;", (msg.guild.id,))
-        if len(cur.fetchall()) == 0:
-            base.append("/")
-        else:
-            cur.execute("select * from prefixes where guild_id = %s;", (msg.guild.id,))
-            for row in cur.fetchall():
-                base.append(str(row[1]))
+        base.append(bot.prefixes.get(msg.guild.id, '/'))
     return base
 
 
@@ -50,6 +37,8 @@ class MyBot(commands.Bot):
     def __init__(self, **options):
         super().__init__(command_prefix=_prefix_callable, **options)
         self.local = local
+
+        self.prefixes = Config('prefixes.json')
 
         if not local:
             path = "/home/user/bot-cog"
