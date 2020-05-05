@@ -7,32 +7,31 @@ class Config:
         self.name = name
         self.loop = asyncio.get_event_loop()
         self.lock = asyncio.Lock()
-        self.file = {}
+        self._file = {}
         self.load_file()
 
-    def _dump(self):
-        with open(self.name, 'w', encoding='utf-8') as tmp:
-            json.dump(self.file.copy(), self.name, ensure_ascii=True, indent=4, separators=(',', ':'))
+    async def _dump(self):
+        with open(self.name, 'w', encoding='utf-8') as f:
+            json.dump(self._file.copy(), f, ensure_ascii=True, separators=(',', ':'))
 
     def load_file(self):
         try:
             with open(self.name, 'r') as f:
-                self.file = json.load(f)
-        except FileNotFoundError:
+                self._file = json.load(f)
+        except Exception:
             pass
 
-    async def save(self):
-        async with self.lock:
-            await self.loop.run_in_executor(None, self._dump)
-
     async def put(self, key, value):
-        self.file[str(key)] = value
-        await self.save()
+        self._file[str(key)] = value
+        await self._dump()
 
     async def remove(self, key):
-        del self.file[str(key)]
-        await self.save()
+        del self._file[str(key)]
+        await self._dump()
 
     def get(self, key, *args):
-        return self.file.get(key, *args)
+        return self._file.get(str(key), *args)
+
+    def keys(self):
+        return self._file.keys()
 
