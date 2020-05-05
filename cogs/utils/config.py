@@ -6,7 +6,7 @@ class Config:
     def __init__(self, name):
         self.name = name
         self.loop = asyncio.get_event_loop()
-        self.lock = asyncio.lock()
+        self.lock = asyncio.Lock()
         self.file = {}
         self.load_file()
 
