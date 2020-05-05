@@ -25,10 +25,6 @@ class Config:
         async with self.lock:
             await self.loop.run_in_executor(None, self._dump)
 
-    async def set_guild_prefix(self, guild_id, prefix):
-        self.file[str(guild_id)] = prefix
-        await self.save()
-
     async def put(self, key, value):
         self.file[str(key)] = value
         await self.save()
