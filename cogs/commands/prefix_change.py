@@ -1,28 +1,10 @@
-import os
-import sys
-from os.path import dirname, join
-
-import psycopg2
 from discord.ext import commands
-from dotenv import load_dotenv
-
-sys.path.append("../")
 
 try:
     import tokens
     local = True
 except ModuleNotFoundError:
     local = False
-
-if local:
-    SQLpath = tokens.PostgreSQL
-else:
-    SQLpath = os.environ["DATABASE_URL"]
-db = psycopg2.connect(SQLpath)
-cur = db.cursor()
-
-dotenv_path = join(dirname(__file__), '.env')
-load_dotenv(dotenv_path)
 
 
 class Prefix(commands.Cog):
@@ -38,21 +20,16 @@ class Prefix(commands.Cog):
 
     @prefix.command()
     async def change(self, ctx, new_prefix):
-        cur.execute("select * from prefixes WHERE guild_id = %s", (ctx.guild.id,))
-        kazu = len(cur.fetchall())
-        if kazu == 0:
-            cur.execute("INSERT INTO prefixes values (%s, %s)", (ctx.guild.id, new_prefix))
+        if ctx.guild.id not in self.bot.prefixes.keys():
+            await self.bot.prefixes.put(ctx.guild.id, new_prefix)
             await ctx.send(f"prefixが`/`から`{new_prefix}`に変更されました")
         else:
-            cur.execute("DELETE FROM prefixes WHERE guild_id = %s", (ctx.guild.id,))
-            cur.execute("INSERT INTO prefixes values (%s, %s)", (ctx.guild.id, new_prefix))
+            await self.bot.prefixes.put(ctx.guild.id, new_prefix)
             await ctx.send(f"prefixが`{ctx.prefix}`から`{new_prefix}`に変更されました")
-        db.commit()
 
     @prefix.command()
     async def default(self, ctx):
-        cur.execute("DELETE FROM prefixes WHERE guild_id = %s", (ctx.guild.id,))
-        db.commit()
+        await self.bot.prefixes.remove(ctx.guild.id)
         await ctx.send("prefixがデフォルトの`/`に変更されました")
 
 
