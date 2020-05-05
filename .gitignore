@@ -1,6 +1,6 @@
 cogs/commands/__pycache__/
 cogs/events/__pycache__/
-cogs/events/__pycache__/
+cogs/guilds/__pycache__/
 .vscode/
 obj/
 __pycache__/
@@ -10,3 +10,4 @@ Program.cs
 sukure.py
 tokens.py
 cogs/commands/rect_test.py
+*.json
