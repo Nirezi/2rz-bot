@@ -10,8 +10,6 @@ from dotenv import load_dotenv
 
 from cogs.utils.config import Config
 
-loop = asyncio.new_event_loop()
-
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
@@ -86,7 +84,6 @@ class MyBot(commands.Bot):
 
 
 if __name__ == "__main__":
-    mybot = MyBot(loop=loop)
-    bot_task = loop.create_task(mybot.start(token1))
-    loop.run_until_complete(bot_task)
-    loop.close()
+    bot = MyBot()
+    bot.run(token1)
+
