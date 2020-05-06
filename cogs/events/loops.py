@@ -1,4 +1,5 @@
 import asyncio
+import json
 import os
 import sys
 from datetime import datetime
@@ -6,6 +7,7 @@ from os.path import dirname, join
 
 import discord
 import psycopg2
+import requests
 from discord.ext import commands, tasks
 from dotenv import load_dotenv
 
@@ -35,6 +37,7 @@ class Loops(commands.Cog):
         self.bot = bot
         self.loop2.start()
         self.loop3.start()
+        self.loop4.start()
 
     @tasks.loop(seconds=60)
     async def loop2(self):
@@ -63,6 +66,30 @@ class Loops(commands.Cog):
                 await channel.send("おっと、始めにを読んでない人はいないみたいです")
             else:
                 await channel.send(f"{role.mention}\n{kazu}人の人がまだ<#630402461395451913>を読んでないみたいですね")
+
+    @tasks.loop(seconds=60)
+    async def loop4(self):
+        await self.bot.wait_until_ready()
+        hm = datetime.now().strftime("%H:%M")
+        if hm == "23:58":
+            mcid_uuid_dic = {
+                "shibatanienn_ts": "f63f13d9-ea1d-43f9-a0c7-46bb9445625d",
+                "takosan_ykz": "4303b357-30ca-4209-a6c9-d96bafc60cf0",
+                "chorocra": "438ed7bf-cbcf-40d9-a672-aacc2868e267"
+            }
+
+            ch = self.bot.get_channel(706322916060692571)
+            msg = ""
+            for mcid in mcid_uuid_dic.keys():
+                uuid = mcid_uuid_dic[mcid]
+                resp = requests.get(f'https://w4.minecraftserver.jp/api/ranking/player/{uuid}?types=break')
+                data_json = json.loads(resp.text)
+                data = data_json[0]["data"]["raw_data"]
+                msg += f"{mcid}の整地量>>>{data}\n"
+                await asyncio.sleep(5)
+                print(3)
+            print(4)
+            await ch.send(msg)
 
 
 def setup(bot):
