@@ -87,8 +87,6 @@ class Loops(commands.Cog):
                 data = data_json[0]["data"]["raw_data"]
                 msg += f"{mcid}の整地量>>>{data}\n"
                 await asyncio.sleep(5)
-                print(3)
-            print(4)
             await ch.send(msg)
 
 
