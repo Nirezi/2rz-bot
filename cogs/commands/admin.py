@@ -30,6 +30,15 @@ class Admin(commands.Cog):
         if ctx.channel.id in announce_chs:
             await ctx.message.delete()
 
+    @commands.command(name="reload")
+    async def _reload(self, ctx, cog_name):
+        try:
+            self.bot.reload_extension(cog_name)
+        except commands.ExtensionNotFound:
+            await ctx.send('指定されたcogが見つかりませんでした')
+        else:
+            await ctx.send(':ok_hand:')
+
 
 def setup(bot):
     bot.add_cog(Admin(bot))
