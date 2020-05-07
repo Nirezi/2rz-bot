@@ -75,10 +75,11 @@ class Loops(commands.Cog):
             mcid_uuid_dic = {
                 "shibatanienn_ts": "f63f13d9-ea1d-43f9-a0c7-46bb9445625d",
                 "takosan_ykz": "4303b357-30ca-4209-a6c9-d96bafc60cf0",
-                "chorocra": "438ed7bf-cbcf-40d9-a672-aacc2868e267"
+                "chorocra": "438ed7bf-cbcf-40d9-a672-aacc2868e267",
+                "ranzumu": "45578816-9dab-49fc-bef0-0525e0a57289"
             }
 
-            ch = self.bot.get_channel(706322916060692571)
+            ch = self.bot.get_channel(627867724541853716)
             msg = ""
             for mcid in mcid_uuid_dic.keys():
                 uuid = mcid_uuid_dic[mcid]
