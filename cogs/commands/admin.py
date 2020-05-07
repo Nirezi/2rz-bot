@@ -33,8 +33,10 @@ class Admin(commands.Cog):
     @commands.command(name="reload")
     async def _reload(self, ctx, cog_name):
         try:
-            self.bot.reload_extension(cog_name)
+            self.bot.reload_extension(f'cogs.{cog_name}')
         except commands.ExtensionNotFound:
+            await ctx.send('指定されたcogが見つかりませんでした')
+        except commands.ExtensionNotLoaded:
             await ctx.send('指定されたcogが見つかりませんでした')
         else:
             await ctx.send(':ok_hand:')
