@@ -39,7 +39,7 @@ class Admin(commands.Cog):
         except commands.ExtensionNotLoaded:
             await ctx.send('指定されたcogが見つかりませんでした')
         else:
-            await ctx.send(':ok_hand:')
+            await ctx.message.add_reaction('\U00002705')
 
 
 def setup(bot):
