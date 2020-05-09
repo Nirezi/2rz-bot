@@ -79,7 +79,7 @@ class Loops(commands.Cog):
                 "ranzumu": "45578816-9dab-49fc-bef0-0525e0a57289"
             }
 
-            ch = self.bot.get_channel(627867724541853716)
+            ch = self.bot.get_channel(706322916060692571)
             msg = ""
             for mcid in mcid_uuid_dic.keys():
                 uuid = mcid_uuid_dic[mcid]
