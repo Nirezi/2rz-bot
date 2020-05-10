@@ -26,6 +26,8 @@ class Config:
             self._file[key] = value
             await self._dump()
         else:
+            if key not in self._file.keys():
+                self._file[key] = {}
             self._file[key][sub_key] = value
             await self._dump()
 
