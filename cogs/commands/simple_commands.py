@@ -49,34 +49,6 @@ class SimpleCommands(commands.Cog):
         await wait_for_react(self.bot, ctx, msg, embed2)
 
     @commands.command()
-    async def roles(self, ctx):
-        """実行したサーバーにあるroleを表示"""
-        roles_name = ""
-        for role in ctx.guild.roles[1:]:
-            roles_name += f"{role.name}、"
-        role_count = len(ctx.guild.roles[1:])
-
-        embed = discord.Embed(title="", description=f"この鯖には{role_count}個のroleがあります。\n詳細を表示する場合はリアクションを押してください")
-        msg = await ctx.send(embed=embed)
-        embed2 = discord.Embed(title="この鯖のroleは以下の通りです", description=roles_name)
-
-        await wait_for_react(self.bot, ctx, msg, embed2)
-
-    @commands.command()
-    async def guilds(self, ctx):
-        """botが入っているサーバを表示"""
-        guilds_name = ""
-        for guild in self.bot.guilds:
-            guilds_name += f"{guild.name}、"
-        guild_count = len(self.bot.guilds)
-
-        embed = discord.Embed(title="", description=f"このbotは{guild_count}個の鯖にはいっています\n詳細を表示するにはリアクションを押してください")
-        msg = await ctx.send(embed=embed)
-        embed2 = discord.Embed(title="このbotは以下の鯖に入っています", description=f"{guilds_name}\n以上{guild_count}サーバです")
-
-        await wait_for_react(self.bot, ctx, msg, embed2)
-
-    @commands.command()
     async def dm(self, ctx):
         """dmに凸する"""
         msg_list = ["な", "に", "か", "よ", "う", "か", "な", "？"]
