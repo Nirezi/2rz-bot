@@ -76,7 +76,9 @@ class Loops(commands.Cog):
                 "shibatanienn_ts": "f63f13d9-ea1d-43f9-a0c7-46bb9445625d",
                 "takosan_ykz": "4303b357-30ca-4209-a6c9-d96bafc60cf0",
                 "chorocra": "438ed7bf-cbcf-40d9-a672-aacc2868e267",
-                "ranzumu": "45578816-9dab-49fc-bef0-0525e0a57289"
+                "ranzumu": "45578816-9dab-49fc-bef0-0525e0a57289",
+                "kakkoiihito": "24eeb1a3-ed4a-444e-828c-5318122f4e4a",
+                "nekorobi_0": "d6be1561-47c1-4e67-9829-2aca48f9be39"
             }
 
             ch = self.bot.get_channel(706322916060692571)
