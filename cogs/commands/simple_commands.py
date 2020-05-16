@@ -21,7 +21,7 @@ class SimpleCommands(commands.Cog):
     async def support(self, ctx):
         """サポートサーバーへのリンクを表示"""
         embed = discord.Embed(title="本botのサポートはこちらです",
-                              description="[公式サーバ](https://discord.gg/bQWsu3Z)")
+                              description=f"[公式サーバ]({self.bot.guild_invite_url})")
         await ctx.send(embed=embed)
 
     @commands.command()
@@ -75,10 +75,8 @@ class SimpleCommands(commands.Cog):
     @commands.command()
     async def invite(self, ctx):
         """招待リンクの送信"""
-        url = \
-            "https://discord.com/oauth2/authorize?client_id=627143285906866187&permissions=268823638&scope=bot"
         embed = discord.Embed(title="botの招待リンクを表示します。ぜひ導入してね！",
-                              description=f"[招待リンク]({url})")
+                              description=f"[招待リンク]({self.bot.invite_url})")
         await ctx.send(embed=embed)
 
 
