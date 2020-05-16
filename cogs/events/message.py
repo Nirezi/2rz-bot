@@ -37,7 +37,7 @@ class Message(commands.Cog):
             if message.guild is None:
                 prefix = "/"
             else:
-                prefix = self.bot.command_prefix(self.bot, message)[0]
+                prefix = self.bot.prefixes.get(message.guild.id, "/")
             msg = f"{mention}呼んだ？\nヘルプは {prefix}helpです。"
             await mcs(msg)
 
