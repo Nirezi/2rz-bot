@@ -21,7 +21,7 @@ class Config:
         except Exception:
             pass
 
-    async def put(self, key: str, value, sub_key: str = None):
+    async def put(self, key, value, sub_key=None):
         if sub_key is None:
             self._file[key] = value
             await self._dump()
@@ -31,7 +31,7 @@ class Config:
             self._file[key][sub_key] = value
             await self._dump()
 
-    async def remove(self, key: str, sub_key: str = None):
+    async def remove(self, key, sub_key=None):
         if sub_key is None:
             value = self._file.pop(key)
             await self._dump()
@@ -44,6 +44,8 @@ class Config:
     def get(self, key, *args):
         return self._file.get(str(key), *args)
 
-    def keys(self):
-        return self._file.keys()
+    def keys(self, key=None):
+        if key is None:
+            return self._file.keys()
+        return self._file[key].keys()
 
