@@ -47,7 +47,7 @@ class MyBot(commands.Bot):
         self.blacklist = Config('blacklist.json')
 
         # guild_id: True
-        self.setting = Config('no_id.json')
+        self.no_ad = Config('no_id.json')
 
         if not local:
             path = "/home/user/bot-cog"
