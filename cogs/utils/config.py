@@ -22,7 +22,7 @@ class Config:
             pass
 
     async def put(self, key: str, value: str):
-        self._file[key] = value
+        self._file[str(key)] = value
         await self._dump()
 
     async def remove(self, key: str):
