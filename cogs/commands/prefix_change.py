@@ -16,11 +16,11 @@ class Prefix(commands.Cog):
     @commands.has_permissions(manage_guild=True)
     async def prefix(self, ctx):
         if ctx.invoked_subcommand is None:
-            await ctx.send(f"{ctx.prefix}prefix [change, default, show]")
+            await ctx.send(f"{ctx.prefix}prefix [change, default]")
 
     @prefix.command()
     async def change(self, ctx, new_prefix):
-        if ctx.guild.id not in self.bot.prefixes.keys():
+        if str(ctx.guild.id) not in self.bot.prefixes.keys():
             await self.bot.prefixes.put(ctx.guild.id, new_prefix)
             await ctx.send(f"prefixが`/`から`{new_prefix}`に変更されました")
         else:
