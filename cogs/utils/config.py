@@ -26,7 +26,7 @@ class Config:
         await self._dump()
 
     async def remove(self, key: str):
-        value = self._file.pop(key)
+        value = self._file.pop(str(key))
         await self._dump()
         return value
 
