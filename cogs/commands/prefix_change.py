@@ -23,12 +23,8 @@ class Prefix(commands.Cog):
         if new_prefix is None:
             return await ctx.send('新しく設定するprefixが入力されていません')
 
-        if str(ctx.guild.id) not in self.bot.prefixes.keys():
-            await self.bot.prefixes.put(ctx.guild.id, new_prefix)
-            await ctx.send(f"prefixが`/`から`{new_prefix}`に変更されました")
-        else:
-            await self.bot.prefixes.put(ctx.guild.id, new_prefix)
-            await ctx.send(f"prefixが`{ctx.prefix}`から`{new_prefix}`に変更されました")
+        await self.bot.prefixes.put(ctx.guild.id, new_prefix)
+        await ctx.send(f"prefixが`{ctx.prefix}`から`{new_prefix}`に変更されました")
 
     @prefix.command()
     async def default(self, ctx):
