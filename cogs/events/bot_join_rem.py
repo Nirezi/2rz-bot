@@ -7,6 +7,11 @@ class BotJoinLeave(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
+        # guildまたはguild ownerがブラックリストに登録されていたらサーバから抜ける
+        if guild.id in self.bot.blacklist.keys() or guild.owner.id in self.bot.blacklist.keys():
+            await guild.leage()
+            return
+
         client = self.bot
         channel = client.get_channel(658685450805968906)
         msg = f"{client.user}が{guild.name}に参加しました"
