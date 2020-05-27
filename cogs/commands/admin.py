@@ -41,6 +41,25 @@ class Admin(commands.Cog):
         else:
             await ctx.message.add_reaction('\U00002705')
 
+    @commands.group()
+    async def ad(self, ctx):
+        if ctx.invoked_subcommand is None:
+            await ctx.send(f'no_adには以下のサーバが追加されています{self.bot.no_ad.keys()}')
+
+    @ad.command()
+    async def add(self, ctx, guild_id: str):
+        if guild_id in self.bot.no_ad.keys():
+            await ctx.send(f'{guild_id}はすでに登録されています')
+            return
+        await self.bot.no_ad.put(guild_id, True)
+
+    @ad.command()
+    async def remove(self, ctx, guild_id: str):
+        if guild_id not in self.bot.no_ad.keys():
+            await ctx.send(f'{guild_id}はまだ登録されていません')
+            return
+        await self.bot.no_ad.remove(guild_id)
+
 
 def setup(bot):
     bot.add_cog(Admin(bot))
