@@ -86,8 +86,8 @@ class MyBot(commands.Bot):
                 msg = f"{self.user.name}を使ってくれてありがとうございます！\n" \
                       f"ここで少し宣伝させてください！\n" \
                       f"{self.user.name}の導入や公式サーバへの参加をお願いします！(寄付も募っています)\n" \
-                      f"[公式サーバ]({self.guild_invite_url})\n[招待リンク]({self.invite_url})\n[寄付フォーム]({self.donate_form})" \
-                      f"＊500円以上の寄付でこの広告はでてこなくなります"
+                      f"[公式サーバ]({self.guild_invite_url})\n[招待リンク]({self.invite_url})\n[寄付フォーム]({self.donate_form})\n" \
+                      f"＊500円以上の寄付でこの広告はでてこなくなります。また公式サーバでも表示されません"
                 embed = discord.Embed(title="", description=msg)
                 await ctx.send(embed=embed)
 
