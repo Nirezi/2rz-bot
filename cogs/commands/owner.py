@@ -11,19 +11,19 @@ class Owner(commands.Cog):
     @commands.group()
     async def black_list(self, ctx):
         if ctx.invoked_subcommand is None:
-            await ctx.send(f"ブラックリストには以下のidが登録されてるよ！\n{self.bot.black_list.keys()}")
+            await ctx.send(f"ブラックリストには以下のidが登録されてるよ！\n{self.bot.blacklist.keys()}")
 
     @black_list.command()
     async def add(self, ctx, key: str):
-        await self.bot.black_list.put(key, True)
+        await self.bot.blacklist.put(key, True)
         await ctx.send(f"{key}をブラックリストに追加しました")
 
     @black_list.command()
     async def remove(self, ctx, key: str):
-        if key in self.bot.black_list.keys():
+        if key in self.bot.blacklist.keys():
             await ctx.send(f'{key}はまだブラックリストに登録されていません')
             return
-        value = await self.bot.black_list.remove(key)
+        value = await self.bot.blacklist.remove(key)
         await ctx.send(f"{value}をブラックリストから削除しました")
 
 
