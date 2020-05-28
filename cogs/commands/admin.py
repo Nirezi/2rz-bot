@@ -52,6 +52,7 @@ class Admin(commands.Cog):
             await ctx.send(f'{guild_id}はすでに登録されています')
             return
         await self.bot.no_ad.put(guild_id, True)
+        await ctx.send(f'{guild_id}を登録しました')
 
     @ad.command()
     async def remove(self, ctx, guild_id: str):
@@ -59,6 +60,7 @@ class Admin(commands.Cog):
             await ctx.send(f'{guild_id}はまだ登録されていません')
             return
         await self.bot.no_ad.remove(guild_id)
+        await ctx.send(f'{guild_id}の登録を解除しました')
 
 
 def setup(bot):
