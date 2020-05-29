@@ -4,6 +4,7 @@ import os
 import sys
 from datetime import datetime
 from os.path import dirname, join
+import re
 
 import discord
 import psycopg2
@@ -72,6 +73,13 @@ class Loops(commands.Cog):
         await self.bot.wait_until_ready()
         hm = datetime.now().strftime("%H:%M")
         if hm == "23:58":
+            ch = self.bot.get_channel(706322916060692571)
+            async for msg in ch.history():
+                if msg.author == self.bot.user:
+                    last_record = await ch.fetch_message(msg.id)
+                    last_record_list = last_record.content.splitlines()
+                    break
+
             mcid_uuid_dic = {
                 "shibatanienn_ts": "f63f13d9-ea1d-43f9-a0c7-46bb9445625d",
                 "takosan_ykz": "4303b357-30ca-4209-a6c9-d96bafc60cf0",
@@ -82,15 +90,17 @@ class Loops(commands.Cog):
                 "chorocra_19800": "10cf3d97-a6aa-4ef0-8c27-a917e5cb59d8"
             }
 
-            ch = self.bot.get_channel(706322916060692571)
             msg = ""
-            for mcid in mcid_uuid_dic.keys():
+            for i, mcid in enumerate(mcid_uuid_dic.keys()):
+                last_user_record = int(re.sub(r'\(前日比:\d+\)', '', last_record_list[i].split('>>>')[1]))
                 uuid = mcid_uuid_dic[mcid]
                 resp = requests.get(f'https://w4.minecraftserver.jp/api/ranking/player/{uuid}?types=break')
                 data_json = json.loads(resp.text)
                 data = data_json[0]["data"]["raw_data"]
-                msg += f"{mcid}の整地量>>>{data}\n"
-                await asyncio.sleep(5)
+                data_int = int(data)
+                data_difference = data_int - last_user_record
+                msg += f"{mcid}の整地量>>>{data}(前日比:{data_difference})\n"
+                await asyncio.sleep(2)
             await ch.send(msg)
 
 
