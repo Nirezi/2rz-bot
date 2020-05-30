@@ -72,7 +72,7 @@ class Loops(commands.Cog):
     async def loop4(self):
         await self.bot.wait_until_ready()
         hm = datetime.now().strftime("%H:%M")
-        if hm == "23:58":
+        if hm == "23:50":
             ch = self.bot.get_channel(706322916060692571)
             async for msg in ch.history():
                 if msg.author == self.bot.user:
