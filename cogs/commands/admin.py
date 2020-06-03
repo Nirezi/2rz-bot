@@ -41,10 +41,9 @@ class Admin(commands.Cog):
         else:
             await ctx.message.add_reaction('\U00002705')
 
-    @commands.group()
+    @commands.group(invoke_without_command=True)
     async def ad(self, ctx):
-        if ctx.invoked_subcommand is None:
-            await ctx.send(f'no_adには以下のサーバが追加されています{self.bot.no_ad.keys()}')
+        await ctx.send(f'no_adには以下のサーバが追加されています{self.bot.no_ad.keys()}')
 
     @ad.command()
     async def add(self, ctx, guild_id: str):
