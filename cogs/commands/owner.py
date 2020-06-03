@@ -8,10 +8,9 @@ class Owner(commands.Cog):
     async def cog_check(self, ctx):
         return await self.bot.is_owner(ctx.author)
 
-    @commands.group()
+    @commands.group(invoke_without_command=True)
     async def black_list(self, ctx):
-        if ctx.invoked_subcommand is None:
-            await ctx.send(f"ブラックリストには以下のidが登録されてるよ！\n{self.bot.blacklist.keys()}")
+        await ctx.send(f"ブラックリストには以下のidが登録されてるよ！\n{self.bot.blacklist.keys()}")
 
     @black_list.command()
     async def add(self, ctx, key: str):
