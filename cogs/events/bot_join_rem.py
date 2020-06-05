@@ -9,7 +9,7 @@ class BotJoinLeave(commands.Cog):
     async def on_guild_join(self, guild):
         # guildまたはguild ownerがブラックリストに登録されていたらサーバから抜ける
         if guild.id in self.bot.blacklist.keys() or guild.owner.id in self.bot.blacklist.keys():
-            await guild.leage()
+            await guild.leave()
             return
 
         client = self.bot
