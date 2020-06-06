@@ -2,18 +2,18 @@ from discord.ext import commands
 import discord
 
 
-class vote(commands.Cog):
+class Vote(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command(name="vote")
     async def _vote(self, ctx, title, *kouho):
-        kazu = len(kouho)
+        count = len(kouho)
         
-        if kazu == 1:
+        if count == 1:
             react_list = [u"\u2B55", u"\u274C"]
         
-        elif kazu >= 2 and kazu <= 9:
+        elif 2 <= count <= 9:
             react_list = [
                 "\N{DIGIT ONE}\N{COMBINING ENCLOSING KEYCAP}",
                 "\N{DIGIT TWO}\N{COMBINING ENCLOSING KEYCAP}",
@@ -28,12 +28,12 @@ class vote(commands.Cog):
             await ctx.send("候補の数が少なすぎるか多すぎます\n1個以上9個以下にしてください")
             return
 
-        naiyou = ""
-        if not kazu == 1:
-            for i in range(kazu):
-                naiyou += f"{react_list[i]}:{kouho[i]}\n"
-            embed = discord.Embed(title=f"**{title}**", description=naiyou)
-            react_list = react_list[:kazu]
+        content = ""
+        if not count == 1:
+            for i in range(count):
+                content += f"{react_list[i]}:{kouho[i]}\n"
+            embed = discord.Embed(title=f"**{title}**", description=content)
+            react_list = react_list[:count]
         else:
             embed = discord.Embed(title=f"**{title}**", description=kouho[0])
 
@@ -43,4 +43,4 @@ class vote(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(vote(bot))
+    bot.add_cog(Vote(bot))
