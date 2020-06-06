@@ -19,10 +19,10 @@ class Error(commands.Cog):
         elif isinstance(error, commands.BotMissingPermissions):
             await ctx.send(f'**botに{error.missing_perms}の権限がありません**\nサーバ管理者まで問い合わせてください')
         elif isinstance(error, commands.CommandInvokeError):
-            msg = '引数などが正しいか確認してみてください。\nコマンドが正しいにも関わらずエラーが発生する場合msg_idとともに公式サーバまでお問い合わせください'
+            msg = f'引数などが正しいか確認してみてください。\nコマンドが正しいにも関わらずエラーが発生する場合msg_idとともに公式サーバまでお問い合わせください\n' \
+                  f'エラー内容 ＊bot開発者向け\n{error}' \
+                  f'[公式サーバ]({self.bot.guild_invite_url})\nmsg_id: {ctx.message.id}'
             embed = discord.Embed(title='エラーが発生しました', description=msg)
-            embed.add_field(name="エラー内容 ＊bot開発者向け", value=str(error))
-            embed.add_field(name=f'[公式サーバ]({self.bot.guild_invite_url})', value=f'msg_id: {ctx.message.id}')
             await ctx.send(embed=embed)
             now = datetime.now()
             time = now.strftime("%Y/%m/%d %H:%M:%S")
@@ -33,7 +33,6 @@ class Error(commands.Cog):
             embed = discord.Embed(title='Error_log', description=error_msg, color=0xf04747)
             embed.set_footer(text=f'channel:{ctx.channel}\ntime:{time}')
             await channel.send(f"<@544774774405201923>エラーが発生しました \nmsg_id: {ctx.message.id}", embed=embed)
-            await channel.send(error.__cause__)
 
 
 def setup(bot):
