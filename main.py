@@ -6,6 +6,7 @@ from os.path import dirname, join
 import random
 
 import discord
+import psycopg2
 from discord.ext import commands
 from dotenv import load_dotenv
 
@@ -32,6 +33,14 @@ def _prefix_callable(bot, msg):
     return base
 
 
+if local:
+    SQLpath = tokens.PostgreSQL
+else:
+    SQLpath = os.environ["DATABASE_URL"]
+db = psycopg2.connect(SQLpath)
+cur = db.cursor()
+
+
 class MyBot(commands.Bot):
     def __init__(self, **options):
         super().__init__(command_prefix=_prefix_callable, **options)
@@ -39,6 +48,8 @@ class MyBot(commands.Bot):
         self.guild_invite_url = "https://discord.gg/bQWsu3Z"
         self.invite_url = "https://discord.com/oauth2/authorize?client_id=627143285906866187&permissions=268823638&scope=bot"
         self.donate_form = "https://disneyresidents.fanbox.cc/posts"
+
+        self.cur = cur
 
         # guild_id: prefix
         self.prefixes = Config('prefixes.json')
@@ -48,6 +59,12 @@ class MyBot(commands.Bot):
 
         # guild_id: True
         self.no_ad = Config('no_id.json')
+
+        # message_id: reaction: role
+        self.role_panel_data = Config('role_panel_data.json')
+
+        # setting: guild_id: True
+        self.settings = Config('settings.json')
 
         if not local:
             path = "/home/user/bot-cog"
@@ -90,6 +107,10 @@ class MyBot(commands.Bot):
                       f"＊500円以上の寄付でこの広告はでてこなくなります。また公式サーバでも表示されません"
                 embed = discord.Embed(title="", description=msg)
                 await ctx.send(embed=embed)
+
+        @self.check
+        async def check_blacklist(ctx):
+            return ctx.author.id not in self.blacklist.keys()
 
     async def on_ready(self):  # botが起動したら
         print(self.user.name)
