@@ -42,6 +42,8 @@ class Message(commands.Cog):
             await mcs(msg)
 
         if "https://discordapp.com/channels/" in message.content and "@" not in message.content:
+            if str(message.guild.id) in self.bot.settings.keys('not_quote'):
+                return
             await quote(message, client)
 
 
