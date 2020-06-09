@@ -13,14 +13,14 @@ class Setting(commands.Cog):
 
     @quote.command()
     async def off(self, ctx):
-        if self.bot.settings.get('not_quote', False, ctx.guild.id):
+        if str(ctx.guild.id) in self.bot.settings.keys('not_quote'):
             return await ctx.send('メッセージ展開は既に**無効**になっています')
         await self.bot.settings.put('not_quote', True, ctx.guild.id)
         await ctx.send('メッセージ展開を**無効**にしました')
 
     @quote.command()
     async def on(self, ctx):
-        if not self.bot.settings.get('not_quote', False, ctx.guild.id):
+        if str(ctx.guild.id) not in self.bot.settings.keys('not_quote'):
             return await ctx.send('メッセージ展開は既に**有効**になっています')
         await self.bot.settings.remove('not_quote', ctx.guild.id)
         await ctx.send('メッセージ展開を**有効**にしました')
