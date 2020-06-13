@@ -96,6 +96,8 @@ class MyBot(commands.Bot):
 
         @self.after_invoke
         async def send_ad(ctx):
+            if ctx.guild is None:
+                return
             if ctx.guild.id in self.no_ad.keys():
                 return
             num = random.randint(0, 19)
