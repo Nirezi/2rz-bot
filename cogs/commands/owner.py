@@ -1,4 +1,6 @@
 from discord.ext import commands
+import subprocess
+from subprocess import PIPE
 
 
 class Owner(commands.Cog):
@@ -24,6 +26,12 @@ class Owner(commands.Cog):
             return
         value = await self.bot.blacklist.remove(key)
         await ctx.send(f"{value}をブラックリストから削除しました")
+
+    @commands.command()
+    async def sh(self, ctx, *, content):
+        proc = subprocess.run(content, shell=True, stdout=PIPE, stderr=PIPE, encoding="utf-8")
+        await ctx.send(f"コマンドは終了コード{proc.returncode}で終了しました\n"
+                       f"実行結果{proc.stdout}\nエラー{proc.stderr}")
 
 
 def setup(bot):
