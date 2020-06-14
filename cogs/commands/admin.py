@@ -18,7 +18,7 @@ class Admin(commands.Cog):
         return False
 
     @commands.command()
-    async def announce(self, ctx, content):
+    async def announce(self, ctx, *, content):
         announce_chs = [662666842137034763, 702759218255495240]
         embed = discord.Embed(title="", description=content, color=0x3399FF)
         msg_list = []
@@ -43,7 +43,7 @@ class Admin(commands.Cog):
 
     @commands.group(invoke_without_command=True)
     async def ad(self, ctx):
-        await ctx.send(f'no_adには以下のサーバが追加されています{self.bot.no_ad.keys()}')
+        await ctx.send(f'no_adには以下のサーバが追加されています{",".join(guild_id for guild_id in self.bot.no_ad.keys())}')
 
     @ad.command()
     async def add(self, ctx, guild_id: str):
