@@ -5,6 +5,7 @@ import traceback
 from os.path import dirname, join
 import random
 
+
 import discord
 import psycopg2
 from discord.ext import commands
@@ -48,8 +49,6 @@ class MyBot(commands.Bot):
         self.guild_invite_url = "https://discord.gg/bQWsu3Z"
         self.invite_url = "https://discord.com/oauth2/authorize?client_id=627143285906866187&permissions=268823638&scope=bot"
         self.donate_form = "https://disneyresidents.fanbox.cc/posts"
-
-        self.cur = cur
 
         # guild_id: prefix
         self.prefixes = Config('prefixes.json')
@@ -106,7 +105,7 @@ class MyBot(commands.Bot):
                       f"ここで少し宣伝させてください！\n" \
                       f"{self.user.name}の導入や公式サーバへの参加をお願いします！(寄付も募っています)\n" \
                       f"[公式サーバ]({self.guild_invite_url})\n[招待リンク]({self.invite_url})\n[寄付フォーム]({self.donate_form})\n" \
-                      f"＊500円以上の寄付でこの広告はでてこなくなります。また公式サーバでも表示されません"
+                      f"＊500円以上の寄付でこの広告はでてこなくなります。(公式サーバでは表示されません)"
                 embed = discord.Embed(title="", description=msg)
                 await ctx.send(embed=embed)
 
