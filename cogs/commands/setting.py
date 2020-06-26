@@ -11,14 +11,14 @@ class Setting(commands.Cog):
         value = '無効'if self.bot.settings.get('not_quote', False, ctx.guild.id) else '有効'
         await ctx.send(f'現在メッセージ展開は{value}に設定されています。`{ctx.prefix}quote on/off`で切り替えができます')
 
-    @quote.command()
+    @quote.command(manage_guild=True)
     async def off(self, ctx):
         if str(ctx.guild.id) in self.bot.settings.keys('not_quote'):
             return await ctx.send('メッセージ展開は既に**無効**になっています')
         await self.bot.settings.put('not_quote', True, ctx.guild.id)
         await ctx.send('メッセージ展開を**無効**にしました')
 
-    @quote.command()
+    @quote.command(manage_guild=True)
     async def on(self, ctx):
         if str(ctx.guild.id) not in self.bot.settings.keys('not_quote'):
             return await ctx.send('メッセージ展開は既に**有効**になっています')
