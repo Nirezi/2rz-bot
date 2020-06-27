@@ -4,6 +4,10 @@ import asyncio
 
 class Config:
     def __init__(self, name):
+        """
+
+        :rtype:
+        """
         self.name = name
         self.loop = asyncio.get_event_loop()
         self.lock = asyncio.Lock()
@@ -39,6 +43,12 @@ class Config:
         if sub_key is None:
             return self._file.get(str(key), args)
         return self._file[str(key)].get(str(sub_key), args)
+
+    def pop_from_value(self, value):
+        value = str(value)
+        for k, v in self._file.items():
+            if v == value:
+                return await self.remove(k)
 
     def keys(self, key=None):
         if key is None:
