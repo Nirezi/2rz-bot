@@ -44,7 +44,7 @@ class Config:
             return self._file.get(str(key), args)
         return self._file[str(key)].get(str(sub_key), args)
 
-    def pop_from_value(self, value):
+    async def pop_from_value(self, value):
         value = str(value)
         for k, v in self._file.items():
             if v == value:
