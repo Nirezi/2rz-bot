@@ -9,7 +9,7 @@ class CheckPermission(commands.Cog):
 
     @commands.command(aliases=["check_per", "cp"])
     @commands.guild_only()
-    @commands.bot_has_permissions(manage_emojis=True)
+    @commands.bot_has_permissions(manage_messages=True)
     async def check_permission(self, ctx, member: discord.Member, scope, *selected_perm):
         """
         指定されたユーザーの指定されたチャンネルでの権限を確認するコマンド
@@ -38,9 +38,8 @@ class CheckPermission(commands.Cog):
                 'read_message_history',  # メッセージ履歴の閲覧
                 'mention_everyone',  # everyone, here, 全ロールにメンション
                 'use_external_emojis',  # 外部絵文字の使用
+                'embed_links'  # リンク埋め込みの権限
             ]
-            if member.bot:
-                perm_list.append('embed_links')  # 指定されたユーザーがbotならリンクの埋め込みの権限も確認
 
         async def manage_embed(mem, ch, num=0, before_msg=None):
             """チャンネルとメンバーに応じたembedを送信・編集する関数"""
