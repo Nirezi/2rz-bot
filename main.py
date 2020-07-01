@@ -57,7 +57,7 @@ class MyBot(commands.Bot):
         self.blacklist = Config('blacklist.json')
 
         # guild_id: True
-        self.no_ad = Config('no_id.json')
+        self.no_ad = Config('no_ad.json')
 
         # message_id: reaction: role
         self.role_panel_data = Config('role_panel_data.json')
@@ -97,7 +97,7 @@ class MyBot(commands.Bot):
         async def send_ad(ctx):
             if ctx.guild is None:
                 return
-            if ctx.guild.id in self.no_ad.keys():
+            if str(ctx.guild.id) in self.no_ad.keys():
                 return
             num = random.randint(0, 19)
             if num == 0:
