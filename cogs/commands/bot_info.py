@@ -7,7 +7,7 @@ class bot_info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="bot_info")
+    @commands.command(name="bot_info", enabled=False)
     async def _bot_info(self, ctx):
         client = self.bot
 
