@@ -11,6 +11,7 @@ import psycopg2
 import requests
 from discord.ext import commands, tasks
 from dotenv import load_dotenv
+import dropbox
 
 from def_list import data_upload
 
@@ -24,10 +25,15 @@ except ModuleNotFoundError:
 
 if local:
     SQLpath = tokens.PostgreSQL
+    dropbox_token = tokens.DB_URL
 else:
     SQLpath = os.environ["DATABASE_URL"]
+    dropbox_token = os.environ["DB_URL"]
+
 db = psycopg2.connect(SQLpath)
 cur = db.cursor()
+
+dbx = dropbox.Dropbox(dropbox_token)
 
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
@@ -39,6 +45,7 @@ class Loops(commands.Cog):
         self.loop2.start()
         self.loop3.start()
         self.loop4.start()
+        self.data_upload.start()
 
     @tasks.loop(seconds=60)
     async def loop2(self):
@@ -87,7 +94,8 @@ class Loops(commands.Cog):
                 "ranzumu": "45578816-9dab-49fc-bef0-0525e0a57289",
                 "kakkoiihito": "24eeb1a3-ed4a-444e-828c-5318122f4e4a",
                 "nekorobi_0": "d6be1561-47c1-4e67-9829-2aca48f9be39",
-                "chorocra_19800": "10cf3d97-a6aa-4ef0-8c27-a917e5cb59d8"
+                "chorocra_19800": "10cf3d97-a6aa-4ef0-8c27-a917e5cb59d8",
+                "kaerusan82433413": "9cec894e-9ae3-4a25-97c5-b7a6c55c1376"  # todo 8月になったら外す
             }
 
             msg = ""
@@ -102,6 +110,10 @@ class Loops(commands.Cog):
                 msg += f"{mcid}の整地量>>>{data}(前日比:{data_difference})\n"
                 await asyncio.sleep(2)
             await ch.send(msg)
+
+    @tasks.loop(seconds=60)
+    async def data_upload(self):
+        pass
 
 
 def setup(bot):
