@@ -79,7 +79,7 @@ class Loops(commands.Cog):
     async def loop4(self):
         await self.bot.wait_until_ready()
         hm = datetime.now().strftime("%H:%M")
-        if hm == "23:50":
+        if True:
             ch = self.bot.get_channel(706322916060692571)
             async for msg in ch.history():
                 if msg.author == self.bot.user:
@@ -100,6 +100,14 @@ class Loops(commands.Cog):
 
             msg = ""
             for i, mcid in enumerate(mcid_uuid_dic.keys()):
+                if len(last_record_list) < i:
+                    uuid = mcid_uuid_dic[mcid]
+                    resp = requests.get(f'https://w4.minecraftserver.jp/api/ranking/player/{uuid}?types=break')
+                    data_json = json.loads(resp.text)
+                    data = data_json[0]["data"]["raw_data"]
+                    data_int = int(data)
+                    msg += f"{mcid}の整地量>>>{data}(前日比:0)\n"
+                    continue
                 last_user_record = int(re.sub(r'\(前日比:\d+\)', '', last_record_list[i].split('>>>')[1]))
                 uuid = mcid_uuid_dic[mcid]
                 resp = requests.get(f'https://w4.minecraftserver.jp/api/ranking/player/{uuid}?types=break')
