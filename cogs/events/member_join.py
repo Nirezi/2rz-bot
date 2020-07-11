@@ -38,7 +38,7 @@ class MemberJoin(commands.Cog):
             await channel.send(welcome)
 
         if server == 562820886323789835:  # 運営連のオーナー
-            ch = client.get_channel(681423204811800609)
+            ch = client.get_channel(721569289613869117)
             await ch.send(f"{member}が参加しました。よろしくお願いします！ルール読んでね！")
 
         if server == 675314750783094806:  # 運営連
