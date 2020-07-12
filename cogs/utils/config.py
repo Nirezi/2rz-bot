@@ -4,10 +4,6 @@ import asyncio
 
 class Config:
     def __init__(self, name):
-        """
-
-        :rtype:
-        """
         self.name = name
         self.loop = asyncio.get_event_loop()
         self.lock = asyncio.Lock()
@@ -39,10 +35,10 @@ class Config:
         await self._dump()
         return value
 
-    def get(self, key, args, sub_key=None):
+    def get(self, key, arg, sub_key=None):
         if sub_key is None:
-            return self._file.get(str(key), args)
-        return self._file[str(key)].get(str(sub_key), args)
+            return self._file.get(str(key), arg)
+        return self._file[str(key)].get(str(sub_key), arg)
 
     async def pop_from_value(self, value):
         value = str(value)
@@ -55,5 +51,8 @@ class Config:
             return self._file.keys()
         else:
             if str(key) not in self._file.keys():
-                return {}
+                return []
             return self._file[str(key)].keys()
+
+    def is_key(self, key) -> bool:
+        return str(key) in self._file.keys()
