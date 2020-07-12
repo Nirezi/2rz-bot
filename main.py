@@ -1,5 +1,6 @@
 # coding: utf-8
 import asyncio
+import json
 import os
 import traceback
 from os.path import dirname, join
@@ -8,6 +9,7 @@ import random
 
 import discord
 import psycopg2
+import requests
 from discord.ext import commands
 from dotenv import load_dotenv
 
@@ -18,7 +20,7 @@ load_dotenv(dotenv_path)
 
 try:
     import tokens
-    token1 = tokens.token2
+    token1 = tokens.token1
     local = True
 except ModuleNotFoundError:
     token1 = os.environ["token1"]
@@ -112,6 +114,13 @@ class MyBot(commands.Bot):
         @self.check
         async def check_blacklist(ctx):
             return ctx.author.id not in self.blacklist.keys()
+
+    @staticmethod
+    def get_mined_block(uuid: str) -> int:
+        resp = requests.get(f'https://w4.minecraftserver.jp/api/ranking/player/{uuid}?types=break')
+        data_json = json.loads(resp.text)
+        data = data_json[0]["data"]["raw_data"]
+        return int(data)
 
     async def on_ready(self):  # botが起動したら
         print(self.user.name)
