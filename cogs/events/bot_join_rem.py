@@ -8,33 +8,37 @@ class BotJoinLeave(commands.Cog):
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
         # guildまたはguild ownerがブラックリストに登録されていたらサーバから抜ける
-        if guild.id in self.bot.blacklist.keys() or guild.owner.id in self.bot.blacklist.keys():
+        if self.bot.blacklist.is_key(guild.id) or self.bot.blacklist.is_key(guild.owner.id):
             await guild.leave()
             return
 
-        client = self.bot
-        channel = client.get_channel(658685450805968906)
-        msg = f"{client.user}が{guild.name}に参加しました"
+        channel = self.bot.get_channel(658685450805968906)
+        msg = f"{self.bot.user}が{guild.name}に参加しました"
         await channel.send(msg)
 
-        msg = f"{client.user}を{guild.name}に導入していただきありがとうございます！！\n" \
-              f"disneyresidents#8709制作のbotです\n" \
+        msg = f"{self.bot.user}を{guild.name}に導入していただきありがとうございます！！\n" \
+              f"{self.bot.get_user(self.bot.owner_id)}制作のbotです\n" \
               f"ヘルプは/helpから確認してください\n"\
-              "本botはcustom prefixに対応しています`/prefix change new_prefix`で設定できます" \
-              "https://discord.gg/bQWsu3Z 本botのサポートサーバはこちらです、入ってくれると喜びます()"
+              "本botはcustom prefixに対応しています`/prefix change 新しいprefix`で設定できます" \
+              "他のbotとprefixがかぶってしまう場合は是非ご利用ください(サーバ管理の権限が必要です)" \
+              f"サポートサーバへの参加をお願いします！\n{self.bot.guild_invite_url}"
+
+        if guild.system_channel is not None:
+            try:
+                return await guild.system_channel.send(msg)
+            except Exception:
+                pass
 
         for channel in guild.text_channels:
             try:
-                await channel.send(msg)
-                break
+                return await channel.send(msg)
             except Exception:
                 continue
 
     @commands.Cog.listener()
     async def on_guild_remove(self, guild):
-        client = self.bot
-        channel = client.get_channel(658685450805968906)
-        msg = f"{client.user}が{guild.name}からbanまたはkickされました"
+        channel = self.bot.get_channel(658685450805968906)
+        msg = f"{self.bot.user}が{guild.name}から抜けました"
         await channel.send(msg)
 
 
