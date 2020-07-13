@@ -138,6 +138,18 @@ class MyBot(commands.Bot):
             await self.change_presence(activity=discord.Game("カスタムprefixを実装"))
             await asyncio.sleep(10)
 
+    @staticmethod
+    def get_mined_block(uuid: str) -> int:
+        """整地鯖のapiからこれまでに掘ったブロック数を取得"""
+        resp = requests.get(f'https://w4.minecraftserver.jp/api/ranking/player/{uuid}?types=break')
+        data_json = json.loads(resp.text)
+        data = data_json[0]["data"]["raw_data"]
+        return int(data)
+
+    def get_shard_count(self, user: discord.User) -> int:
+        """ユーザとbotの共通のサーバーの数を取得"""
+        return sum(g.get_member(user.id) is not None for g in self.guilds)
+
 
 if __name__ == "__main__":
     bot = MyBot()
