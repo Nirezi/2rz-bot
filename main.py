@@ -112,15 +112,12 @@ class MyBot(commands.Bot):
                 await ctx.send(embed=embed)
 
         @self.check
-        async def check_blacklist(ctx):
-            return ctx.author.id not in self.blacklist.keys()
-
-    @staticmethod
-    def get_mined_block(uuid: str) -> int:
-        resp = requests.get(f'https://w4.minecraftserver.jp/api/ranking/player/{uuid}?types=break')
-        data_json = json.loads(resp.text)
-        data = data_json[0]["data"]["raw_data"]
-        return int(data)
+        async def checks(ctx):
+            if self.blacklist.is_key(ctx.author.id):
+                return False
+            elif not ctx.channel.permission_for(ctx.me).send_messages:
+                return False
+            return True
 
     async def on_ready(self):  # botが起動したら
         print(self.user.name)
