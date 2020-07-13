@@ -79,6 +79,11 @@ class SimpleCommands(commands.Cog):
                               description=f"[招待リンク]({self.bot.invite_url})")
         await ctx.send(embed=embed)
 
+    @commands.command()
+    async def ping(self, ctx):
+        """botが生きているか確認"""
+        await ctx.send("pong!")
+
 
 def setup(bot):
     bot.add_cog(SimpleCommands(bot))
