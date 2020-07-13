@@ -1,5 +1,4 @@
 import asyncio
-import json
 import os
 import sys
 from datetime import datetime
@@ -8,7 +7,6 @@ import re
 
 import discord
 import psycopg2
-import requests
 from discord.ext import commands, tasks
 from dotenv import load_dotenv
 import dropbox
@@ -43,9 +41,6 @@ class Loops(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.loop2.start()
-        self.loop3.start()
-        self.loop4.start()
-        self.data_upload.start()
 
     @tasks.loop(seconds=60)
     async def loop2(self):
@@ -60,11 +55,6 @@ class Loops(commands.Cog):
             data = cur.fetchone()
             await ch.send(f"```{data[0]}```")
 
-    @tasks.loop(seconds=60)
-    async def loop3(self):
-        hm = datetime.now().strftime("%H:%M")
-        client = self.bot
-        await client.wait_until_ready()
         if hm == "19:00":
             guild = client.get_guild(610309046851076121)
             role = discord.utils.get(guild.roles, id=665853511740948500)  # 新規
@@ -75,11 +65,7 @@ class Loops(commands.Cog):
             else:
                 await channel.send(f"{role.mention}\n{kazu}人の人がまだ<#630402461395451913>を読んでないみたいですね")
 
-    @tasks.loop(seconds=60)
-    async def loop4(self):
-        await self.bot.wait_until_ready()
-        hm = datetime.now().strftime("%H:%M")
-        if True:
+        if hm == "23:50":
             ch = self.bot.get_channel(706322916060692571)
             async for msg in ch.history():
                 if msg.author == self.bot.user:
@@ -113,10 +99,6 @@ class Loops(commands.Cog):
                 msg += f"{mcid}の整地量>>>{data}(前日比:{data_difference})\n"
                 await asyncio.sleep(2)
             await ch.send(msg)
-
-    @tasks.loop(seconds=60)
-    async def data_upload(self):
-        pass
 
 
 def setup(bot):
