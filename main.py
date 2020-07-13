@@ -143,7 +143,7 @@ class MyBot(commands.Bot):
         data = data_json[0]["data"]["raw_data"]
         return int(data)
 
-    def get_shard_count(self, user: discord.User) -> int:
+    def get_shared_count(self, user: discord.User) -> int:
         """ユーザとbotの共通のサーバーの数を取得"""
         return sum(g.get_member(user.id) is not None for g in self.guilds)
 
