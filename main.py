@@ -20,7 +20,7 @@ load_dotenv(dotenv_path)
 
 try:
     import tokens
-    token1 = tokens.token1
+    token1 = tokens.token2
     local = True
 except ModuleNotFoundError:
     token1 = os.environ["token1"]
@@ -115,7 +115,7 @@ class MyBot(commands.Bot):
         async def checks(ctx):
             if self.blacklist.is_key(ctx.author.id):
                 return False
-            elif not ctx.channel.permission_for(ctx.me).send_messages:
+            elif not ctx.channel.permissions_for(ctx.me).send_messages:
                 return False
             return True
 
