@@ -17,7 +17,7 @@ class BotJoinLeave(commands.Cog):
         await channel.send(msg)
 
         msg = f"{self.bot.user}を{guild.name}に導入していただきありがとうございます！！\n" \
-              f"{self.bot.get_user(self.bot.owner_id)}制作のbotです\n" \
+              f"{self.bot.get_user(544774774405201923)}制作のbotです\n" \
               f"ヘルプは/helpから確認してください\n"\
               "本botはcustom prefixに対応しています`/prefix change 新しいprefix`で設定できます" \
               "他のbotとprefixがかぶってしまう場合は是非ご利用ください(サーバ管理の権限が必要です)" \
