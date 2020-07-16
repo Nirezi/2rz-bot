@@ -45,7 +45,7 @@ class BotInfo(commands.Cog):
             embed.add_field(name="Create_at", value=created_at_JST.strftime("%Y %m/%d %H:%M(JST)"))
             embed.add_field(name="Guilds", value=f"{len(self.bot.guilds)}(Shared: {self.bot.get_shared_count(ctx.author)})")
             embed.add_field(name="Roles", value=bot_role)
-            embed.add_field(name="Channels", value=f"total:{text + voice}\ntext:{text}\nvoice{voice}")
+            embed.add_field(name="Channels", value=f"total:{text + voice}\ntext:{text}\nvoice:{voice}")
             embed.add_field(name="Users", value=str(len(list(self.bot.get_all_members()))))
 
         await ctx.send(embed=embed)
