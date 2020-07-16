@@ -80,41 +80,42 @@ class ManageHelp(commands.Cog):
                 await ctx.message.clear_reactions()
                 break
             else:
-                emoji = str(react.emoji)
-                await msg.remove_reaction(emoji, user)
-                if emoji in num_list:  # 数字のリアクションが付いたら
-                    embed = page_setup(page)
-                    num = 5 * page - 5 + react_list.index(emoji)
-                    if num > help_count:
-                        await ctx.send("範囲外のリアクションが押されました", delete_after=3.0)
-                        continue
-                    embed.add_field(
-                        name="Info",
-                        value=hyojun_help[num]["info"])
-                    if hyojun_help[num]["image"] == "None":  # コマンドの画像を追加
-                        embed.set_image(url=no_img)
-                    else:
-                        embed.set_image(url=hyojun_help[num]["image"])
-
-                    await msg.edit(embed=embed)
-
-                if emoji == u"\u25C0" or emoji == u"\u25B6":  # 進むか戻るリアクションだったら
-                    if emoji == u"\u25C0":  # 戻るリアクションだったら
-                        if page == 1:
-                            page = max_page
+                try:
+                    emoji = str(react.emoji)
+                    await msg.remove_reaction(emoji, user)
+                    if emoji in num_list:  # 数字のリアクションが付いたら
+                        embed = page_setup(page)
+                        num = 5 * page - 5 + react_list.index(emoji)
+                        embed.add_field(
+                            name="Info",
+                            value=hyojun_help[num]["info"])
+                        if hyojun_help[num]["image"] == "None":  # コマンドの画像を追加
+                            embed.set_image(url=no_img)
                         else:
-                            page -= 1
+                            embed.set_image(url=hyojun_help[num]["image"])
 
-                    if emoji == u"\u25B6":  # 進むリアクションだったら
-                        if page == max_page:
-                            page = 1
-                        else:
-                            page += 1
+                        await msg.edit(embed=embed)
 
-                    await msg.edit(embed=page_setup(page))
+                    if emoji == u"\u25C0" or emoji == u"\u25B6":  # 進むか戻るリアクションだったら
+                        if emoji == u"\u25C0":  # 戻るリアクションだったら
+                            if page == 1:
+                                page = max_page
+                            else:
+                                page -= 1
 
-                if emoji == "\N{BLACK SQUARE FOR STOP}\N{VARIATION SELECTOR-16}":  # 削除のリアクションだったら
-                    await msg.delete()
+                        if emoji == u"\u25B6":  # 進むリアクションだったら
+                            if page == max_page:
+                                page = 1
+                            else:
+                                page += 1
+
+                        await msg.edit(embed=page_setup(page))
+
+                    if emoji == "\N{BLACK SQUARE FOR STOP}\N{VARIATION SELECTOR-16}":  # 削除のリアクションだったら
+                        await msg.delete()
+                except IndexError:
+                    await ctx.send("範囲外のリアクションが押されました", delete_after=3.0)
+                    continue
 
 
 def setup(bot):
