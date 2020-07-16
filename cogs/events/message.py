@@ -29,10 +29,6 @@ class Message(commands.Cog):
         mcs = message.channel.send
         client = self.bot
 
-        if message.channel.id == 666202941455335424:  # デバック鯖での機能
-            await mcs(f"<#{message.content}>")
-            await message.delete()
-
         if client.user in message.mentions:  # メンションの感知
             if message.guild is None:
                 prefix = "/"
