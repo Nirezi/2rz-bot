@@ -82,7 +82,7 @@ class ManageHelp(commands.Cog):
             else:
                 emoji = str(react.emoji)
                 await msg.remove_reaction(emoji, user)
-                if emoji in react_list[:5]:  # 数字のリアクションが付いたら
+                if emoji in num_list:  # 数字のリアクションが付いたら
                     embed = page_setup(page)
                     num = 5 * page - 5 + react_list.index(emoji)
                     if num > help_count:
