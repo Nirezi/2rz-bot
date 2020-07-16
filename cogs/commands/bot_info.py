@@ -29,6 +29,14 @@ class BotInfo(commands.Cog):
                     elif isinstance(ch, discord.VoiceChannel):
                         voice += 1
 
+            bot = 0
+            user = 0
+            for m in self.bot.get_all_members():
+                if m.bot:
+                    bot += 1
+                else:
+                    user += 1
+
             created_at_JST = self.bot.user.created_at + datetime.timedelta(hours=9)
 
             owner = self.bot.get_user(544774774405201923)
@@ -46,7 +54,7 @@ class BotInfo(commands.Cog):
             embed.add_field(name="Guilds", value=f"{len(self.bot.guilds)}(Shared: {self.bot.get_shared_count(ctx.author)})")
             embed.add_field(name="Roles", value=bot_role)
             embed.add_field(name="Channels", value=f"total:{text + voice}\ntext:{text}\nvoice:{voice}")
-            embed.add_field(name="Users", value=str(len(list(self.bot.get_all_members()))))
+            embed.add_field(name="Users", value=f"total:{user + bot}\nuser:{user}\nbot:{bot}")
 
         await ctx.send(embed=embed)
 
