@@ -42,6 +42,7 @@ class Loops(commands.Cog):
         self.bot = bot
         self.status_num = 0
         self.loop2.start()
+        self.change_stauts.start()
 
     @tasks.loop(seconds=60)
     async def loop2(self):
@@ -105,7 +106,7 @@ class Loops(commands.Cog):
     async def change_stauts(self):
         await self.bot.wait_until_ready()
         if self.status_num == 0:
-            await self.bot(activity=discord.Game(f"{len(list(self.bot.get_all_members()))}人を監視中"))
+            await self.bot.change_presence(activity=discord.Game(f"{len(list(self.bot.get_all_members()))}人を監視中"))
             self.status_num += 1
         elif self.status_num == 1:
             await self.bot.change_presence(activity=discord.Game(f"{len(self.bot.guilds)}サーバー"))
