@@ -103,6 +103,7 @@ class Loops(commands.Cog):
 
     @tasks.loop(minutes=3)
     async def change_stauts(self):
+        await self.bot.wait_until_ready()
         if self.status_num == 0:
             await self.bot(activity=discord.Game(f"{len(list(self.bot.get_all_members()))}人を監視中"))
             self.status_num += 1
