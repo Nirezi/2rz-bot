@@ -40,6 +40,7 @@ load_dotenv(dotenv_path)
 class Loops(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.status_num = 0
         self.loop2.start()
 
     @tasks.loop(seconds=60)
@@ -99,6 +100,18 @@ class Loops(commands.Cog):
                 msg += f"{mcid}の整地量>>>{data}(前日比:{data_difference})\n"
                 await asyncio.sleep(2)
             await ch.send(msg)
+
+    @tasks.loop(minutes=3)
+    async def change_stauts(self):
+        if self.status_num == 0:
+            await self.bot(activity=discord.Game(f"{len(list(self.bot.get_all_members()))}人を監視中"))
+            self.status_num += 1
+        elif self.status_num == 1:
+            await self.bot.change_presence(activity=discord.Game(f"{len(self.bot.guilds)}サーバー"))
+            self.status_num += 1
+        else:
+            await self.bot.change_presence(activity=discord.Game("カスタムprefixを実装"))
+            self.status_num = 0
 
 
 def setup(bot):

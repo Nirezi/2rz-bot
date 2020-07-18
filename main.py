@@ -125,16 +125,6 @@ class MyBot(commands.Bot):
         print(discord.__version__)
         print("--------")
 
-        while not self.is_closed():
-            count = len(list(self.get_all_members()))
-            await self.change_presence(activity=discord.Game(f"{count}人を監視中"))
-            await asyncio.sleep(10)
-            guild_count = str(len(self.guilds))
-            await self.change_presence(activity=discord.Game(f"{guild_count}サーバー"))
-            await asyncio.sleep(10)
-            await self.change_presence(activity=discord.Game("カスタムprefixを実装"))
-            await asyncio.sleep(10)
-
     @staticmethod
     def get_mined_block(uuid: str) -> int:
         """整地鯖のapiからこれまでに掘ったブロック数を取得"""
