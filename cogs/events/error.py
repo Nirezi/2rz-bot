@@ -18,6 +18,8 @@ class Error(commands.Cog):
             await ctx.send(f"{error.missing_perms}の権限がありません")
         elif isinstance(error, commands.BotMissingPermissions):
             await ctx.send(f'**botに{error.missing_perms}の権限がありません**\nサーバ管理者まで問い合わせてください')
+        elif isinstance(error, discord.errors.NotFound):
+            await ctx.send("おおっと？メッセージが削除されたみたいですね？もう一度試してみてください。")
         elif isinstance(error, commands.CommandInvokeError):
             msg = f'引数などが正しいか確認してみてください。\nコマンドが正しいにも関わらずエラーが発生する場合msg_idとともに公式サーバまでお問い合わせください\n' \
                   f'エラー内容 ＊bot開発者向け\n{error}' \
@@ -31,7 +33,7 @@ class Error(commands.Cog):
             error_msg = ''.join(traceback.TracebackException.from_exception(orig_error).format())
             channel = client.get_channel(639121643901288500)
             embed = discord.Embed(title='Error_log', description=error_msg, color=0xf04747)
-            embed.set_footer(text=f'channel:{ctx.channel}\ntime:{time}')
+            embed.set_footer(text=f'channel:{ctx.channel}({ctx.channel.id})\ntime:{time}')
             await channel.send(f"<@544774774405201923>エラーが発生しました \nmsg_id: {ctx.message.id}", embed=embed)
 
 
