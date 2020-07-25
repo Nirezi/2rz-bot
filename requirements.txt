@@ -6,6 +6,6 @@ psycopg2
 selenium==3.141.0
 chromedriver-binary==84.0.4147.30.0
 python-dotenv
-
 urllib3
 beautifulsoup4
+dropbox
