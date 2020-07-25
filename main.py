@@ -68,7 +68,7 @@ class MyBot(commands.Bot):
         self.settings = Config('settings.json')
 
         if not local:
-            path = "/home/user/2rezi-bot"
+            path = "/home/user/2rz-bot"
         else:
             path = "."
 
