@@ -8,15 +8,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: run deploy script
-      env:
-        private-key: ${{ secrets.SSH_KEY }} # 必須
-        public-key: ${{ secrets.SSH_KEY_PUBLIC }} # 必須
-        user: ${{ secrets.USER }}
-        port: ${{ secrets.PORT }}
-        host: ${{ secrets.HOST }}
-        name: id_rsa # 省略可
-        known-hosts: ${{ secrets.KNOWN_HOSTS }} # 省略可
-        run:
-          echo "$private-key" > secret_key
-          chmod 600 secret_key
-          ssh -i secret_key -p ${port} ${user}@${host} "bash deploy.sh"
+    env:
+      private-key: ${{ secrets.SSH_KEY }} # 必須
+      public-key: ${{ secrets.SSH_KEY_PUBLIC }} # 必須
+      user: ${{ secrets.USER }}
+      port: ${{ secrets.PORT }}
+      host: ${{ secrets.HOST }}
+      name: id_rsa # 省略可
+      known-hosts: ${{ secrets.KNOWN_HOSTS }} # 省略可
+      run:
+        echo "$private-key" > secret_key
+        chmod 600 secret_key
+        ssh -i secret_key -p ${port} ${user}@${host} "bash deploy.sh"
