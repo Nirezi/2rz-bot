@@ -13,10 +13,6 @@ class MemberRem(commands.Cog):
             msg = f"{member}さん、さようなら、、、:sob:"
             await channel.send(msg)
 
-        if member.guild.id == 562820886323789835:
-            channel = client.get_channel(721569289613869117)
-            await channel.send(f"{member}が退出しました")
-
         if member.guild.id == 675314750783094806:
             ch = client.get_channel(675346242762702848)
             await ch.send(f"{member}が退出しました")
