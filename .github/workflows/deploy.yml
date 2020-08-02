@@ -7,16 +7,16 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: run deploy script
-      env:
+    - name: Install SSH key
+      uses: shimataro/ssh-key-action@v1
+      with: # shimataro/ssh-key-actionに渡すパラメーター
         private-key: ${{ secrets.SSH_KEY }} # 必須
         public-key: ${{ secrets.SSH_KEY_PUBLIC }} # 必須
-        user: ${{ secrets.USER }}
+        known-hosts: ${{ secrets.KNOWN_HOSTS }} # 省略可
+    - name: run deploy script
+      env:
         port: ${{ secrets.PORT }}
         host: ${{ secrets.HOST }}
-        name: id_rsa # 省略可
-        known-hosts: ${{ secrets.KNOWN_HOSTS }} # 省略可
+        owner:  ${{ secrets.OWNER }}
       run:
-        echo "$private-key" > secret_key
-        chmod 600 secret_key
-        ssh -i secret_key -p ${port} ${user}@${host} "cd /home/user/2rz-bot && bash deploy.sh"
+        ssh -i .ssh/id_rsa -p ${port} ${owner}@${host} "cd /home/${owner}/2rz-bot && git pull origin master && sudo systemctl restart bot"
