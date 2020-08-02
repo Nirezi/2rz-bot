@@ -13,7 +13,7 @@ class weather(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="weather")
+    @commands.command(name="weather", enabled=False)
     async def _weather(self, ctx, titen):
         if titen in citycodes_dic.keys():
             citycode = citycodes_dic[titen]
