@@ -42,6 +42,7 @@ class Loops(commands.Cog):
         self.bot = bot
         self.status_num = 0
         self.loop2.start()
+        self.check_seichi.start()
         self.change_status.start()
 
     @tasks.loop(seconds=60)
@@ -57,6 +58,9 @@ class Loops(commands.Cog):
             data = cur.fetchone()
             await ch.send(f"```{data[0]}```")
 
+    @tasks.loop(seconds=60)
+    async def check_seichi(self):
+        hm = datetime.now().strftime("%H:%M")
         if hm == "23:50":
             ch = self.bot.get_channel(706322916060692571)
             async for msg in ch.history():
