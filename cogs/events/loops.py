@@ -60,6 +60,7 @@ class Loops(commands.Cog):
 
     @tasks.loop(seconds=60)
     async def check_seichi(self):
+        await self.bot.wait_until_ready()
         hm = datetime.now().strftime("%H:%M")
         if hm == "23:50":
             ch = self.bot.get_channel(706322916060692571)
