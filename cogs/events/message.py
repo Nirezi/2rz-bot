@@ -1,11 +1,7 @@
-import asyncio
+import re
 
 import discord
 from discord.ext import commands  # Bot Commands Frameworkのインポート
-
-from def_list import quote
-
-# from datetime import datetime
 
 
 class Message(commands.Cog):
@@ -37,10 +33,10 @@ class Message(commands.Cog):
             msg = f"{mention}呼んだ？\nヘルプは {prefix}helpです。"
             await mcs(msg)
 
-        if "https://discordapp.com/channels/" in message.content and "@" not in message.content:
+        if re.findall(r"https://(?:ptb.|canary.)?discord(?:app)?.com/channels/[0-9]+/[0-9]+/[0-9]+", message.content) and ("@" not in message.content):
             if str(message.guild.id) in self.bot.settings.keys('not_quote'):
                 return
-            await quote(message, client)
+            await self.bot.quote(message)
 
 
 def setup(bot):

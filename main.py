@@ -1,7 +1,7 @@
 # coding: utf-8
-import asyncio
 import json
 import os
+import re
 import traceback
 from os.path import dirname, join
 import random
@@ -66,6 +66,8 @@ class MyBot(commands.Bot):
 
         # setting: guild_id: True
         self.settings = Config('settings.json')
+
+        self.birthday = Config('birthday.json')
 
         if not local:
             path = "/home/user/2rz-bot"
@@ -137,8 +139,67 @@ class MyBot(commands.Bot):
         """ユーザとbotの共通のサーバーの数を取得"""
         return sum(g.get_member(user.id) is not None for g in self.guilds)
 
+    async def quote(self, message):
+        try:
+            for url in re.findall(r"https://(?:ptb.|canary.)?discord(?:app)?.com/channels/[0-9]+/[0-9]+/[0-9]+", message.content):
+                guild_id, channel_id, message_id = map(int, url.split("/")[-3:])
+                guild = self.get_guild(guild_id)
+                ch = guild.get_channel(channel_id)
+                if ch is None:
+                    return
+                msg = await ch.fetch_message(message_id)
+
+                def quote_reaction(msg, embed):
+                    if msg.reactions:
+                        reaction_send = ''
+                        for reaction in msg.reactions:
+                            emoji = reaction.emoji
+                            count = str(reaction.count)
+                            reaction_send = f'{reaction_send}{emoji}{count} '
+                        embed.add_field(
+                            name='reaction', value=reaction_send, inline=False)
+                    return embed
+
+                if msg.embeds or msg.content or msg.attachments:
+                    embed = discord.Embed(
+                        description=msg.content,
+                        timestamp=msg.created_at)
+                    embed.set_author(
+                        name=msg.author, icon_url=msg.author.avatar_url)
+                    embed.set_footer(
+                        text=msg.channel.name,
+                        icon_url=msg.guild.icon_url)
+                    if msg.attachments:
+                        embed.set_image(url=msg.attachments[0].url)
+                    embed = quote_reaction(msg, embed)
+                    if msg.content or msg.attachments:
+                        await message.channel.send(embed=embed)
+                    if len(msg.attachments) >= 2:
+                        for attachment in msg.attachments[1:]:
+                            embed = discord.Embed().set_image(url=attachment.url)
+                            await message.channel.send(embed=embed)
+                    for embed in msg.embeds:
+                        embed = quote_reaction(msg, embed)
+                        await message.channel.send(embed=embed)
+                elif msg.system_content:
+                    embed = discord.Embed(
+                        description=f"{msg.system_content}\n\n:warning:これはシステムメッセージです。",
+                        timestamp=msg.created_at)
+                    embed.set_author(
+                        name=msg.author, icon_url=msg.author.avatar_url)
+                    embed.set_footer(
+                        text=msg.channel.name,
+                        icon_url=msg.guild.icon_url)
+                    embed = quote_reaction(msg, embed)
+                    await message.channel.send(embed=embed)
+                else:
+                    await message.channel.send('メッセージIDは存在しますが、内容がありません')
+        except discord.errors.NotFound:
+            await message.channel.send("指定したメッセージが見つかりません")
+        except ValueError as e:
+            raise commands.CommandInvokeError(e)
+
 
 if __name__ == "__main__":
     bot = MyBot()
     bot.run(token1)
-

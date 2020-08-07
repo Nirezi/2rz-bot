@@ -29,63 +29,6 @@ cur = db.cursor()
 client = discord.Client()
 
 
-async def quote(message, client):
-    mcs = message.channel.send
-    guilds = [guild.id for guild in client.guilds]
-    try:
-        for url in message.content.split('https://discordapp.com/channels/')[1:]:
-            guild_id = int(url[0:18])
-            if guild_id in guilds:
-                try:
-                    guild_id = int(url[0:18])
-                    channel_id = int(url[19:37])
-                    message_id = int(url[38:56])
-                    guild = client.get_guild(guild_id)
-                    ch = guild.get_channel(int(channel_id))
-                    msg = await ch.fetch_message(int(message_id))
-
-                    def quote_reaction(msg, embed):
-                        if msg.reactions:
-                            reaction_send = ''
-                            for reaction in msg.reactions:
-                                emoji = reaction.emoji
-                                count = str(reaction.count)
-                                reaction_send = f'{reaction_send}{emoji}{count} '
-                            embed.add_field(
-                                name='reaction', value=reaction_send, inline=False)
-                        return embed
-
-                    if msg.embeds or msg.content or msg.attachments:
-                        embed = Embed(
-                            description=msg.content,
-                            timestamp=msg.created_at)
-                        embed.set_author(
-                            name=msg.author, icon_url=msg.author.avatar_url)
-                        embed.set_footer(
-                            text=msg.channel.name,
-                            icon_url=msg.guild.icon_url)
-                        if msg.attachments:
-                            embed.set_image(url=msg.attachments[0].url)
-                        embed = quote_reaction(msg, embed)
-                        if msg.content or msg.attachments:
-                            await message.channel.send(embed=embed)
-                        if len(msg.attachments) >= 2:
-                            for attachment in msg.attachments[1:]:
-                                embed = Embed().set_image(url=attachment.url)
-                                await message.channel.send(embed=embed)
-                        for embed in msg.embeds:
-                            embed = quote_reaction(msg, embed)
-                            await message.channel.send(embed=embed)
-                    else:
-                        await message.channel.send('メッセージIDは存在しますが、内容がありません')
-                except discord.errors.NotFound:
-                    await message.channel.send("指定したメッセージが見つかりません")
-            else:
-                await mcs("この機能は、このbotがいるサーバーのメッセージにのみ使えます")
-    except ValueError:
-        pass
-
-
 async def mcidcheck(message, log_channel_id, client, role1, role2=None):
     mcid = message.content.replace('\\', '')
     p = re.compile(r'^[a-zA-Z0-9_]+$')
