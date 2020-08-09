@@ -8,6 +8,7 @@ host = os.environ["Host"]
 port = os.environ["Port"]
 user = os.environ["User"]
 Key = "~/.ssh/id_rsa"
+SSH.load_host_keys(r"~\.ssh\known_hosts")
 
 
 class Iroha(commands.Cog):
@@ -16,7 +17,14 @@ class Iroha(commands.Cog):
         SSH.connect(host, int(port), user, key_filename=Key)
 
     def cog_check(self, ctx):
-        return ctx.author.guild_permissions.administrator
+        if ctx.guild is None:
+            return False
+        #elif ctx.guild.id != 604945424922574848:
+        #    return False
+        elif ctx.author.guild_permissions.administrator:
+            return True
+        else:
+            return False
 
     @commands.command(aliases=["boot"])
     async def start(self, ctx):
