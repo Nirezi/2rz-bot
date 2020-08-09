@@ -19,8 +19,8 @@ class Iroha(commands.Cog):
     def cog_check(self, ctx):
         if ctx.guild is None:
             return False
-        #elif ctx.guild.id != 604945424922574848:
-        #    return False
+        elif ctx.guild.id != 604945424922574848:
+            return False
         elif ctx.author.guild_permissions.administrator:
             return True
         else:
