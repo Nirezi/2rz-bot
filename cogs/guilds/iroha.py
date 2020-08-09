@@ -8,7 +8,7 @@ host = os.environ["Host"]
 port = os.environ["Port"]
 user = os.environ["User"]
 Key = "~/.ssh/id_rsa"
-SSH.load_host_keys(f"/home/{user}/known_hosts")
+SSH.load_host_keys(f"/home/{user}/.ssh/known_hosts")
 
 
 class Iroha(commands.Cog):
