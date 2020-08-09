@@ -7,7 +7,7 @@ SSH = paramiko.SSHClient()
 host = os.environ["Host"]
 port = os.environ["Port"]
 user = os.environ["User"]
-Key = "~/.ssh/id_rsa"
+Key = f"/home/{user}/.ssh/id_rsa"
 SSH.load_host_keys(f"/home/{user}/.ssh/known_hosts")
 
 
