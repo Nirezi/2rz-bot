@@ -72,8 +72,5 @@ class Voice(commands.Cog):
                 return await ctx.send("指定されたチャンネルはボイスチャンネルではありません。名前、idが間違っていないか確かめてください")
 
 
-
-
-
 def setup(bot):
     bot.add_cog(Voice(bot))
