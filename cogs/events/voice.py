@@ -25,7 +25,7 @@ class Voice(commands.Cog):
                 if before.channel.id not in ch_dic.keys():
                     return
                 ch = self.bot.get_channel(ch_dic[before.channel.id])
-                await ch.send(f"{member}が{before.channel}にから離脱しました")
+                await ch.send(f"{member}が{before.channel}から離脱しました")
 
     @commands.has_permissions(manage_guild=True)
     @commands.group(invoke_without_command=True)
