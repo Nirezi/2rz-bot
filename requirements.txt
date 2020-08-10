@@ -9,3 +9,4 @@ python-dotenv
 urllib3
 beautifulsoup4
 dropbox
+paramiko
