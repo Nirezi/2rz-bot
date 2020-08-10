@@ -27,7 +27,7 @@ class Nirezi(commands.Cog):
 
         if message.author.bot:  # botのメッセージなら無視する
             return
-        
+
         if isinstance(message.channel, discord.DMChannel):
             return
 
@@ -84,7 +84,7 @@ class Nirezi(commands.Cog):
                                 color=0xff0000)
                             await message.channel.send(embed=embed)
                     except requests.exceptions.HTTPError:
-                        await message.channel.send(f'requests.exceptions.HTTPError')
+                        await message.channel.send('requests.exceptions.HTTPError')
                 else:
                     embed = discord.Embed(
                         description="MCIDに使用できない文字が含まれています'\n続けて間違った入力を行うと規定によりBANの対象になることがあります。",

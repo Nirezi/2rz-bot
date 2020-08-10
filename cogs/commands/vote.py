@@ -9,10 +9,10 @@ class Vote(commands.Cog):
     @commands.command(name="vote")
     async def _vote(self, ctx, title, *kouho):
         count = len(kouho)
-        
+
         if count == 1:
             react_list = [u"\u2B55", u"\u274C"]
-        
+
         elif 2 <= count <= 9:
             react_list = [
                 "\N{DIGIT ONE}\N{COMBINING ENCLOSING KEYCAP}",

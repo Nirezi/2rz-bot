@@ -1,11 +1,5 @@
 from discord.ext import commands
 
-try:
-    import tokens
-    local = True
-except ModuleNotFoundError:
-    local = False
-
 
 class Prefix(commands.Cog):
     def __init__(self, bot):

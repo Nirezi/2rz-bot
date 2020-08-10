@@ -19,7 +19,7 @@ class shiba_msg(commands.Cog):
         """しばさんのサーバでのメッセージ"""
         if message.author.bot:  # botのメッセージなら無視する
             return
-        
+
         if isinstance(message.channel, discord.DMChannel):
             return
 
@@ -40,7 +40,7 @@ class shiba_msg(commands.Cog):
         if server == 615394790669811732 or server == 628182826914676758:  # たこ柴
             if message.channel.id == 615396581407064065:
                 await mcidcheck(message, 648163940995432478, client, mcid_role)
-        
+
             if message.content == "/join":  # role付与
                 if message.channel.id == 635599651172646933:  # スタジオ
                     if discord.utils.get(message.author.roles, id=632870134561636352):  # 企画参加者を持っているか
@@ -203,7 +203,7 @@ async def mcidcheck(message, log_channel_id, client, role1, role2=None):
                                                 続けて間違った入力を行うと規定によりBANの対象になることがあります。', color=0xff0000)
                 await message.channel.send(embed=embed)
         except requests.exceptions.HTTPError:
-            await message.channel.send(f'requests.exceptions.HTTPError')
+            await message.channel.send('requests.exceptions.HTTPError')
     else:
         embed = discord.Embed(
             description=f"{message.author}さん。\nMCIDに使用できない文字が含まれています'\n続けて間違った入力を行うと規定によりBANの対象になることがあります。",

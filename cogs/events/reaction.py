@@ -11,7 +11,6 @@ class Reaction(commands.Cog):
         guild = self.bot.get_guild(payload.guild_id)
         member = guild.get_member(payload.user_id)
         channel = self.bot.get_channel(payload.channel_id)
-        msg = await channel.fetch_message(payload.message_id)
 
         if payload.message_id == 715522131760513096:
             role = discord.utils.get(guild.roles, id=715522634775003137)
@@ -19,7 +18,6 @@ class Reaction(commands.Cog):
 
         if payload.message_id == 717281211172651108:
             reaction = str(payload.emoji)
-            # await msg.remove_reaction(reaction, member)
             react_list = [
                 "\N{REGIONAL INDICATOR SYMBOL LETTER M}",
                 "\N{REGIONAL INDICATOR SYMBOL LETTER E}",

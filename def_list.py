@@ -8,7 +8,6 @@ import bs4
 import discord
 import psycopg2
 import requests
-from discord import Embed
 from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
@@ -73,7 +72,7 @@ async def mcidcheck(message, log_channel_id, client, role1, role2=None):
                                                 続けて間違った入力を行うと規定によりBANの対象になることがあります。', color=0xff0000)
                 await message.channel.send(embed=embed)
         except requests.exceptions.HTTPError:
-            await message.channel.send(f'requests.exceptions.HTTPError')
+            await message.channel.send('requests.exceptions.HTTPError')
     else:
         embed = discord.Embed(
             description=f"{message.author}さん。\nMCIDに使用できない文字が含まれています'\n続けて間違った入力を行うと規定によりBANの対象になることがあります。",

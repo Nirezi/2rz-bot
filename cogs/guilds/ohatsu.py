@@ -17,7 +17,7 @@ class ohatsu_msg(commands.Cog):
 
         if isinstance(message.channel, discord.DMChannel):
             return
-        
+
         if message.guild.id == 612401848787140656:  # 082
             if message.channel.id == 622737485721763842:  # コマンド用
                 list = ["/build", "/ohatsu", "/mine"]  # 役職のlist
