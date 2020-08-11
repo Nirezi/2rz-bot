@@ -30,7 +30,7 @@ class Iroha(commands.Cog):
 
     @commands.command(aliases=["boot"])
     async def start(self, ctx):
-        stdin, stdout, stderr = self.loop.run_in_executor(None, SSH.exec_command, "screen -ls | grep minecraft")
+        stdin, stdout, stderr = await self.loop.run_in_executor(None, SSH.exec_command, "screen -ls | grep minecraft")
         if stdin:
             return await ctx.send("Server is already running!")
         await ctx.send("Starting minecraft server,,")
@@ -38,7 +38,7 @@ class Iroha(commands.Cog):
 
     @commands.command(aliases=["kill"])
     async def stop(self, ctx):
-        stdin, stdout, stderr = self.loop.run_in_executor(None, SSH.exec_command, "screen -ls | grep minecraft")
+        stdin, stdout, stderr = await self.loop.run_in_executor(None, SSH.exec_command, "screen -ls | grep minecraft")
         if not stdin:
             return await ctx.send("Server isn't running yet!")
         await ctx.send("Stopping minecraft server,,")
@@ -46,7 +46,7 @@ class Iroha(commands.Cog):
 
     @commands.command(aliases=["reboot"])
     async def restart(self, ctx):
-        stdin, stdout, stderr = self.loop.run_in_executor(None, SSH.exec_command, "screen -ls | grep minecraft")
+        stdin, stdout, stderr = await self.loop.run_in_executor(None, SSH.exec_command, "screen -ls | grep minecraft")
         if not stdin:
             return await ctx.send("Server isn't running yet!")
         ch = self.bot.get_channel(739270726036488272)
@@ -56,7 +56,7 @@ class Iroha(commands.Cog):
 
     @commands.command(name="eval")
     async def _eval(self, ctx, *, command):
-        self.loop.run_in_executor(SSH.exec_command(f"screen -r -X eval 'stuff \"{command}\"\\015'"))
+        await self.loop.run_in_executor(SSH.exec_command(f"screen -r -X eval 'stuff \"{command}\"\\015'"))
         await ctx.send(f"Command {command} has done by {ctx.author.name}")
 
 
