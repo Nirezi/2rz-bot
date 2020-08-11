@@ -42,7 +42,7 @@ class Loops(commands.Cog):
         self.bot = bot
         self.status_num = 0
         self.loop2.start()
-        # self.check_seichi.start()
+        self.check_seichi.start()
         self.change_status.start()
 
     @tasks.loop(seconds=60)
