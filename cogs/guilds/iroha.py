@@ -56,7 +56,7 @@ class Iroha(commands.Cog):
 
     @commands.command(name="eval")
     async def _eval(self, ctx, *, command):
-        self.loop.run_until_complete(SSH.exec_command(f"screen -r -X eval 'stuff \"{command}\"\\015'"))
+        self.loop.run_in_executor(SSH.exec_command(f"screen -r -X eval 'stuff \"{command}\"\\015'"))
         await ctx.send(f"Command {command} has done by {ctx.author.name}")
 
 
