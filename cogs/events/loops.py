@@ -11,8 +11,6 @@ from discord.ext import commands, tasks
 from dotenv import load_dotenv
 import dropbox
 
-from def_list import data_upload
-
 sys.path.append("../")
 
 try:
@@ -41,22 +39,8 @@ class Loops(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.status_num = 0
-        self.loop2.start()
         self.check_seichi.start()
         self.change_status.start()
-
-    @tasks.loop(seconds=60)
-    async def loop2(self):
-        client = self.bot
-        await client.wait_until_ready()
-        hm = datetime.now().strftime("%H:%M")
-        if hm == "23:58":
-            await data_upload(self)
-            await asyncio.sleep(5)
-            cur.execute("SELECT ranking_data FROM daily_ranking ORDER BY date DESC;")
-            ch = self.bot.get_channel(698486078503649280)
-            data = cur.fetchone()
-            await ch.send(f"```{data[0]}```")
 
     @tasks.loop(seconds=60)
     async def check_seichi(self):
