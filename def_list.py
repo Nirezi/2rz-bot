@@ -96,38 +96,3 @@ async def wait_for_react(bot, ctx, msg, embed2):
     while not bot.is_closed():
         reaction, user = await bot.wait_for("reaction_add", check=check)
         await msg.edit(embed=embed2)
-
-
-async def data_upload(self):
-    options = webdriver.ChromeOptions()
-    option = ["--disable-gpu", '--headless', '--log-level=3', '--no-sandbox']
-    for op in option:
-        options.add_argument(op)
-    ch = self.bot.get_channel(646010668134170645)
-    if not self.bot.local:
-        driver = webdriver.Chrome(executable_path=r"/home/user/2rz-bot/chromedriver", options=options)
-
-    for i in range(3):
-        driver.get(
-            "https://w4.minecraftserver.jp/#page=1&type=break&duration=daily")
-        WebDriverWait(
-            driver, 20).until(
-            ec.presence_of_all_elements_located)
-        source_html = driver.find_elements_by_xpath(
-            '//*[@id="ranking-container"]/div/div/table/tbody')
-
-        if len(source_html) != 0:
-            data = source_html[0]
-            break
-        else:
-            await asyncio.sleep(5)
-
-    if len(data.text) == 0:
-        await ch.send("return")
-        return
-    cur.execute("SELECT date FROM daily_ranking ORDER BY date DESC;")
-    cur.execute("DELETE FROM daily_ranking WHERE date = %s", (cur.fetchone()[0],))
-    cur.execute("INSERT INTO daily_ranking values (%s, %s)",
-                (datetime.now(), data.text))
-    db.commit()
-    driver.close()
