@@ -1,7 +1,8 @@
-from discord.ext import commands
+from discord.ext import commands, tasks
 import paramiko
 import os
 import asyncio
+from datetime import datetime
 
 SSH = paramiko.SSHClient()
 
@@ -16,6 +17,7 @@ class Iroha(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.loop = asyncio.get_event_loop()
+        self.reboot.sart()
         SSH.connect(host, int(port), user, key_filename=Key)
 
     def cog_check(self, ctx):
@@ -58,6 +60,15 @@ class Iroha(commands.Cog):
     async def _eval(self, ctx, *, command):
         await self.loop.run_in_executor(SSH.exec_command(f"screen -r -X eval 'stuff \"{command}\"\\015'"))
         await ctx.send(f"Command {command} has done by {ctx.author.name}")
+
+    @tasks.loop(minutes=1)
+    async def reboot(self):
+        hm = datetime.now().strftime("%H:%M")
+        if hm == "22:00" or hm == "6:00":
+            ch = self.bot.get_channel(739270726036488272)
+            await ch.send(":warning:Warning!10秒後にサーバーが再起動するよ！")
+            await asyncio.sleep(10)
+            self.loop.run_in_executor(None, SSH.exec_command, "cd ~/Minecraft && bash restart.sh")
 
 
 def setup(bot):
