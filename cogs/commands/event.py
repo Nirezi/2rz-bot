@@ -9,7 +9,7 @@ class Event(commands.Cog):
     def cog_check(self, ctx):
         if ctx.guild is None:
             return False
-        elif ctx.guld.id == 621326525521723414:
+        elif ctx.guild.id == 621326525521723414:
             return True
         else:
             return False
