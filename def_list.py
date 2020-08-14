@@ -1,16 +1,11 @@
-import asyncio
 import os
 import random
 import re
-from datetime import datetime
 
 import bs4
 import discord
 import psycopg2
 import requests
-from selenium import webdriver
-from selenium.webdriver.support import expected_conditions as ec
-from selenium.webdriver.support.ui import WebDriverWait
 
 try:
     import tokens
@@ -94,5 +89,5 @@ async def wait_for_react(bot, ctx, msg, embed2):
                 return emoji, user
 
     while not bot.is_closed():
-        reaction, user = await bot.wait_for("reaction_add", check=check)
+        await bot.wait_for("reaction_add", check=check)
         await msg.edit(embed=embed2)
