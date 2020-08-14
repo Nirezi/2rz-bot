@@ -171,6 +171,7 @@ class Nirezi(commands.Cog):
 
                 msg = await client.wait_for("message", check=check)
                 await mcs("hello!")
+            await self.bot.process_commands(message)
 
 
 def setup(bot):
