@@ -17,7 +17,7 @@ class Iroha(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.loop = asyncio.get_event_loop()
-        self.reboot.sart()
+        self.reboot.start()
         SSH.connect(host, int(port), user, key_filename=Key)
 
     def cog_check(self, ctx):
