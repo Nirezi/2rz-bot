@@ -24,9 +24,9 @@ class Nirezi(commands.Cog):
         else:
             return False
 
-    @commands.command()
+    @commands.command(name="join")
     @commands.has_role(672006791474708490)
-    async def join(self, ctx):
+    async def _join(self, ctx):
         role = discord.utils.get(ctx.guild.roles, id=629828134820380682)
         if role in ctx.author.roles:
             return await ctx.send("(´・ω・｀)もう参加してるじゃん")
@@ -135,8 +135,6 @@ class Nirezi(commands.Cog):
                     role = discord.utils.get(message.guild.roles, id=621329653763932160)
                     await message.author.add_roles(role)
                     await mcs(f"{mention}役職を付与しました")
-                else:
-                    await mcs("ここで実行しないでください！！")
 
             if "discord.gg" in message.content:
                 list = [621326525521723418, 621334345579364372, 621330415348613160, 621330763089969152, 649193418492215306]
