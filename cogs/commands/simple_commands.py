@@ -37,16 +37,16 @@ class SimpleCommands(commands.Cog):
     @commands.command()
     async def myrole(self, ctx):
         """コマンドの実行者が持っているroleを表示"""
-        roles_name = ""
-        for role in ctx.author.roles[1:]:
-            roles_name += f"{role.name}、"
-        role_count = len(ctx.author.roles[1:])
+        if (count := len(ctx.author.roles[1:])) == 0:
+            await ctx.send("おっと、まだroleを持っていないみたいですね？")
+        else:
+            roles_name = "、".join(r.name for r in ctx.author.roles[1:])
 
-        embed = discord.Embed(title="", description=f"あなたは{role_count}個のroleを持っています\n詳細を表示するにはリアクションを押してください")
-        msg = await ctx.send(embed=embed)
-        embed2 = discord.Embed(title="あなたのroleは以下の通りです", description=roles_name)
+            embed = discord.Embed(title="", description=f"あなたは{count}個のroleを持っています\n詳細を表示するにはリアクションを押してください")
+            msg = await ctx.send(embed=embed)
+            embed2 = discord.Embed(title="あなたのroleは以下の通りです", description=roles_name)
 
-        await wait_for_react(self.bot, ctx, msg, embed2)
+            await wait_for_react(self.bot, ctx, msg, embed2)
 
     @commands.command()
     async def dm(self, ctx):
