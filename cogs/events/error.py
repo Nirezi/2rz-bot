@@ -1,7 +1,8 @@
-from discord.ext import commands
 import traceback
 from datetime import datetime
+
 import discord
+from discord.ext import commands
 
 
 class Error(commands.Cog):
@@ -15,9 +16,9 @@ class Error(commands.Cog):
         elif isinstance(error, commands.DisabledCommand):
             await ctx.send('このコマンドは製作者により無効化されています')
         elif isinstance(error, commands.MissingPermissions):
-            await ctx.send(f"{error.missing_perms}の権限がありません")
+            await ctx.send(f"{','.join(error.missing_perms)}の権限がありません")
         elif isinstance(error, commands.BotMissingPermissions):
-            await ctx.send(f'**botに{error.missing_perms}の権限がありません**\nサーバ管理者まで問い合わせてください')
+            await ctx.send(f"**botに{','.join(error.missing_perms)}の権限がありません**\nサーバ管理者まで問い合わせてください")
         elif isinstance(error, discord.errors.NotFound):
             await ctx.send("おおっと？メッセージが削除されたみたいですね？もう一度試してみてください。")
         elif isinstance(error, commands.CommandInvokeError):
