@@ -4,7 +4,7 @@ import discord
 from discord.ext import commands
 
 
-class role_info(commands.Cog):
+class Role(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -12,20 +12,16 @@ class role_info(commands.Cog):
     async def _role_info(self, ctx, role: discord.Role):
         time = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
         kazu = len(role.members)
-        role_member = "Members:"
-        for mem in role.members:
-            role_member += f"{mem.name}#{mem.discriminator}、"
+        member = "、".join(str(m) for m in role.members[:11])
         embed_role = discord.Embed(
-            title=f"-----**Role Info**-----\n**{role.name}({role.id})**",
+            title=f"-----**Role Info**-----",
             color=role.colour)
-        if role.name == "@everyone":
-            embed_role.add_field(name="Role Name", value="everyone")
-        else:
-            embed_role.add_field(name="Role Name", value=role.name)
-        embed_role.add_field(name="Role ID", value=str(role.id))
-        embed_role.add_field(name="Role at", value=role.guild)
+
+        embed_role.add_field(name="Name", value=role.name)
+        embed_role.add_field(name="ID", value=str(role.id))
+        embed_role.add_field(name="Guild", value=role.guild)
         embed_role.add_field(name="Color", value=role.colour)
-        embed_role.add_field(name="Count", value=kazu)
+        embed_role.add_field(name="Count", value=str(kazu))
         embed_role.add_field(name="Position", value=role.position)
         embed_role.add_field(name="Hoist", value=role.hoist)
         embed_role.add_field(name="Mentionable", value=role.mentionable)
@@ -38,7 +34,7 @@ class role_info(commands.Cog):
                 name="Members", value="everyone", inline=False)
         else:
             embed_role.add_field(
-                name="Members", value=role_member, inline=False)
+                name="Members", value=member, inline=False)
         embed_role.set_footer(
             text=f'User ID：{ctx.author.id} Time：{time}',
             icon_url=ctx.guild.icon_url)  # チャンネル名,時刻,鯖のアイコンをセット
@@ -47,10 +43,25 @@ class role_info(commands.Cog):
     @_role_info.error
     async def role_count_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send("引数が不足しています\n第一引数として役職をメンション、id、名前のいずれか渡してください")
-        if isinstance(error, commands.BadArgument):
-            await ctx.send("不正な引数です")
+            await ctx.send("おっと、引数が足りませんね？参照したいroleのid, 名前, メンションのいずれかを渡してください")
+        elif isinstance(error, commands.BadArgument):
+            await ctx.send("おっと？roleが見つかりませんね？引数を確認してみてください")
+            
+    @commands.command(name="role_count")
+    async def _role_count(self, ctx, role: discord.Role):
+        ninzuu = len(role.members)  # lenでroleの数を取得
+        if role.name != "@everyone":
+            await ctx.send(f"`{role.name}`は**{ninzuu}**人います")
+        else:
+            await ctx.send(f"この鯖には**{ninzuu}人**のユーザーがいます")
+
+    @_role_count.error
+    async def role_count_error(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send("おっと、引数が足りませんね？参照したいroleのid, 名前, メンションのいずれかを渡してください")
+        elif isinstance(error, commands.BadArgument):
+            await ctx.send("おっと？roleが見つかりませんね？引数を確認してみてください")
 
 
 def setup(bot):
-    bot.add_cog(role_info(bot))
+    bot.add_cog(Role(bot))
