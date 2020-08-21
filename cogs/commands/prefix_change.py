@@ -5,9 +5,9 @@ class Prefix(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.group()
+    @commands.group(invoke_without_subcommand=True)
     @commands.guild_only()
-    @commands.has_permissions(manage_guild=True, invoke_without_command=True)
+    @commands.has_permissions(manage_guild=True)
     async def prefix(self, ctx):
         await ctx.send(f"{ctx.prefix}prefix [change, default]")
 
