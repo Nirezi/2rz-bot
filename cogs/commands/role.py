@@ -14,7 +14,7 @@ class Role(commands.Cog):
         kazu = len(role.members)
         member = "、".join(str(m) for m in role.members[:11])
         embed_role = discord.Embed(
-            title=f"-----**Role Info**-----",
+            title="-----**Role Info**-----",
             color=role.colour)
 
         embed_role.add_field(name="Name", value=role.name)
@@ -41,12 +41,12 @@ class Role(commands.Cog):
         await ctx.send(embed=embed_role)
 
     @_role_info.error
-    async def role_count_error(self, ctx, error):
+    async def role_info_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send("おっと、引数が足りませんね？参照したいroleのid, 名前, メンションのいずれかを渡してください")
         elif isinstance(error, commands.BadArgument):
             await ctx.send("おっと？roleが見つかりませんね？引数を確認してみてください")
-            
+
     @commands.command(name="role_count")
     async def _role_count(self, ctx, role: discord.Role):
         ninzuu = len(role.members)  # lenでroleの数を取得
