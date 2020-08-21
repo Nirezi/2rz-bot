@@ -64,11 +64,11 @@ class Iroha(commands.Cog):
     @tasks.loop(minutes=1)
     async def reboot(self):
         hm = datetime.now().strftime("%H:%M")
-        if hm == "22:00" or hm == "6:00":
+        if hm == "22:00" or hm == "06:00":
             ch = self.bot.get_channel(739270726036488272)
             await ch.send(":warning:Warning!10秒後にサーバーが再起動するよ！")
             await asyncio.sleep(10)
-            self.loop.run_in_executor(None, SSH.exec_command, "cd ~/Minecraft && bash restart.sh")
+            await self.loop.run_in_executor(None, SSH.exec_command, "cd ~/Minecraft && bash restart.sh")
 
 
 def setup(bot):
