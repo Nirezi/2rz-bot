@@ -23,6 +23,8 @@ class Prefix(commands.Cog):
     @commands.guild_only()
     @prefix.command()
     async def default(self, ctx):
+        if ctx.prefix == "/":
+            return await ctx.send("prefixはもうデフォルトだよ！")
         await self.bot.prefixes.remove(ctx.guild.id)
         await ctx.send("prefixをデフォルトの`/`に変更したよ！")
 
