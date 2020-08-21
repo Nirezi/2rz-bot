@@ -18,13 +18,6 @@ class SimpleCommands(commands.Cog):
         return ctx.message.content == ctx.prefix + ctx.invoked_with
 
     @commands.command()
-    async def support(self, ctx):
-        """サポートサーバーへのリンクを表示"""
-        embed = discord.Embed(title="本botのサポートはこちらです",
-                              description=f"[公式サーバ]({self.bot.guild_invite_url})")
-        await ctx.send(embed=embed)
-
-    @commands.command()
     async def place(self, ctx):
         """/weatherコマンドで参照できる地点を表示"""
         place_str = ""
