@@ -76,26 +76,14 @@ class MyBot(commands.Bot):
 
         self.remove_command("help")
         self.load_extension('jishaku')
-        for cog in os.listdir(f"{path}/cogs/events"):
-            if cog.endswith('.py'):
-                try:
-                    self.load_extension(f'cogs.events.{cog[:-3]}')
-                except Exception:
-                    traceback.print_exc()
-
-        for cog in os.listdir(f"{path}/cogs/guilds"):
-            if cog.endswith(".py"):
-                try:
-                    self.load_extension(f"cogs.guilds.{cog[:-3]}")
-                except Exception:
-                    traceback.print_exc()
-
-        for cog in os.listdir(f"{path}/cogs/commands"):
-            if cog.endswith(".py"):
-                try:
-                    self.load_extension(f"cogs.commands.{cog[:-3]}")
-                except Exception:
-                    traceback.print_exc()
+        dirs = ["commands", "events", "guilds"]
+        for dire in dirs:
+            for cog in os.listdir(f"{path}/cogs/{dire}"):
+                if cog.endswith('.py'):
+                    try:
+                        self.load_extension(f'cogs.{dire}.{cog[:-3]}')
+                    except Exception:
+                        traceback.print_exc()
 
         @self.after_invoke
         async def send_ad(ctx):
