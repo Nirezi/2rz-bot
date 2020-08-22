@@ -1,15 +1,12 @@
 import asyncio
-import os
 import sys
 from datetime import datetime
 from os.path import dirname, join
 import re
 
 import discord
-import psycopg2
 from discord.ext import commands, tasks
 from dotenv import load_dotenv
-import dropbox
 
 sys.path.append("../")
 
@@ -18,18 +15,6 @@ try:
     local = True
 except ModuleNotFoundError:
     local = False
-
-if local:
-    SQLpath = tokens.PostgreSQL
-    dropbox_token = tokens.DB_URL
-else:
-    SQLpath = os.environ["DATABASE_URL"]
-    dropbox_token = os.environ["DB_URL"]
-
-db = psycopg2.connect(SQLpath)
-cur = db.cursor()
-
-dbx = dropbox.Dropbox(dropbox_token)
 
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
