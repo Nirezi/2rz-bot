@@ -8,6 +8,7 @@ import random
 
 
 import discord
+import psycopg2
 import requests
 from discord.ext import commands
 from dotenv import load_dotenv
@@ -33,6 +34,14 @@ def _prefix_callable(bot, msg):
     else:
         base.append(bot.prefixes.get(msg.guild.id, '/'))
     return base
+
+
+if local:
+    SQLpath = tokens.PostgreSQL
+else:
+    SQLpath = os.environ["DATABASE_URL"]
+db = psycopg2.connect(SQLpath)
+cur = db.cursor()
 
 
 class MyBot(commands.Bot):
