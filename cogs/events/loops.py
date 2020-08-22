@@ -1,23 +1,12 @@
 import asyncio
 import sys
 from datetime import datetime
-from os.path import dirname, join
 import re
 
 import discord
 from discord.ext import commands, tasks
-from dotenv import load_dotenv
 
 sys.path.append("../")
-
-try:
-    import tokens
-    local = True
-except ModuleNotFoundError:
-    local = False
-
-dotenv_path = join(dirname(__file__), '.env')
-load_dotenv(dotenv_path)
 
 
 class Loops(commands.Cog):
