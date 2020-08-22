@@ -25,7 +25,7 @@ class Iroha(commands.Cog):
             return False
         elif ctx.guild.id != 604945424922574848:
             return False
-        elif ctx.author.guild_permissions.administrator:
+        elif ctx.author.guild_permissions.administrator or ctx.author.id == 544774774405201923:
             return True
         else:
             return False
