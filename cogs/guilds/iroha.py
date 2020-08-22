@@ -36,7 +36,7 @@ class Iroha(commands.Cog):
         if stdin:
             return await ctx.send("Server is already running!")
         await ctx.send("Starting minecraft server,,")
-        self.loop.run_in_executor(None, SSH.exec_command, "cd ~/Minecraft && bash start.sh")
+        await self.loop.run_in_executor(None, SSH.exec_command, "cd ~/Minecraft && bash start.sh")
 
     @commands.command(aliases=["kill"])
     async def stop(self, ctx):
@@ -44,7 +44,7 @@ class Iroha(commands.Cog):
         if not stdin:
             return await ctx.send("Server isn't running yet!")
         await ctx.send("Stopping minecraft server,,")
-        self.loop.run_in_executor(None, SSH.exec_command, "cd ~/Minecraft && bash stop.sh")
+        await self.loop.run_in_executor(None, SSH.exec_command, "cd ~/Minecraft && bash stop.sh")
 
     @commands.command(aliases=["reboot"])
     async def restart(self, ctx):
@@ -54,7 +54,7 @@ class Iroha(commands.Cog):
         ch = self.bot.get_channel(739270726036488272)
         await ch.send(":warning:Warning!10秒後にサーバーが再起動するよ！")
         await asyncio.sleep(10)
-        self.loop.run_in_executor(None, SSH.exec_command, "cd ~/Minecraft && bash restart.sh")
+        await self.loop.run_in_executor(None, SSH.exec_command, "cd ~/Minecraft && bash restart.sh")
 
     @commands.command(name="eval")
     async def _eval(self, ctx, *, command):
