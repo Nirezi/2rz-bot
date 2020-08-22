@@ -47,7 +47,6 @@ class Meta(commands.Cog):
                 description=f"powered by discord.py\n{str(owner)} made me!\n"
                             f"[Support Server]({self.bot.guild_invite_url})",
                 url=self.bot.invite_url)
-            print(self.bot.owner_id)
             embed.set_thumbnail(url=self.bot.user.avatar_url)  # ユーザーアバターをセット
             embed.add_field(name="Name", value=self.bot.user)
             embed.add_field(name="ID", value=self.bot.user.id)
@@ -59,7 +58,7 @@ class Meta(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(name="avaatr")
+    @commands.command(name="avatar")
     async def _avatar(self, ctx, id: int = None):
         if id is None:
             await ctx.send("idを指定してね！")
