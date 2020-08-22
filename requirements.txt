@@ -10,4 +10,3 @@ beautifulsoup4~=4.9.1
 dropbox~=10.3.0
 paramiko~=2.7.1
 asyncio~=3.4.3
-psycopg2~=2.8.5
