@@ -1,24 +1,10 @@
-import os
 import random
 import re
 
 import bs4
 import discord
-import psycopg2
 import requests
 
-try:
-    import tokens
-    local = True
-except ModuleNotFoundError:
-    local = False
-
-if local:
-    SQLpath = tokens.PostgreSQL
-else:
-    SQLpath = os.environ["DATABASE_URL"]
-db = psycopg2.connect(SQLpath)
-cur = db.cursor()
 
 client = discord.Client()
 
