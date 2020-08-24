@@ -75,7 +75,7 @@ class SimpleCommands(commands.Cog):
     @commands.command()
     async def ping(self, ctx):
         """botが生きているか確認"""
-        await ctx.send("pong!")
+        await ctx.send(f"pong!\n{self.bot.latency * 1000}ms")
 
 
 def setup(bot):
