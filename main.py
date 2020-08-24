@@ -121,9 +121,8 @@ class MyBot(commands.Bot):
     async def quote(self, message):
         try:
             for url in re.findall(r"https://(?:ptb.|canary.)?discord(?:app)?.com/channels/[0-9]+/[0-9]+/[0-9]+", message.content):
-                guild_id, channel_id, message_id = map(int, url.split("/")[-3:])
-                guild = self.get_guild(guild_id)
-                ch = guild.get_channel(channel_id)
+                channel_id, message_id = map(int, url.split("/")[-2:])
+                ch = self.get_channel(channel_id)
                 if ch is None:
                     return
                 msg = await ch.fetch_message(message_id)
