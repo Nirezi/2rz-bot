@@ -12,6 +12,8 @@ class Voice(commands.Cog):
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):
         if member.guild.id == 662503350633365515:
+            if member.bot:
+                return
             ch_dic = {
                 669850293407842305: 669850327599546389,
                 669850376341815347: 669850400039370762
