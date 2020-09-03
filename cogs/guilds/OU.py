@@ -18,4 +18,4 @@ class OU(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(Ou(bot))
+    bot.add_cog(OU(bot))
