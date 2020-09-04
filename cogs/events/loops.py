@@ -35,8 +35,7 @@ class Loops(commands.Cog):
                 "ranzumu": "45578816-9dab-49fc-bef0-0525e0a57289",
                 "kakkoiihito": "24eeb1a3-ed4a-444e-828c-5318122f4e4a",
                 "nekorobi_0": "d6be1561-47c1-4e67-9829-2aca48f9be39",
-                "chorocra_19800": "10cf3d97-a6aa-4ef0-8c27-a917e5cb59d8",
-                "kaerusan82433413": "9cec894e-9ae3-4a25-97c5-b7a6c55c1376"  # todo 8月になったら外す
+                "kaerusan82433413": "9cec894e-9ae3-4a25-97c5-b7a6c55c1376"
             }
 
             msg = ""
