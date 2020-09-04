@@ -18,16 +18,6 @@ class SimpleCommands(commands.Cog):
         return ctx.message.content == ctx.prefix + ctx.invoked_with
 
     @commands.command()
-    async def place(self, ctx):
-        """/weatherコマンドで参照できる地点を表示"""
-        place_str = ""
-        for place in citycodes_dic.keys():
-            place_str += f"{place}、"
-
-        embed = discord.Embed(title="天気がわかる地点はこちらです", description=place_str)
-        await ctx.send(embed=embed)
-
-    @commands.command()
     async def myrole(self, ctx):
         """コマンドの実行者が持っているroleを表示"""
         if (count := len(ctx.author.roles[1:])) == 0:
