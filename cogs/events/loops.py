@@ -49,8 +49,10 @@ class Loops(commands.Cog):
 
                 data = self.bot.get_mined_block(uuid)
 
-                data_difference = data - last_user_record
-                msg += f"{mcid}の整地量>>>{data}(前日比:{data_difference})\n"
+                data_diff = data - last_user_record
+                msg += f"{mcid}の整地量>>>{data}(前日比:{data_diff})\n"
+                if data_diff == 0:
+                    msg += f"おいごらぁ!{mcid}!!あく整地!!!\n"
                 await asyncio.sleep(2)
             await ch.send(msg)
 
