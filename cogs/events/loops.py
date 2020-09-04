@@ -22,11 +22,15 @@ class Loops(commands.Cog):
         hm = datetime.now().strftime("%H:%M")
         if hm == "23:50":
             ch = self.bot.get_channel(706322916060692571)
+            record_list = None
             async for msg in ch.history():
                 if msg.author == self.bot.user:
                     last_record = await ch.fetch_message(msg.id)
-                    last_record_list = last_record.content.splitlines()
+                    record_list = last_record.content.splitlines()
                     break
+
+            if record_list is None:
+                await ch.send("Error: couldn't get message")
 
             mcid_uuid_dic = {
                 "shibatanienn_ts": "f63f13d9-ea1d-43f9-a0c7-46bb9445625d",
@@ -41,11 +45,10 @@ class Loops(commands.Cog):
             msg = ""
             for i, mcid in enumerate(mcid_uuid_dic.keys()):
                 uuid = mcid_uuid_dic[mcid]
-                if len(last_record_list) < i:
-                    data = self.bot.get_mined_block(uuid)
-                    msg += f"{mcid}の整地量>>>{data}(前日比:0)\n"
-                    continue
-                last_user_record = int(re.sub(r'\(前日比:\d+\)', '', last_record_list[i].split('>>>')[1]))
+                last_user_record = 0
+                for row in record_list:
+                    if row.startswith(mcid):
+                        last_user_record = int(re.sub(r'\(前日比:\d+\)', '', record_list[i].split('>>>')[1]))
 
                 data = self.bot.get_mined_block(uuid)
 
