@@ -29,7 +29,6 @@ class Meta(commands.Cog):
                         text += 1
                     elif isinstance(ch, discord.VoiceChannel):
                         voice += 1
-
             bot = 0
             user = 0
             for m in self.bot.get_all_members():
@@ -39,11 +38,10 @@ class Meta(commands.Cog):
                     user += 1
 
             created_at_JST = self.bot.user.created_at + datetime.timedelta(hours=9)
-
             owner = self.bot.get_user(544774774405201923)
 
             embed = discord.Embed(
-                title=f"Hi! I'm{self.bot.user}!",
+                title=f"Hi! I'm {self.bot.user}!",
                 description=f"powered by discord.py\n{str(owner)} made me!\n"
                             f"[Support Server]({self.bot.guild_invite_url})",
                 url=self.bot.invite_url)

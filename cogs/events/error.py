@@ -23,7 +23,7 @@ class Error(commands.Cog):
             await ctx.send("おおっと？メッセージが削除されたみたいですね？もう一度試してみてください。")
         elif isinstance(error, commands.CommandInvokeError):
             msg = f'引数などが正しいか確認してみてください。\nコマンドが正しいにも関わらずエラーが発生する場合msg_idとともに公式サーバまでお問い合わせください\n' \
-                  f'エラー内容 ＊bot開発者向け\n{error}' \
+                  f'エラー内容 ＊bot開発者向け\n```py{error}```\n' \
                   f'[公式サーバ]({self.bot.guild_invite_url})\nmsg_id: {ctx.message.id}'
             embed = discord.Embed(title='エラーが発生しました', description=msg)
             await ctx.send(embed=embed)
