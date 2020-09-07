@@ -6,11 +6,6 @@ from datetime import datetime
 
 SSH = paramiko.SSHClient()
 
-host = os.environ["Host"]
-port = os.environ["Port"]
-user = os.environ["User"]
-Key = f"/home/{user}/.ssh/id_rsa"
-SSH.load_host_keys(f"/home/{user}/.ssh/known_hosts")
 
 
 class Iroha(commands.Cog):
@@ -18,7 +13,13 @@ class Iroha(commands.Cog):
         self.bot = bot
         self.loop = asyncio.get_event_loop()
         self.reboot.start()
-        SSH.connect(host, int(port), user, key_filename=Key)
+        if not self.bot.local:
+            host = os.environ["Host"]
+            port = os.environ["Port"]
+            user = os.environ["User"]
+            Key = f"/home/{user}/.ssh/id_rsa"
+            SSH.load_host_keys(f"/home/{user}/.ssh/known_hosts")
+            SSH.connect(host, int(port), user, key_filename=Key)
 
     def cog_check(self, ctx):
         if ctx.guild is None:
