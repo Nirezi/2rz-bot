@@ -4,7 +4,7 @@ import discord
 from discord import Embed
 
 
-class delete(commands.Cog):
+class Delete(commands.Cog, name="delete"):
     def __init__(self, bot):
         self.bot = bot
 
@@ -36,4 +36,4 @@ class delete(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(delete(bot))
+    bot.add_cog(Delete(bot))

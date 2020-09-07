@@ -12,7 +12,7 @@ from discord.ext import commands  # Bot Commands Frameworkのインポート
 sys.path.append('../')
 
 
-class Nirezi(commands.Cog):
+class Nirezi(commands.Cog, name="nirezi"):
     def __init__(self, bot):
         self.bot = bot
 

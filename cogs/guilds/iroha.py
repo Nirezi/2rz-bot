@@ -7,8 +7,7 @@ from datetime import datetime
 SSH = paramiko.SSHClient()
 
 
-
-class Iroha(commands.Cog):
+class Iroha(commands.Cog, name="iroha"):
     def __init__(self, bot):
         self.bot = bot
         self.loop = asyncio.get_event_loop()

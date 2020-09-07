@@ -6,7 +6,7 @@ from discord.ext import commands
 sys.path.append('../')
 
 
-class ohatsu_msg(commands.Cog):
+class ohatsu_msg(commands.Cog, name="ohatsu"):
     def __init__(self, bot):
         self.bot = bot
 

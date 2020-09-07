@@ -9,7 +9,7 @@ from discord.ext import commands, tasks
 sys.path.append("../")
 
 
-class Loops(commands.Cog):
+class Loops(commands.Cog, name="loop"):
     def __init__(self, bot):
         self.bot = bot
         self.status_num = 0

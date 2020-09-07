@@ -4,7 +4,7 @@ import discord
 from discord import Embed
 
 
-class edit(commands.Cog):
+class Edit(commands.Cog, name="edit"):
     def __init__(self, bot):
         self.bot = bot
 
@@ -39,4 +39,4 @@ class edit(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(edit(bot))
+    bot.add_cog(Edit(bot))

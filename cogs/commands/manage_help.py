@@ -18,8 +18,9 @@ class ManageHelp(commands.Cog):
     @commands.bot_has_permissions(add_reactions=True, manage_messages=True)
     async def _help(self, ctx):
         """ヘルプを送信"""
-        if isinstance(ctx.channel, discord.DMChannel):  # dmだったらreturn
-            return
+        cog_dic = dict(self.bot.cogs).copy()
+        cog_dic.pop("Jishaku")
+        cogs = [v for k, v in cog_dic.items() if v.qualified_name[0].isupper()]
 
         def page_setup(page: int) -> discord.Embed:
             """ページ数に対応したhelp内容をセット"""

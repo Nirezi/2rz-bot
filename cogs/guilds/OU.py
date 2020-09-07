@@ -1,7 +1,7 @@
 from discord.ext import commands
 
 
-class OU(commands.Cog):
+class OU(commands.Cog, name="ou"):
     def __init__(self, bot):
         self.bot = bot
 

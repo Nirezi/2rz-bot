@@ -2,7 +2,7 @@ from discord.ext import commands
 import asyncio
 
 
-class timer(commands.Cog):
+class Timer(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -44,4 +44,4 @@ class timer(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(timer(bot))
+    bot.add_cog(Timer(bot))

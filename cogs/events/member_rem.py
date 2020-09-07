@@ -1,7 +1,7 @@
 from discord.ext import commands
 
 
-class MemberRem(commands.Cog):
+class MemberRem(commands.Cog, name="member_rem"):
     def __init__(self, bot):
         self.bot = bot
 

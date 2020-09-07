@@ -10,7 +10,7 @@ from discord.ext import commands
 sys.path.append('../')
 
 
-class shiba_msg(commands.Cog):
+class Shiba(commands.Cog, name="shiba"):
     def __init__(self, bot):
         self.bot = bot
 
@@ -213,4 +213,4 @@ async def mcidcheck(message, log_channel_id, client, role1, role2=None):
 
 def setup(bot):
     """cogを追加する"""
-    bot.add_cog(shiba_msg(bot))
+    bot.add_cog(Shiba(bot))

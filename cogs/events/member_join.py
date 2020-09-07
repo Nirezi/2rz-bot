@@ -2,7 +2,7 @@ from discord.ext import commands  # Bot Commands Frameworkのインポート
 import discord
 
 
-class MemberJoin(commands.Cog):
+class MemberJoin(commands.Cog, name="member_join"):
     def __init__(self, bot):
         self.bot = bot
 

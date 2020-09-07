@@ -1,7 +1,7 @@
 from discord.ext import commands
 
 
-class ReZero(commands.Cog):
+class ReZero(commands.Cog, name="rezero"):
     def __init__(self, bot):
         self.bot = bot
 

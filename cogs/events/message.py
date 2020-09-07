@@ -4,7 +4,7 @@ import discord
 from discord.ext import commands  # Bot Commands Frameworkのインポート
 
 
-class Message(commands.Cog):
+class Message(commands.Cog, name="message"):
     def __init__(self, bot):
         self.bot = bot
 

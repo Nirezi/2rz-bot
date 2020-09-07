@@ -1,7 +1,7 @@
 from discord.ext import commands
 
 
-class BotJoinLeave(commands.Cog):
+class BotJoin(commands.Cog, name="bot_join"):
     def __init__(self, bot):
         self.bot = bot
 
@@ -35,12 +35,6 @@ class BotJoinLeave(commands.Cog):
             except Exception:
                 continue
 
-    @commands.Cog.listener()
-    async def on_guild_remove(self, guild):
-        channel = self.bot.get_channel(658685450805968906)
-        msg = f"{self.bot.user}が{guild.name}から抜けました"
-        await channel.send(msg)
-
 
 def setup(bot):
-    bot.add_cog(BotJoinLeave(bot))
+    bot.add_cog(BotJoin(bot))
