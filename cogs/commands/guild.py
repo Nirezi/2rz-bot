@@ -31,7 +31,8 @@ class Guild(commands.Cog):
         try:
             reaction, user = await self.bot.wait_for("reaction_add", check=check, timeout=300)
         except asyncio.TimeoutError:
-            return await msg.clear_reactions()
+            await msg.clear_reactions()
+            return -1
         else:
             emoji = str(reaction.emoji)
             if emoji == self.reacts[0]:
@@ -53,11 +54,15 @@ class Guild(commands.Cog):
                 roles = "、".join(r.name for r in ctx.author.roles[1:22])
                 embed = discord.Embed(title="roleは以下の通りです!(1ページ目)", description=roles)
                 msg = await ctx.send(embed=embed)
+                for react in self.reacts:
+                    await msg.add_reaction(react)
                 page = 0
                 max_page = -(-len(ctx.author.roles[1:]) // 20)
 
                 while not self.bot.is_closed():
                     page = await self.check_page(ctx, msg, page, max_page)
+                    if page == -1:
+                        break
                     roles = "、".join(r.name for r in ctx.author.roles[1 + 20 * page: page * 20 + 22])
                     embed = discord.Embed(title=f"roleは以下の通りです!({page}ページ目)", description=roles)
                     await msg.edit(embed=embed)
@@ -74,11 +79,15 @@ class Guild(commands.Cog):
             members = "、".join(r.name for r in ctx.guild.members[:101])
             embed = discord.Embed(title="メンバーは以下の通りです!(1ページ目)", description=members)
             msg = await ctx.send(embed=embed)
+            for react in self.reacts:
+                await msg.add_reaction(react)
             page = 0
             max_page = -(-len(ctx.guild.roles) // 20)
 
             while not self.bot.is_closed():
                 page = await self.check_page(ctx, msg, page, max_page)
+                if page == -1:
+                    break
                 members = "、".join(m.name for m in ctx.guild.members[:page * 100 + 101])
                 embed = discord.Embed(title=f"メンバーは以下の通りです!({page}ページ目)", description=members)
                 await msg.edit(embed=embed)
