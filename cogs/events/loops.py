@@ -20,7 +20,7 @@ class Loops(commands.Cog, name="loop"):
     async def check_seichi(self):
         await self.bot.wait_until_ready()
         hm = datetime.now().strftime("%H:%M")
-        if hm == "23:50":
+        if True:
             ch = self.bot.get_channel(706322916060692571)
             record_list = None
             async for msg in ch.history():
@@ -46,9 +46,12 @@ class Loops(commands.Cog, name="loop"):
             for i, mcid in enumerate(mcid_uuid_dic.keys()):
                 uuid = mcid_uuid_dic[mcid]
                 last_user_record = 0
-                for row in record_list:
-                    if row.startswith(mcid):
-                        last_user_record = int(re.sub(r'\(前日比:\d+\)', '', record_list[i].split('>>>')[1]))
+                try:
+                    for row in record_list:
+                        if row.startswith(mcid):
+                            last_user_record = int(re.sub(r'\(前日比:\d+\)', '', record_list[i].split('>>>')[1]))
+                except IndexError:
+                    last_user_record = 0
 
                 data = self.bot.get_mined_block(uuid)
 
