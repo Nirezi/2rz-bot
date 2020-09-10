@@ -46,12 +46,9 @@ class Loops(commands.Cog, name="loop"):
             for i, mcid in enumerate(mcid_uuid_dic.keys()):
                 uuid = mcid_uuid_dic[mcid]
                 last_user_record = 0
-                try:
-                    for row in record_list:
-                        if row.startswith(mcid):
-                            last_user_record = int(re.sub(r'\(前日比:\d+\)', '', record_list[i].split('>>>')[1]))
-                except IndexError:
-                    last_user_record = 0
+                for row in record_list:
+                    if row.startswith(mcid):
+                        last_user_record = int(re.sub(r'\(前日比:\d+\)', '', row.split('>>>')[1]))
 
                 data = self.bot.get_mined_block(uuid)
 
