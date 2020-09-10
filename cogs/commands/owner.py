@@ -3,7 +3,7 @@ import subprocess
 from subprocess import PIPE
 
 
-class Owner(commands.Cog):
+class Owner(commands.Cog, name="owner"):
     def __init__(self, bot):
         self.bot = bot
 
