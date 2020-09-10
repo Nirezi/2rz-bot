@@ -20,7 +20,16 @@ class ManageHelp(commands.Cog):
         """ヘルプを送信"""
         cog_dic = dict(self.bot.cogs).copy()
         cog_dic.pop("Jishaku")
-        cogs = [v for k, v in cog_dic.items() if v.qualified_name[0].isupper()]
+        # cogs = [v for k, v in cog_dic.items() if v.qualified_name[0].isupper()]
+        max_page = len(cogs) + 1
+
+        count = 0
+        for cog in cogs:
+            for cmd in cog.get_commands():
+                if isinstance(cmd, commands.core.Group):
+                    count += len(cmd.commands)
+                else:
+                    count += 1
 
         def page_setup(page: int) -> discord.Embed:
             """ページ数に対応したhelp内容をセット"""
