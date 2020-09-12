@@ -1,27 +1,40 @@
 import asyncio
-import math
-import sys
 
 import discord
 from discord.ext import commands
 
-from help_def import hyojun_help
 
-sys.path.append("../")
-
-
-class ManageHelp(commands.Cog):
+class Help(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @staticmethod
+    def get_aliase(command: commands.core.Command) -> str:
+        if not command.aliases:
+            raise TypeError("command passed don't have aliase")
+        aliases = " | ".join(command.aliases)
+        return f"[{aliases}]"
+
+    @staticmethod
+    def get_subcommand(parent: commands.core.Group) -> str:
+        if not isinstance(parent, commands.core.Group):
+            raise TypeError("didn't passed commands.Group")
+        subcommands = "/".join(c.name for c in parent.commands)
+        return subcommands
+
     @commands.command(name="help")
     @commands.bot_has_permissions(add_reactions=True, manage_messages=True)
-    async def _help(self, ctx):
+    async def _help(self, ctx, cmd=None):
         """ヘルプを送信"""
+        if cmd is not None:
+            command = self.bot.get_command(cmd)
+            if command is None:
+                return await ctx.send(f"おっと、`{cmd}`は見つかりません！")
+
         cog_dic = dict(self.bot.cogs).copy()
         cog_dic.pop("Jishaku")
-        # cogs = [v for k, v in cog_dic.items() if v.qualified_name[0].isupper()]
-        max_page = len(cogs) + 1
+        cogs = [v for k, v in cog_dic.items() if v.qualified_name[0].isupper()]
+        max_page = len(cogs)
 
         count = 0
         for cog in cogs:
@@ -33,39 +46,28 @@ class ManageHelp(commands.Cog):
 
         def page_setup(page: int) -> discord.Embed:
             """ページ数に対応したhelp内容をセット"""
-            help_embed = discord.Embed(title=f"標準のhelp {page}/{max_page}", description="")
-            for i in range(5):
-                n = 5 * page - 5 + i
-                try:
-                    help_embed.add_field(
-                        name=hyojun_help[n]["name"],
-                        value=f'{hyojun_help[n]["value"]}\n{sen}',
-                        inline=False)
-                except IndexError:
-                    break
-            return help_embed
+            page -= 1
+            embed = discord.Embed(title=f"Page {page+1}/{max_page} ({count} commands)",
+                                  description=f"より詳細なヘルプは[公式サーバ]({self.bot.guild_invite_url})まで!")
+            cog = cogs[page]
+            embed.add_field(name=cog.qualified_name, value=cog.description)
+
+            for cmd in cog.get_commands():
+                if cmd.hidden or not cmd.enabled:
+                    continue
+                if cmd.aliases:
+                    embed.add_field(name=f"{cmd.name} {self.get_aliase(cmd)}", value=cmd.help, inline=False)
+                else:
+                    embed.add_field(name=f"{cmd.name}", value=cmd.help, inline=False)
+            return embed
 
         react_list = [
-            "\N{DIGIT ONE}\N{COMBINING ENCLOSING KEYCAP}",  # 1
-            "\N{DIGIT TWO}\N{COMBINING ENCLOSING KEYCAP}",  # 2
-            "\N{DIGIT THREE}\N{COMBINING ENCLOSING KEYCAP}",  # 3
-            "\N{DIGIT FOUR}\N{COMBINING ENCLOSING KEYCAP}",  # 4
-            "\N{DIGIT FIVE}\N{COMBINING ENCLOSING KEYCAP}",  # 5
-            "\N{BLACK LEFT-POINTING TRIANGLE}",  # 戻る
-            "\N{BLACK RIGHT-POINTING TRIANGLE}",  # 進む
-            "\N{BLACK SQUARE FOR STOP}\N{VARIATION SELECTOR-16}"]  # stop
-
-        num_list = ["\N{DIGIT ONE}\N{COMBINING ENCLOSING KEYCAP}",
-                    "\N{DIGIT TWO}\N{COMBINING ENCLOSING KEYCAP}",
-                    "\N{DIGIT THREE}\N{COMBINING ENCLOSING KEYCAP}",
-                    "\N{DIGIT FOUR}\N{COMBINING ENCLOSING KEYCAP}",
-                    "\N{DIGIT FIVE}\N{COMBINING ENCLOSING KEYCAP}"]
-
-        sen = "-------"
-        no_img = "https://cdn.discordapp.com/attachments/688401587823050787/688401606512869376/YhyUGSJ0vEEZnh33jDHaqhYiB6f5erABoMcJu2bdv-mwkS08Syf29Kefr50kdGcpVjADOjNLgzFiZYJ_Nn6FGmmTMSWWAG78cPWG.png"
-
-        help_count = len(hyojun_help)  # ヘルプの数を出す
-        max_page = math.ceil(help_count / 5)  # 5で割って何ページになるか測定.小数点は繰り上げ
+            u"\u25C0",  # 戻る
+            u"\u25B6",  # 進む
+            "\U0001f522",  # 1234
+            "\U00002139\U0000fe0f",  # インフォメーションマーク
+            "\N{BLACK SQUARE FOR STOP}\N{VARIATION SELECTOR-16}"  # stop
+        ]
 
         page = 1
         msg = await ctx.send(embed=page_setup(page))
@@ -79,7 +81,7 @@ class ManageHelp(commands.Cog):
             elif ctx.author.bot or user != ctx.author:
                 return False
             elif str(reaction.emoji) in react_list:
-                return reaction, user
+                return True
             else:
                 return False
 
@@ -93,27 +95,14 @@ class ManageHelp(commands.Cog):
                 try:
                     emoji = str(react.emoji)
                     await msg.remove_reaction(emoji, user)
-                    if emoji in num_list:  # 数字のリアクションが付いたら
-                        embed = page_setup(page)
-                        num = 5 * page - 5 + react_list.index(emoji)
-                        embed.add_field(
-                            name="Info",
-                            value=hyojun_help[num]["info"])
-                        if hyojun_help[num]["image"] == "None":  # コマンドの画像を追加
-                            embed.set_image(url=no_img)
-                        else:
-                            embed.set_image(url=hyojun_help[num]["image"])
-
-                        await msg.edit(embed=embed)
-
-                    if emoji == u"\u25C0" or emoji == u"\u25B6":  # 進むか戻るリアクションだったら
-                        if emoji == u"\u25C0":  # 戻るリアクションだったら
+                    if emoji == u"\u25C0" or emoji == u"\u25B6":  # 進むか戻る
+                        if emoji == u"\u25C0":  # 戻る
                             if page == 1:
                                 page = max_page
                             else:
                                 page -= 1
 
-                        if emoji == u"\u25B6":  # 進むリアクションだったら
+                        if emoji == u"\u25B6":  # 進む
                             if page == max_page:
                                 page = 1
                             else:
@@ -121,12 +110,48 @@ class ManageHelp(commands.Cog):
 
                         await msg.edit(embed=page_setup(page))
 
-                    if emoji == "\N{BLACK SQUARE FOR STOP}\N{VARIATION SELECTOR-16}":  # 削除のリアクションだったら
+                    if emoji == "\U0001f522":  # 1234
+                        def check_msg(m):
+                            return m.author == ctx.author and m.channel == ctx.channel
+
+                        await ctx.send("移動したいページ数を送信してください！", delete_after=30)
+                        try:
+                            m = await self.bot.wait_for("message", check=check_msg, timeout=30)
+                            next_page = int(m.content)
+                            await m.delete()
+                        except asyncio.TimeoutError:
+                            await msg.clear_reactions()
+                            break
+                        except TypeError:
+                            await ctx.send("おっと、ページ数が整数じゃないみたいです", delete_after=5)
+                            continue
+                        else:
+                            if not(1 <= next_page <= max_page):
+                                await ctx.send(f"おっと、{next_page}ページはありません！", delete_after=5)
+                                continue
+                            page = next_page
+                            await msg.edit(embed=page_setup(page))
+
+                    if emoji == "\U00002139\U0000fe0f":  # iマーク
+                        embed = discord.Embed(title="インフォメーション")
+                        embed.add_field(name="各種リアクションのヘルプ",
+                                        value=f"{react_list[0]}:一つ前のページに戻ります。最初のページで使用すると最後のページに移動します。\n\n"
+                                              f"{react_list[1]}:一つ後ろのページに移動します。最後のページで使用すると最初のページに移動します。\n\n"
+                                              f"{react_list[2]}:botのメッセージの後に、移動したいページを送信するとそのページに移動できます。\n\n"
+                                              f"{react_list[3]}:このヘルプを表示します。10秒後に元のヘルプに自動的に戻ります。\n\n"
+                                              f"{react_list[4]}:メッセージを削除します\n")
+                        await msg.edit(embed=embed)
+                        await asyncio.sleep(10)
+                        await msg.edit(embed=page_setup(page))
+
+                    if emoji == "\N{BLACK SQUARE FOR STOP}\N{VARIATION SELECTOR-16}":  # ■
                         await msg.delete()
+                        break
+
                 except IndexError:
                     await ctx.send("範囲外のリアクションが押されました", delete_after=3.0)
                     continue
 
 
 def setup(bot):
-    bot.add_cog(ManageHelp(bot))
+    bot.add_cog(Help(bot))
