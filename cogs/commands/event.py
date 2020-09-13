@@ -3,7 +3,7 @@ import discord
 import random
 
 
-class Event(commands.Cog):
+class Event(commands.Cog, name="event"):
     def __init__(self, bot):
         self.bot = bot
 
