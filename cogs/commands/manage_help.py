@@ -122,7 +122,7 @@ class Help(commands.Cog):
                         except asyncio.TimeoutError:
                             await msg.clear_reactions()
                             break
-                        except TypeError:
+                        except ValueError:
                             await ctx.send("おっと、ページ数が整数じゃないみたいです", delete_after=5)
                             continue
                         else:
