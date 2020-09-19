@@ -16,19 +16,6 @@ class Admin(commands.Cog, name="admin"):
             return False
         return False
 
-    @commands.command()
-    async def announce(self, ctx, *, content):
-        announce_chs = [662666842137034763, 702759218255495240]
-        embed = discord.Embed(title="", description=content, color=0x3399FF)
-        msg_list = []
-        for ch_id in announce_chs:
-            ch = self.bot.get_channel(ch_id)
-            msg = await ch.send(embed=embed)
-            msg_list.append(msg)
-
-        if ctx.channel.id in announce_chs:
-            await ctx.message.delete()
-
     @commands.command(name="reload")
     async def _reload(self, ctx, cog_name):
         try:
