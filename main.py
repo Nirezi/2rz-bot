@@ -4,8 +4,6 @@ import os
 import re
 import traceback
 from os.path import dirname, join
-import random
-
 
 import discord
 import requests
