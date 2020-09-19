@@ -47,16 +47,11 @@ class MyBot(commands.Bot):
         # user_id or guild_id to True
         self.blacklist = Config('blacklist.json')
 
-        # guild_id: True
-        self.no_ad = Config('no_ad.json')
-
         # message_id: reaction: role
         self.role_panel_data = Config('role_panel_data.json')
 
         # setting: guild_id: True
         self.settings = Config('settings.json')
-
-        self.birthday = Config('birthday.json')
 
         if not local:
             path = "/home/user/2rz-bot"
