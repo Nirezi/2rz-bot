@@ -27,11 +27,12 @@ class Owner(commands.Cog, name="owner"):
         value = await self.bot.blacklist.remove(key)
         await ctx.send(f"{value}をブラックリストから削除しました")
 
-    @commands.command()
-    async def sh(self, ctx, *, content):
+    @commands.command(aliases=["sh"])
+    async def shell(self, ctx, *, content):
         proc = subprocess.run(content, shell=True, stdout=PIPE, stderr=PIPE, encoding="utf-8")
-        await ctx.send(f"コマンドは終了コード{proc.returncode}で終了しました\n"
-                       f"実行結果{proc.stdout}\nエラー{proc.stderr}")
+        await ctx.send(f"[ReturnCode]{proc.returncode}\n"
+                       f"[stdout]{proc.stdout}\n"
+                       f"[stderr]{proc.stderr}")
 
 
 def setup(bot):
