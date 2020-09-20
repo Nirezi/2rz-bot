@@ -24,8 +24,8 @@ except ModuleNotFoundError:
     local = False
 
 
-def _prefix_callable(bot, msg):
-    base = []
+def _prefix_callable(bot, msg: discord.Message):
+    base = [f"<@{bot.user.id}> ", f"<@!{bot.user.id}> "]
     if msg.guild is None:
         base.append('/')
     else:
