@@ -6,11 +6,17 @@ from discord.ext import commands
 
 
 class Meta(commands.Cog):
+    """
+    discordの情報などを表示するコマンド
+    """
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command(name="bot_info")
     async def _bot_info(self, ctx):
+        """
+        botに関する情報を表示します
+        """
         async with ctx.channel.typing():
 
             role_count = len(ctx.guild.me.roles[1:])
@@ -58,6 +64,10 @@ class Meta(commands.Cog):
 
     @commands.command(name="avatar")
     async def _avatar(self, ctx, id: int = None):
+        """
+        ユーザー又はサーバーのアイコンを表示します。
+        引数としてユーザーもしくはサーバーのidを渡してください。
+        """
         if id is None:
             await ctx.send("idを指定してね！")
             return
@@ -71,13 +81,13 @@ class Meta(commands.Cog):
             await ctx.send(embed=embed)
         elif guild is not None:
             if len(guild.icon_url) == 0:
-                await ctx.send("標準のアイコンだから表示できないや！")
+                await ctx.send("おっと、このサーバーでは表示できないみたいです。")
             else:
                 embed = discord.Embed(title=f"{guild}", description="")
                 embed.set_image(url=guild.icon_url)
                 await ctx.send(embed=embed)
         else:
-            await ctx.send("404 NotFound\nあれ？ちょっと僕には見つけられそうにないや、、")
+            await ctx.send("404 NotFound\nおっと、そのidは表示できないみたいです。")
 
     @_avatar.error
     async def avatar_error(self, ctx, error):
@@ -89,9 +99,10 @@ class Meta(commands.Cog):
     @commands.bot_has_permissions(manage_messages=True)
     async def check_permission(self, ctx, member: discord.Member, scope, *selected_perm):
         """
-        指定されたユーザーの指定されたチャンネルでの権限を確認するコマンド
-        権限を確認できるチャンネルはメッセージの送信者が閲覧できるチャンネルのみ
-        必要権限等は特になし
+        指定されたチャンネルでのユーザーの権限を表示します。
+        第1引数に表示するユーザーのid, メンション, 名前。
+        第2引数に権限を確認する場所(guild, category, hereのいずれか)
+        第3引数に確認する権限を指定することも出来ます。(指定しなくても動きます)
         """
         if len(selected_perm) != 0:
             perm_list = []
@@ -102,7 +113,7 @@ class Meta(commands.Cog):
                     perm_list.append(perm)
 
             if len(perm_list) == 0:
-                raise commands.BadArgument
+                raise commands.BadArgument("正しくない権限が渡されました。")
         else:
             perm_list = [
                 'manage_channels',  # チャンネル管理

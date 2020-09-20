@@ -1,10 +1,14 @@
-from discord.ext import commands
-import discord
 import asyncio
+
+import discord
+from discord.ext import commands
 
 
 class Guild(commands.Cog):
-    """guildに関係するcog"""
+    """
+    サーバーに関係するコマンド
+    """
+
     def __init__(self, bot):
         self.bot = bot
         self.reacts = [

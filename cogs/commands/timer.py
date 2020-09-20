@@ -1,13 +1,17 @@
-from discord.ext import commands
 import asyncio
+
+from discord.ext import commands
 
 
 class Timer(commands.Cog):
+    """
+    タイマーコマンドのcog
+    """
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command(aliases=["stimer", "mtimer", "htimer"])
-    async def _timer(self, ctx, time: float, content=None):
+    async def timer(self, ctx, time: float, content=None):
         zikan = f"{ctx.author.mention}時間です"
         hu = "数字が負の値です"
 
@@ -36,7 +40,7 @@ class Timer(commands.Cog):
         else:
             await ctx.send(hu)
 
-    @_timer.error
+    @timer.error
     async def timer_error(self, ctx, error):
         if isinstance(error, commands.BadArgument):
             suuzi = "時間の指定は数字でお願いします"
