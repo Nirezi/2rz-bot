@@ -1,9 +1,10 @@
-from discord.ext import commands
-import discord
 import random
 
+import discord
+from discord.ext import commands
 
-class Event(commands.Cog, name="event"):
+
+class Event(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -15,7 +16,7 @@ class Event(commands.Cog, name="event"):
         else:
             return False
 
-    @commands.command(name="join")
+    @commands.command(name="join", hidden=True)
     @commands.has_role(672006791474708490)
     async def _join(self, ctx):
         role = discord.utils.get(ctx.guild.roles, id=629828134820380682)
@@ -24,7 +25,7 @@ class Event(commands.Cog, name="event"):
         await ctx.author.add_roles(role)
         await ctx.send("役職を付与しました！発表をお楽しみに！")
 
-    @commands.command()
+    @commands.command(hidden=True)
     @commands.has_role(621326896554311700)
     async def choice(self, ctx):
         async with ctx.typing():

@@ -1,8 +1,8 @@
-from discord.ext import commands
 import discord
+from discord.ext import commands
 
 
-class Admin(commands.Cog, name="admin"):
+class Admin(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -16,7 +16,7 @@ class Admin(commands.Cog, name="admin"):
             return False
         return False
 
-    @commands.command(name="reload")
+    @commands.command(name="reload", hidden=True)
     async def _reload(self, ctx, cog_name):
         try:
             self.bot.reload_extension(f'cogs.{cog_name}')
