@@ -11,7 +11,7 @@ import sentry_sdk
 from discord.ext import commands
 from dotenv import load_dotenv
 
-from cogs.commands.manage_help import BotHelp
+# from cogs.commands.manage_help import BotHelp
 from cogs.utils.config import Config
 
 dotenv_path = join(dirname(__file__), '.env')
