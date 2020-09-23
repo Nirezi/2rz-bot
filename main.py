@@ -7,9 +7,11 @@ from os.path import dirname, join
 
 import discord
 import requests
+import sentry_sdk
 from discord.ext import commands
 from dotenv import load_dotenv
 
+from cogs.commands.manage_help import BotHelp
 from cogs.utils.config import Config
 
 dotenv_path = join(dirname(__file__), '.env')
@@ -22,6 +24,7 @@ try:
 except ModuleNotFoundError:
     token1 = os.environ["token1"]
     local = False
+    sentry_sdk.init(os.environ["sentry_url"], traces_sample_rate=1.0)
 
 
 def _prefix_callable(bot, msg: discord.Message):
