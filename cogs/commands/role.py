@@ -5,11 +5,17 @@ from discord.ext import commands
 
 
 class Role(commands.Cog):
+    """
+    roleに関するコマンド
+    """
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command(name="role_info")
     async def _role_info(self, ctx, role: discord.Role):
+        """roleの詳細を表示します。
+        引数にroleのid, 名前, メンションのいずれかを渡してください。
+        """
         time = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
         kazu = len(role.members)
         member = "、".join(str(m) for m in role.members[:11])
@@ -49,6 +55,9 @@ class Role(commands.Cog):
 
     @commands.command(name="role_count")
     async def _role_count(self, ctx, role: discord.Role):
+        """roleを持っている人数を表示します
+        引数にroleのid, 名前, メンションのいずれかを渡してください。
+        """
         ninzuu = len(role.members)  # lenでroleの数を取得
         if role.name != "@everyone":
             await ctx.send(f"`{role.name}`は**{ninzuu}**人います")

@@ -1,13 +1,18 @@
-from discord.ext import commands
 import discord
+from discord.ext import commands
 
 
 class Vote(commands.Cog):
+    """投票機能のcog"""
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command(name="vote")
     async def _vote(self, ctx, title, *kouho):
+        """discord上で投票を行えるコマンド
+        第一引数に投票のタイトル
+        それ以降に(9個まで)投票の候補を引数に渡すことが出来ます
+        """
         count = len(kouho)
 
         if count == 1:

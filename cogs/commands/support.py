@@ -1,6 +1,7 @@
-from discord.ext import commands
-import discord
 import asyncio
+
+import discord
+from discord.ext import commands
 
 
 class Support(commands.Cog):
@@ -17,6 +18,9 @@ class Support(commands.Cog):
 
     @commands.command()
     async def bug_report(self, ctx):
+        """バグの報告を行えるコマンド
+        コマンドを打つとbotがバグの内容について質問をします
+        """
         answer_list = []
         msg_list = []
         msg = await ctx.send("バグ等の報告ですね。各項目10分以内に送信してください")

@@ -2,12 +2,16 @@ from discord.ext import commands
 
 
 class Setting(commands.Cog):
+    """botの設定に関するコマンド
+    サーバーにおいて何かしらの権限が必要
+    """
     def __init__(self, bot):
         self.bot = bot
 
     @commands.has_permissions(manage_guild=True)
     @commands.group(invoke_without_command=True)
     async def quote(self, ctx):
+        """メッセージリンクを張った際に引用するかどうかを設定するコマンド"""
         value = '無効'if self.bot.settings.get('not_quote', False, ctx.guild.id) else '有効'
         await ctx.send(f'現在メッセージ展開は{value}に設定されています。`{ctx.prefix}quote on/off`で切り替えができます')
 
