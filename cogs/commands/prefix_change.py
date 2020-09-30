@@ -12,7 +12,9 @@ class Prefix(commands.Cog):
     @commands.guild_only()
     @commands.has_permissions(manage_guild=True)
     async def prefix(self, ctx):
-        """"""
+        """prefixを管理するコマンド
+        サブコマンドとしてchange, defaultがあります。
+        """
         await ctx.send(f"{ctx.prefix}prefix [change, default]")
 
     @commands.guild_only()

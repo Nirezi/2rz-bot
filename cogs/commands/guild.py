@@ -50,7 +50,7 @@ class Guild(commands.Cog):
 
     @commands.command()
     async def myrole(self, ctx):
-        """コマンドの実行者が持っているroleを表示"""
+        """コマンドの実行者が持っているroleを表示する"""
         if (count := len(ctx.author.roles[1:])) == 0:
             await ctx.send("おっと、まだroleを持っていないみたいですね")
         else:
@@ -78,7 +78,7 @@ class Guild(commands.Cog):
 
     @commands.command()
     async def members(self, ctx):
-        """実行したサーバーのユーザーを表示"""
+        """実行したサーバーのユーザーを表示する"""
         if (count := len(ctx.guild.members)) >= 100:
             members = "、".join(r.name for r in ctx.guild.members[:101])
             embed = discord.Embed(title="メンバーは以下の通りです!(1ページ目)", description=members)
