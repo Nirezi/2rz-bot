@@ -1,8 +1,9 @@
-from discord.ext import commands, tasks
-import paramiko
-import os
 import asyncio
+import os
 from datetime import datetime
+
+import paramiko
+from discord.ext import commands, tasks
 
 SSH = paramiko.SSHClient()
 
@@ -30,7 +31,7 @@ class Iroha(commands.Cog, name="iroha"):
         else:
             return False
 
-    @commands.command(aliases=["boot"])
+    @commands.command(aliases=["boot"], hidden=True)
     async def start(self, ctx):
         stdin, stdout, stderr = await self.loop.run_in_executor(None, SSH.exec_command, "screen -ls | grep minecraft")
         if stdin:
@@ -38,7 +39,7 @@ class Iroha(commands.Cog, name="iroha"):
         await ctx.send("Starting minecraft server,,")
         await self.loop.run_in_executor(None, SSH.exec_command, "cd ~/Minecraft && bash start.sh")
 
-    @commands.command(aliases=["kill"])
+    @commands.command(aliases=["kill"], hidden=True)
     async def stop(self, ctx):
         stdin, stdout, stderr = await self.loop.run_in_executor(None, SSH.exec_command, "screen -ls | grep minecraft")
         if not stdin:
@@ -46,7 +47,7 @@ class Iroha(commands.Cog, name="iroha"):
         await ctx.send("Stopping minecraft server,,")
         await self.loop.run_in_executor(None, SSH.exec_command, "cd ~/Minecraft && bash stop.sh")
 
-    @commands.command(aliases=["reboot"])
+    @commands.command(aliases=["reboot"], hidden=True)
     async def restart(self, ctx):
         stdin, stdout, stderr = await self.loop.run_in_executor(None, SSH.exec_command, "screen -ls | grep minecraft")
         if not stdin:
@@ -56,7 +57,7 @@ class Iroha(commands.Cog, name="iroha"):
         await asyncio.sleep(10)
         await self.loop.run_in_executor(None, SSH.exec_command, "cd ~/Minecraft && bash restart.sh")
 
-    @commands.command(name="eval")
+    @commands.command(name="eval", hidden=True)
     async def _eval(self, ctx, *, command):
         await self.loop.run_in_executor(None, SSH.exec_command, f"screen -r -X eval 'stuff \"{command}\"\\015'")
         await ctx.send(f"Command {command} has done by {ctx.author.name}")
