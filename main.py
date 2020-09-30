@@ -11,7 +11,7 @@ import sentry_sdk
 from discord.ext import commands
 from dotenv import load_dotenv
 
-# from cogs.commands.manage_help import BotHelp
+from cogs.commands.manage_help import BotHelp
 from cogs.utils.config import Config
 
 dotenv_path = join(dirname(__file__), '.env')
@@ -39,7 +39,9 @@ def _prefix_callable(bot, msg: discord.Message):
 class MyBot(commands.Bot):
     def __init__(self, **options):
         allowed_mentions = discord.AllowedMentions(everyone=False, roles=False, users=True)
-        super().__init__(command_prefix=_prefix_callable, allowed_mentions=allowed_mentions, **options)
+        intents = discord.Intents.all()
+        super().__init__(command_prefix=_prefix_callable, allowed_mentions=allowed_mentions,
+                         intents=intents, help_command=BotHelp(), **options)
         self.local = local
         self.guild_invite_url = "https://discord.gg/bQWsu3Z"
         self.invite_url = "https://discord.com/oauth2/authorize?client_id=627143285906866187&permissions=268823638&scope=bot"
@@ -62,7 +64,6 @@ class MyBot(commands.Bot):
         else:
             path = "."
 
-        self.remove_command("help")
         self.load_extension('jishaku')
         dirs = ["commands", "events", "guilds"]
         for dire in dirs:
