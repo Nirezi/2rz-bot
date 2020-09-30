@@ -66,7 +66,7 @@ class BotHelp(commands.HelpCommand):
             "\N{BLACK SQUARE FOR STOP}\N{VARIATION SELECTOR-16}"  # stop
         ]
 
-        msg = await self.context.send(embed=page_setup(list(all_commands.keys())[page-1]))
+        msg = await self.context.send(embed=page_setup(list(all_commands.keys())[page - 1]))
         for react in react_list:
             await msg.add_reaction(react)  # リアクション付与
 
@@ -101,7 +101,7 @@ class BotHelp(commands.HelpCommand):
                                 page = 1
                             else:
                                 page += 1
-                        await msg.edit(embed=page_setup(list(all_commands.keys())[page-1]))
+                        await msg.edit(embed=page_setup(list(all_commands.keys())[page - 1]))
                     if emoji == "\U0001f522":  # 1234
                         await self.context.send("移動したいページ数を送信してください！", delete_after=30)
                         try:
@@ -119,7 +119,7 @@ class BotHelp(commands.HelpCommand):
                                 await self.context.send(f"おっと、{next_page}ページはありません！", delete_after=5)
                                 continue
                             page = next_page
-                            await msg.edit(embed=page_setup(list(all_commands.keys())[page-1]))
+                            await msg.edit(embed=page_setup(list(all_commands.keys())[page - 1]))
                     if emoji == "\U00002139\U0000fe0f":  # iマーク
                         embed = discord.Embed(title="インフォメーション")
                         embed.add_field(name="各種リアクションのヘルプ",
@@ -130,7 +130,7 @@ class BotHelp(commands.HelpCommand):
                                               f"{react_list[4]}:メッセージを削除します\n")
                         await msg.edit(embed=embed)
                         await asyncio.sleep(10)
-                        await msg.edit(embed=page_setup(list(all_commands.keys())[page-1]))
+                        await msg.edit(embed=page_setup(list(all_commands.keys())[page -1 ]))
                     if emoji == "\N{BLACK SQUARE FOR STOP}\N{VARIATION SELECTOR-16}":  # ■
                         await msg.delete()
                         break
