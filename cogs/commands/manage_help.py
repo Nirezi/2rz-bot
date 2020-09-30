@@ -132,7 +132,7 @@ class BotHelp(commands.HelpCommand):
                                               f"{react_list[4]}:メッセージを削除します\n")
                         await msg.edit(embed=embed)
                         await asyncio.sleep(10)
-                        await msg.edit(embed=page_setup(list(all_commands.keys())[page -1 ]))
+                        await msg.edit(embed=page_setup(list(all_commands.keys())[page - 1]))
                     if emoji == "\N{BLACK SQUARE FOR STOP}\N{VARIATION SELECTOR-16}":  # ■
                         await msg.delete()
                         break
