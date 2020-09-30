@@ -30,12 +30,12 @@ class Voice(commands.Cog, name="voice"):
                 await ch.send(f"{member}が{before.channel}から離脱しました")
 
     @commands.has_permissions(manage_guild=True)
-    @commands.group(invoke_without_command=True)
+    @commands.group(invoke_without_command=True, hidden=True)
     async def voice(self, ctx):
         await ctx.send(f"{ctx.prefix}voice [set_log, rem_log]")
 
     @commands.has_permissions(manage_guild=True)
-    @voice.command()
+    @voice.command(hidden=True)
     async def set_log(self, ctx, ch_id: int = None):
         if ctx.author.voice.channel is None or ch_id is None:
             def check(m):
