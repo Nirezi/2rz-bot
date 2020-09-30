@@ -37,6 +37,8 @@ class BotHelp(commands.HelpCommand):
         for cmd in entries:
             if cmd.cog is None:
                 continue
+            elif cmd.cog.qualified_name == "Jishaku":
+                continue
             try:
                 all_commands[cmd.cog].append(cmd)
             except KeyError:
