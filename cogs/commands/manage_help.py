@@ -45,14 +45,16 @@ class BotHelp(commands.HelpCommand):
                 all_commands[cmd.cog] = [cmd]
 
         max_page = len(all_commands.keys())
-        count = len(all_commands.items())
+        count = 0
+        for _commands in all_commands.items():
+            count += len(_commands)
         page = 1
 
         def page_setup(cog: commands.Cog) -> discord.Embed:
             """ページ数に対応したhelp内容をセット"""
             embed = discord.Embed(title=f"Page {page}/{max_page} ({count} commands)",
                                   description=f"より詳細なヘルプは[公式サーバ]({bot.guild_invite_url})まで!")
-            embed.add_field(name=cog.qualified_name, value=cog.description)
+            embed.add_field(name=f"{cog.qualified_name} commands", value=cog.description)
             for cmd in all_commands[cog]:
                 if cmd.aliases:
                     embed.add_field(name=f"{cmd.name} {self.get_aliase(cmd)}", value=cmd.short_doc, inline=False)
