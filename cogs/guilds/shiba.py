@@ -24,7 +24,7 @@ class Shiba(commands.Cog, name="shiba"):
 
     @commands.command(hidden=True)
     async def join_event(self, ctx):
-        role = ctx.guld.get_role(762326681250824243)
+        role = ctx.guild.get_role(762326681250824243)
         if role not in ctx.author.roles:
             await ctx.author.add_roles(role)
             await ctx.send(f"I added a role {role.name}")
