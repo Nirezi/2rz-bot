@@ -38,7 +38,7 @@ class Loops(commands.Cog, name="loop"):
                 "chorocra": "438ed7bf-cbcf-40d9-a672-aacc2868e267",
                 "ranzumu": "45578816-9dab-49fc-bef0-0525e0a57289",
                 "kakkoiihito": "24eeb1a3-ed4a-444e-828c-5318122f4e4a",
-                "nekorobi_0": "d6be1561-47c1-4e67-9829-2aca48f9be39",
+                "Buu_sakurasawa": "47eee383-c807-46aa-ae00-a69b77b3a16c",
                 "kaerusan82433413": "9cec894e-9ae3-4a25-97c5-b7a6c55c1376",
                 "jojo_kpc": "d43a91ed-675a-4df7-ae50-dc9b0839592a",
                 "nyanko_Tofu": "04f6fb30-c432-4395-887f-5a6741839bc8"
