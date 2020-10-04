@@ -14,6 +14,23 @@ class Shiba(commands.Cog, name="shiba"):
     def __init__(self, bot):
         self.bot = bot
 
+    def cog_check(self, ctx):
+        if ctx.guild is None:
+            return False
+        elif ctx.guild.id == 615394790669811732:
+            return True
+        else:
+            return False
+
+    @commands.command(hidden=True)
+    async def join(self, ctx):
+        role = ctx.guld.get_role(762326681250824243)
+        if role not in ctx.author.roles:
+            await ctx.author.add_roles(role)
+            await ctx.send(f"I added a role {role.name}")
+        else:
+            await ctx.send("You have already have the role")
+
     @commands.Cog.listener()
     async def on_message(self, message):
         """しばさんのサーバでのメッセージ"""
@@ -40,25 +57,6 @@ class Shiba(commands.Cog, name="shiba"):
         if server == 615394790669811732 or server == 628182826914676758:  # たこ柴
             if message.channel.id == 615396581407064065:
                 await mcidcheck(message, 648163940995432478, client, mcid_role)
-
-            if message.content == "/join":  # role付与
-                if message.channel.id == 635599651172646933:  # スタジオ
-                    if discord.utils.get(message.author.roles, id=632870134561636352):  # 企画参加者を持っているか
-                        msg = "もう参加してるじゃん、、、"
-                        await mcs(msg)
-                    else:
-                        msg = "参加を確認しました"
-                        await message.author.add_roles(kikaku)
-                        await mcs(msg)
-
-                if message.channel.id == 686723262717493270:
-                    role = discord.utils.get(
-                        message.guild.roles, id=686916983714742272)
-                    if role in message.author.roles:
-                        await mcs("もう参加してるじゃん、、、")
-                    else:
-                        await message.author.add_roles(role)
-                        await mcs("参加を確認しました")
 
             if message.content == "/tuuti":
                 role = discord.utils.get(
