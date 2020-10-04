@@ -23,7 +23,7 @@ class Shiba(commands.Cog, name="shiba"):
             return False
 
     @commands.command(hidden=True)
-    async def join(self, ctx):
+    async def join_event(self, ctx):
         role = ctx.guld.get_role(762326681250824243)
         if role not in ctx.author.roles:
             await ctx.author.add_roles(role)
@@ -47,9 +47,6 @@ class Shiba(commands.Cog, name="shiba"):
         server = message.guild.id
         mcs = message.channel.send
 
-        kikaku = discord.utils.get(
-            message.guild.roles,
-            id=632870134561636352)  # 企画参加者
         mcid_role = discord.utils.get(
             message.guild.roles,
             id=615396751590948884)  # mcid申請済み
