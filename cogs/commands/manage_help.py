@@ -31,6 +31,7 @@ class BotHelp(commands.HelpCommand):
         return f"{command.name}にサブコマンドはありません！"
 
     async def send_bot_help(self, mapping):
+        can_remove_emoji = self.check_perm()
         bot = self.context.bot
         entries = await self.filter_commands(bot.commands, sort=True)
         all_commands = {}
@@ -84,11 +85,12 @@ class BotHelp(commands.HelpCommand):
             try:
                 react, user = await bot.wait_for("reaction_add", check=check, timeout=300)
             except asyncio.TimeoutError:
-                await msg.clear_reactions()
+                if can_remove_emoji:
+                    await msg.clear_reactions()
                 break
             else:
-                try:
-                    emoji = str(react.emoji)
+                emoji = str(react.emoji)
+                if can_remove_emoji:
                     await msg.remove_reaction(emoji, user)
                     if emoji == u"\u25C0" or emoji == u"\u25B6":  # 進むか戻る
                         if emoji == u"\u25C0":  # 戻る
