@@ -11,7 +11,7 @@ class BotHelp(commands.HelpCommand):
     @staticmethod
     def get_aliase(command: commands.core.Command) -> str:
         if not command.aliases:
-            raise TypeError("command passed don't have aliase")
+            return ""
         aliases = " | ".join(command.aliases)
         return f"[{aliases}]"
 
@@ -56,10 +56,7 @@ class BotHelp(commands.HelpCommand):
                                   description=f"より詳細なヘルプは[公式サーバ]({bot.guild_invite_url})まで!")
             embed.add_field(name=f"{cog.qualified_name} commands", value=cog.description)
             for cmd in all_commands[cog]:
-                if cmd.aliases:
-                    embed.add_field(name=f"{cmd.name} {self.get_aliase(cmd)}", value=cmd.short_doc, inline=False)
-                else:
-                    embed.add_field(name=f"{cmd.name}", value=cmd.short_doc, inline=False)
+                embed.add_field(name=f"{cmd.name} {self.get_aliase(cmd)}", value=cmd.short_doc, inline=False)
             return embed
 
         react_list = [
