@@ -8,6 +8,12 @@ class BotHelp(commands.HelpCommand):
     def __init__(self):
         super().__init__()
 
+    def check_perm(self) -> bool:
+        ctx = self.context
+        if ctx.guild is None:
+            return False
+        return ctx.channel.permissions_for(ctx.guild.me).manage_messages
+
     @staticmethod
     def get_aliase(command: commands.core.Command) -> str:
         if not command.aliases:
