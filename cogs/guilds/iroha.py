@@ -64,7 +64,7 @@ class Iroha(commands.Cog, name="iroha"):
     @tasks.loop(minutes=1)
     async def reboot(self):
         hm = datetime.now().strftime("%H:%M")
-        if hm == "22:00" or hm == "06:00":
+        if hm in ("22:00", "06:00"):
             ch = self.bot.get_channel(739270726036488272)
             await ch.send(":warning:Warning!10秒後にサーバーが再起動するよ！")
             await asyncio.sleep(10)

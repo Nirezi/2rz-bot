@@ -50,7 +50,7 @@ class Shiba(commands.Cog, name="shiba"):
             message.guild.roles,
             id=615396751590948884)  # mcid申請済み
 
-        if server == 615394790669811732 or server == 628182826914676758:  # たこ柴
+        if server in (615394790669811732, 628182826914676758):  # たこ柴
             if message.channel.id == 615396581407064065:
                 await mcidcheck(message, 648163940995432478, client, mcid_role)
 

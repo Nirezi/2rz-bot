@@ -95,7 +95,7 @@ class BotHelp(commands.HelpCommand):
                 emoji = str(react.emoji)
                 if can_remove_emoji:
                     await msg.remove_reaction(emoji, user)
-                if emoji == u"\u25C0" or emoji == u"\u25B6":  # 進むか戻る
+                if emoji in (u"\u25C0", u"\u25B6"):  # 進むか戻る
                     if emoji == u"\u25C0":  # 戻る
                         if page == 1:
                             page = max_page
