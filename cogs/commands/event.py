@@ -11,10 +11,9 @@ class Event(commands.Cog):
     def cog_check(self, ctx):
         if ctx.guild is None:
             return False
-        elif ctx.guild.id == 621326525521723414:
+        if ctx.guild.id == 621326525521723414:
             return True
-        else:
-            return False
+        return False
 
     @commands.command(name="join", hidden=True)
     @commands.has_role(672006791474708490)

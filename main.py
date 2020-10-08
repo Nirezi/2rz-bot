@@ -78,7 +78,7 @@ class MyBot(commands.Bot):
         async def checks(ctx):
             if self.blacklist.is_key(ctx.author.id):
                 return False
-            elif not ctx.channel.permissions_for(ctx.me).send_messages:
+            if not ctx.channel.permissions_for(ctx.me).send_messages:
                 return False
             return True
 

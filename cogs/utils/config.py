@@ -49,10 +49,9 @@ class Config:
     def keys(self, key=None):
         if key is None:
             return self._file.keys()
-        else:
-            if str(key) not in self._file.keys():
-                return []
-            return self._file[str(key)].keys()
+        if str(key) not in self._file.keys():
+            return []
+        return self._file[str(key)].keys()
 
     def is_key(self, key) -> bool:
         return str(key) in self._file.keys()

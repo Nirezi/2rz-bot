@@ -24,12 +24,11 @@ class Iroha(commands.Cog, name="iroha"):
     def cog_check(self, ctx):
         if ctx.guild is None:
             return False
-        elif ctx.guild.id != 604945424922574848:
+        if ctx.guild.id != 604945424922574848:
             return False
-        elif ctx.author.guild_permissions.administrator or ctx.author.id == 544774774405201923:
+        if ctx.author.guild_permissions.administrator or ctx.author.id == 544774774405201923:
             return True
-        else:
-            return False
+        return False
 
     @commands.command(aliases=["boot"], hidden=True)
     async def start(self, ctx):

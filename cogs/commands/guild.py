@@ -25,12 +25,11 @@ class Guild(commands.Cog):
         def check(reaction, user):
             if user.bot or user.id != ctx.author.id:
                 return
-            elif reaction.message.id != msg.id:
+            if reaction.message.id != msg.id:
                 return False
-            elif str(reaction.emoji) in self.reacts:
+            if str(reaction.emoji) in self.reacts:
                 return True
-            else:
-                return False
+            return False
 
         try:
             reaction, user = await self.bot.wait_for("reaction_add", check=check, timeout=300)
@@ -43,10 +42,9 @@ class Guild(commands.Cog):
                 if page == 0:
                     return max_page
                 return page - 1
-            else:
-                if page == max_page:
-                    return 0
-                return page + 1
+            if page == max_page:
+                return 0
+            return page + 1
 
     @commands.command()
     async def myrole(self, ctx):
