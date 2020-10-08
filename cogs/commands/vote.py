@@ -34,7 +34,7 @@ class Vote(commands.Cog):
             return
 
         content = ""
-        if not count == 1:
+        if count != 1:
             for i in range(count):
                 content += f"{react_list[i]}:{kouho[i]}\n"
             embed = discord.Embed(title=f"**{title}**", description=content)

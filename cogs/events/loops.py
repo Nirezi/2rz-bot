@@ -45,7 +45,7 @@ class Loops(commands.Cog, name="loop"):
             }
 
             msg = ""
-            for i, mcid in enumerate(mcid_uuid_dic.keys()):
+            for mcid in mcid_uuid_dic.keys():
                 uuid = mcid_uuid_dic[mcid]
                 last_user_record = 0
                 for row in record_list:
