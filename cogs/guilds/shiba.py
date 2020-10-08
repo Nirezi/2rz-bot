@@ -17,10 +17,9 @@ class Shiba(commands.Cog, name="shiba"):
     def cog_check(self, ctx):
         if ctx.guild is None:
             return False
-        elif ctx.guild.id == 615394790669811732:
+        if ctx.guild.id == 615394790669811732:
             return True
-        else:
-            return False
+        return False
 
     @commands.command(hidden=True)
     async def join_event(self, ctx):

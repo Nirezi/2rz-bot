@@ -77,12 +77,11 @@ class BotHelp(commands.HelpCommand):
         def check(reaction, user):
             if reaction.message.id != msg.id:
                 return False
-            elif self.context.author.bot or user != self.context.author:
+            if self.context.author.bot or user != self.context.author:
                 return False
-            elif str(reaction.emoji) in react_list:
+            if str(reaction.emoji) in react_list:
                 return True
-            else:
-                return False
+            return False
 
         while not bot.is_closed():
             try:
