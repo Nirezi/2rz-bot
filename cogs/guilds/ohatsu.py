@@ -20,8 +20,8 @@ class ohatsu_msg(commands.Cog, name="ohatsu"):
 
         if message.guild.id == 612401848787140656:  # 082
             if message.channel.id == 622737485721763842:  # コマンド用
-                list = ["/build", "/ohatsu", "/mine"]  # 役職のlist
-                if message.content in list:
+                command = ["/build", "/ohatsu", "/mine"]  # 役職のlist
+                if message.content in command:
                     if message.content == "/build":  # 建築
                         role = discord.utils.get(message.guild.roles, id=622733795769974784)  # 建築
                         if discord.utils.get(message.author.roles, id=622733795769974784):

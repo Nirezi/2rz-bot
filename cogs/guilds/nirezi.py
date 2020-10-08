@@ -120,8 +120,8 @@ class Nirezi(commands.Cog, name="nirezi"):
                     await mcs(f"{mention}役職を付与しました")
 
             if "discord.gg" in message.content:
-                list = [621326525521723418, 621334345579364372, 621330415348613160, 621330763089969152, 649193418492215306]
-                if message.channel.id == 621328600972525578 or message.channel.category_id in list:
+                category_list = [621326525521723418, 621334345579364372, 621330415348613160, 621330763089969152, 649193418492215306]
+                if message.channel.id == 621328600972525578 or message.channel.category_id in category_list:
                     pass
                 else:
                     await message.delete()
