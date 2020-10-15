@@ -1,5 +1,6 @@
+import ast
 import asyncio
-import re
+import random
 import sys
 from datetime import datetime
 
@@ -20,17 +21,17 @@ class Loops(commands.Cog, name="loop"):
     async def check_seichi(self):
         await self.bot.wait_until_ready()
         hm = datetime.now().strftime("%H:%M")
-        if hm == "23:50":
-            ch = self.bot.get_channel(706322916060692571)
-            record_list = None
-            async for msg in ch.history():
-                if msg.author == self.bot.user:
-                    last_record = await ch.fetch_message(msg.id)
-                    record_list = last_record.content.splitlines()
+        if True:
+            log_ch = self.bot.get_channel(706322916060692571)
+            last_record = None
+            async for msg in log_ch.history():
+                if msg.author == self.bot.user and "Log" in msg.content:
+                    last_record = ast.literal_eval(msg.content.replace("Log", ""))
+                    await msg.delete()
                     break
 
-            if record_list is None:
-                await ch.send("Error: couldn't get message")
+            if last_record is None:
+                return await log_ch.send("Error: couldn't get message")
 
             mcid_uuid_dic = {
                 "shibatanienn_ts": "f63f13d9-ea1d-43f9-a0c7-46bb9445625d",
@@ -44,22 +45,24 @@ class Loops(commands.Cog, name="loop"):
                 "nyanko_Tofu": "04f6fb30-c432-4395-887f-5a6741839bc8"
             }
 
-            msg = ""
-            for mcid in mcid_uuid_dic.keys():
-                uuid = mcid_uuid_dic[mcid]
-                last_user_record = 0
-                for row in record_list:
-                    if row.startswith(mcid):
-                        last_user_record = int(re.sub(r'\(前日比:\d+\)', '', row.split('>>>')[1]))
+            today_data = {mcid: self.bot.get_mined_block(uuid) for mcid, uuid in mcid_uuid_dic.items()}
 
-                data = self.bot.get_mined_block(uuid)
+            for mcid, data in today_data.items():
+                icon = f"http://cravatar.eu/helmavatar/{mcid}.png"
 
-                data_diff = data - last_user_record
-                msg += f"{mcid}の整地量>>>{data}(前日比:{data_diff})\n"
+                data_diff = data - last_record[mcid]
+
+                embed = discord.Embed(title=f"{mcid}の整地量", description=f"{data}(前日比:{data_diff})")
+                embed.set_thumbnail(url=icon)
+
+                await log_ch.send(embed=embed)
                 if data_diff == 0:
-                    msg += f"おいごらぁ!{mcid}!!あく整地!!!\n"
+                    choice = random.choice(["あくしろ働け", "整地しろ！", "あく整地！"])
+                    await log_ch.send(f"おいごらぁ！{mcid}!{choice}")
+                if mcid == "chorocra" and data_diff < 10000000:
+                    await log_ch.send(f"<@325846946864431104>あくしろはたらけ")
                 await asyncio.sleep(2)
-            await ch.send(msg)
+            await log_ch.send(f"Log{today_data}")
 
     @tasks.loop(minutes=3)
     async def change_status(self):
