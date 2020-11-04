@@ -98,12 +98,12 @@ class MyBot(commands.Bot):
         return sum(g.get_member(user.id) is not None for g in self.guilds)
 
     async def quote(self, message):
-        try:
-            for url in re.findall(r"https://(?:ptb.|canary.)?discord(?:app)?.com/channels/[0-9]+/[0-9]+/[0-9]+", message.content):
+        for url in re.findall(r"https://(?:ptb.|canary.)?discord(?:app)?.com/channels/[0-9]+/[0-9]+/[0-9]+", message.content):
+            try:
                 channel_id, message_id = map(int, url.split("/")[-2:])
                 ch = self.get_channel(channel_id)
                 if ch is None:
-                    return
+                    continue
                 msg = await ch.fetch_message(message_id)
 
                 def quote_reaction(msg, embed):
