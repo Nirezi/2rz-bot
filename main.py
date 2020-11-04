@@ -53,14 +53,11 @@ class MyBot(commands.Bot):
         # user_id or guild_id to True
         self.blacklist = Config('blacklist.json')
 
-        # message_id: reaction: role
-        self.role_panel_data = Config('role_panel_data.json')
-
         # setting: guild_id: True
         self.settings = Config('settings.json')
 
         if not local:
-            path = "/home/user/2rz-bot"
+            path = "~/2rz-bot"
         else:
             path = "."
 
@@ -129,18 +126,23 @@ class MyBot(commands.Bot):
                     embed.set_footer(
                         text=msg.channel.name,
                         icon_url=msg.guild.icon_url)
+
                     if msg.attachments:
                         embed.set_image(url=msg.attachments[0].url)
                     embed = quote_reaction(msg, embed)
+
                     if msg.content or msg.attachments:
                         await message.channel.send(embed=embed)
+
                     if len(msg.attachments) >= 2:
                         for attachment in msg.attachments[1:]:
                             embed = discord.Embed().set_image(url=attachment.url)
                             await message.channel.send(embed=embed)
+
                     for embed in msg.embeds:
                         embed = quote_reaction(msg, embed)
                         await message.channel.send(embed=embed)
+
                 elif msg.system_content:
                     embed = discord.Embed(
                         description=f"{msg.system_content}\n\n:warning:これはシステムメッセージです。",
