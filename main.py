@@ -97,7 +97,7 @@ class MyBot(commands.Bot):
         """ユーザとbotの共通のサーバーの数を取得"""
         return sum(g.get_member(user.id) is not None for g in self.guilds)
 
-    async def quote(self, message):
+    async def quote(self, message: discord.Message) -> None:
         for url in re.findall(r"https://(?:ptb.|canary.)?discord(?:app)?.com/channels/[0-9]+/[0-9]+/[0-9]+", message.content):
             try:
                 channel_id, message_id = map(int, url.split("/")[-2:])
@@ -156,10 +156,8 @@ class MyBot(commands.Bot):
                     await message.channel.send(embed=embed)
                 else:
                     await message.channel.send('メッセージIDは存在しますが、内容がありません')
-        except discord.errors.NotFound:
-            await message.channel.send("指定したメッセージが見つかりません")
-        except ValueError as e:
-            raise commands.CommandInvokeError(e)
+            except discord.errors.NotFound:
+                await message.channel.send("指定したメッセージが見つかりません")
 
 
 if __name__ == "__main__":
