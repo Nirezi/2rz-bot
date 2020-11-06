@@ -57,7 +57,7 @@ class MyBot(commands.Bot):
         self.settings = Config('settings.json')
 
         if not local:
-            path = f"home/{os.environ['user']}/2rz-bot"
+            path = f"/home/{os.environ['user']}/2rz-bot"
         else:
             path = "."
 
