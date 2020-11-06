@@ -60,7 +60,7 @@ class Loops(commands.Cog, name="loop"):
                     choice = random.choice(["あくしろ働け", "整地しろ！", "あく整地！"])
                     await log_ch.send(f"おいごらぁ！{mcid}!{choice}")
                 if mcid == "chorocra" and data_diff < 10000000:
-                    await log_ch.send(f"<@325846946864431104>あくしろはたらけ")
+                    await log_ch.send("<@325846946864431104>あくしろはたらけ")
                 await asyncio.sleep(2)
             await log_ch.send(f"Log{today_data}")
 
