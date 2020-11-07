@@ -44,7 +44,7 @@ class MyBot(commands.Bot):
                          intents=intents, help_command=BotHelp(), **options)
         self.local = local
         self.guild_invite_url = "https://discord.gg/bQWsu3Z"
-        self.invite_url = "https://discord.com/oauth2/authorize?client_id=627143285906866187&permissions=268823638&scope=bot"
+        self.invite_url = "https://discord.com/oauth2/authorize?client_id=627143285906866187&permissions=805660736&scope=bot"
         self.donate_form = "https://disneyresidents.fanbox.cc/posts"
 
         # guild_id: prefix
