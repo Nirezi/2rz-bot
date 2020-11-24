@@ -15,6 +15,8 @@ class NIT(commands.Cog):
             return
 
         if message.channel.id == 776641961854763058:
+            if message.content.startswith("#", "//", "--"):
+                return
             category = self.bot.get_channel(776641214681841686)
             ch = await message.guild.create_text_channel(name=message.content, category=category)
             embed = discord.Embed(description=f"{message.author.mention}->{ch.mention}を作成しました")
