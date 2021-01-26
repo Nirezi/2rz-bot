@@ -158,7 +158,7 @@ async def mcidcheck(message, log_channel_id, client, role1, role2=None):
     p = re.compile(r'^[a-zA-Z0-9_]+$')
     if p.fullmatch(message.content):
         mcid = mcid.lower()
-        url = f"https://w4.minecraftserver.jp/player/{mcid}"
+        url = f"https://ranking-gigantic.seichi.click/player{mcid}"
         try:
             res = requests.get(url)
             res.raise_for_status()
