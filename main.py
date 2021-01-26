@@ -88,7 +88,7 @@ class MyBot(commands.Bot):
     @staticmethod
     def get_mined_block(uuid: str) -> int:
         """整地鯖のapiからこれまでに掘ったブロック数を取得"""
-        resp = requests.get(f'https://w4.minecraftserver.jp/api/ranking/player/{uuid}?types=break')
+        resp = requests.get(f'https://ranking-gigantic.seichi.click/player/{uuid}?types=break')
         data_json = json.loads(resp.text)
         data = data_json[0]["data"]["raw_data"]
         return int(data)
