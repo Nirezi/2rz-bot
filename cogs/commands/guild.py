@@ -32,7 +32,7 @@ class Guild(commands.Cog):
             return False
 
         try:
-            reaction, user = await self.bot.wait_for("reaction_add", check=check, timeout=300)
+            reaction, _ = await self.bot.wait_for("reaction_add", check=check, timeout=300)
         except asyncio.TimeoutError:
             await msg.clear_reactions()
             return -1

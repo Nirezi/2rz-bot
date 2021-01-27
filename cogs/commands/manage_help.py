@@ -42,11 +42,12 @@ class BotHelp(commands.HelpCommand):
         for cmd in entries:
             if cmd.cog is None:
                 continue
-            elif cmd.cog.qualified_name != "Jishaku":
-                try:
-                    all_commands[cmd.cog].append(cmd)
-                except KeyError:
-                    all_commands[cmd.cog] = [cmd]
+            if cmd.cog.qualified_name == "Jishaku":
+                continue
+            try:
+                all_commands[cmd.cog].append(cmd)
+            except KeyError:
+                all_commands[cmd.cog] = [cmd]
 
         max_page = len(all_commands.keys())
         count = 0

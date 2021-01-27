@@ -46,8 +46,7 @@ class Event(commands.Cog):
                     text += "8(8)\n"
                 text += f"{user.mention}\n"
                 await user.add_roles(winner_role)
-            else:
-                text += "参加賞\nその他の方"
+            text += "参加賞\nその他の方"
             embed.add_field(name="当選者", value=text)
 
         await ctx.send(embed=embed)
