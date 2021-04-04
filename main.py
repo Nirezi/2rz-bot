@@ -17,11 +17,11 @@ from cogs.utils.config import Config
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
-try:
+if os.name == "nt":
     import tokens
-    token1 = tokens.token2
+    token1 = tokens.token1
     local = True
-except ModuleNotFoundError:
+elif os.name == "posix":
     token1 = os.environ["token1"]
     local = False
     sentry_sdk.init(os.environ["sentry_url"], traces_sample_rate=1.0)
@@ -42,10 +42,10 @@ class MyBot(commands.Bot):
         intents = discord.Intents.all()
         super().__init__(command_prefix=_prefix_callable, allowed_mentions=allowed_mentions,
                          intents=intents, help_command=BotHelp(), **options)
+
         self.local = local
         self.guild_invite_url = "https://discord.gg/bQWsu3Z"
         self.invite_url = "https://discord.com/oauth2/authorize?client_id=627143285906866187&permissions=805660736&scope=bot"
-        self.donate_form = "https://disneyresidents.fanbox.cc/posts"
 
         # guild_id: prefix
         self.prefixes = Config('prefixes.json')
