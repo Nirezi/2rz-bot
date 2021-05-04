@@ -16,6 +16,9 @@ class ReZero(commands.Cog, name="rezero"):
         if message.guild.id != 718784794422411354:
             return
 
+        if message.channel.id == 720250703226077204:
+            await message.publish()
+
 
 def setup(bot):
     bot.add_cog(ReZero(bot))
