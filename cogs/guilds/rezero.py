@@ -7,9 +7,6 @@ class ReZero(commands.Cog, name="rezero"):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        if message.author.bot:
-            return
-
         if message.guild is None:
             return
 
