@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # coding: utf-8
 import json
 import os
@@ -19,7 +20,7 @@ load_dotenv(dotenv_path)
 
 if os.name == "nt":
     import tokens
-    token1 = tokens.token1
+    token1 = tokens.token2
     local = True
 elif os.name == "posix":
     token1 = os.environ["token1"]
